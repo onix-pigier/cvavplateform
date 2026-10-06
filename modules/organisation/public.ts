@@ -34,6 +34,38 @@ export async function getPublicDirectory() {
   });
 }
 
+export async function getPublicDoyenne(id: string) {
+  return prisma.doyenne.findFirst({
+    where: { id, dioceseId: DALOA_DIOCESE_ID, isActive: true },
+    include: {
+      diocese: true,
+      paroisses: {
+        where: { isActive: true },
+        include: {
+          ville: true,
+          sections: {
+            where: { isActive: true },
+            include: {
+              teams: {
+                where: { isActive: true },
+                include: {
+                  leaderships: {
+                    orderBy: { pastoralYear: "desc" },
+                    include: { person: { select: { id: true, firstName: true, lastName: true, status: true } } },
+                  },
+                },
+                orderBy: { name: "asc" },
+              },
+            },
+            orderBy: { name: "asc" },
+          },
+        },
+        orderBy: { name: "asc" },
+      },
+    },
+  });
+}
+
 export async function getPublicParoisse(id: string) {
   const paroisse = await prisma.paroisse.findFirst({
     where: { id, isActive: true, doyenne: { dioceseId: DALOA_DIOCESE_ID, isActive: true } },

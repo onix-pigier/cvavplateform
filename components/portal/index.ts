@@ -1,10 +1,15 @@
 export { ConfidenceBadge } from "./ConfidenceBadge";
 export { ActivityCarousel } from "./ActivityCarousel";
+export { DirectoryFooter } from "./DirectoryFooter";
+export { DirectoryHeader } from "./DirectoryHeader";
 export { DeaneryCard } from "./DirectoryCard";
 export { DioceseMap } from "./DioceseMap";
+export { LandingCookieConsent } from "./LandingCookieConsent";
 export { NewsletterForm } from "./NewsletterForm";
 export { ParishCard } from "./ParishCard";
 export { PublicContact } from "./PublicContact";
 export { PortalFooter } from "./PortalFooter";
 export { PortalHeader } from "./PortalHeader";
+export { PublicPhoto } from "./PublicPhoto";
+export { PublicDocumentLayout } from "./PublicDocumentLayout";
 export { SocialLinks } from "./SocialLinks";

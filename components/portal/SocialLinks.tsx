@@ -16,8 +16,14 @@ function Icon({ name }: { name: SocialLink["icon"] }) {
 
 export function SocialLinks() {
   return (
-    <div className="mt-6 flex gap-2" aria-label="Réseaux sociaux du mouvement">
-      {socialLinks.map((social) => social.href ? <a key={social.label} href={social.href} target="_blank" rel="noreferrer" aria-label={social.label} className="flex h-10 w-10 items-center justify-center rounded-full border border-primary-container text-primary-fixed transition hover:border-tertiary-fixed hover:bg-tertiary-fixed-dim hover:text-on-tertiary-fixed"><Icon name={social.icon} /></a> : <span key={social.label} aria-label={`${social.label} — lien à configurer`} title={`${social.label} — lien à configurer`} className="flex h-10 w-10 items-center justify-center rounded-full border border-primary-container/60 text-primary-fixed/55"><Icon name={social.icon} /></span>)}
+    <div className="mt-6" aria-label="Réseaux sociaux du mouvement">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-fixed">Suivez le mouvement</p>
+      <ul className="mt-3 flex gap-2">
+        {socialLinks.map((social) => <li key={social.label}>{social.href
+          ? <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} title={social.label} className="flex h-11 w-11 items-center justify-center rounded-full border border-primary-container text-primary-fixed transition-colors hover:border-tertiary-fixed hover:bg-tertiary-fixed-dim hover:text-on-tertiary-fixed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary-fixed"><Icon name={social.icon} /></a>
+          : <span aria-label={`${social.label}, lien à configurer`} title={`${social.label} : lien officiel à configurer`} className="flex h-11 w-11 items-center justify-center rounded-full border border-primary-container/70 text-primary-fixed/80"><Icon name={social.icon} /></span>}
+        </li>)}
+      </ul>
     </div>
   );
 }

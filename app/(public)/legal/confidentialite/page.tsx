@@ -1,6 +1,18 @@
-import Link from "next/link";
-import { PortalFooter, PortalHeader } from "@/components/portal";
+import type { Metadata } from "next";
+import { PublicDocumentLayout } from "@/components/portal";
+
+export const metadata: Metadata = { title: "Confidentialité · CV-AV Daloa", description: "Informations de confidentialité du portail CV-AV du Diocèse de Daloa." };
 
 export default function ConfidentialitePage() {
-  return <div className="min-h-screen bg-surface text-on-surface"><PortalHeader /><main className="mx-auto max-w-3xl px-4 py-12 sm:px-8"><Link href="/" className="text-sm font-semibold text-primary hover:underline">← Accueil</Link><h1 className="mt-8 font-headline-lg text-headline-lg text-primary">Politique de confidentialité</h1><p className="mt-4 leading-7 text-on-surface-variant">La plateforme CV-AV du Diocèse de Daloa limite l’accès aux données au rôle et au périmètre de chaque compte. Les coordonnées privées ne sont jamais publiées dans l’annuaire.</p><section className="mt-8 space-y-6 text-sm leading-6 text-on-surface-variant"><div><h2 className="font-title-md text-title-md text-primary">Données collectées</h2><p className="mt-2">Identité, rattachement, compte et informations nécessaires aux workflows validés. Les données sensibles, notamment santé et mineurs, sont soumises à un consentement et à un accès limité.</p></div><div><h2 className="font-title-md text-title-md text-primary">Accès et conservation</h2><p className="mt-2">Les accès sont contrôlés par RBAC + Scope, journalisés lorsqu’ils sont sensibles et historisés. Les données ne sont pas revendues.</p></div><div><h2 className="font-title-md text-title-md text-primary">Médias</h2><p className="mt-2">Les photos, vidéos et documents sont destinés à un stockage objet privé ; la base conserve leurs métadonnées et les accès se font par URL temporaire.</p></div></section></main><PortalFooter /></div>;
+  return (
+    <PublicDocumentLayout title="Politique de confidentialité">
+      <div className="space-y-8 text-sm leading-7 text-on-surface-variant">
+        <p>Le portail CV-AV du Diocèse de Daloa distingue les informations destinées à l’annuaire public des données nécessaires à l’espace personnel et à la gestion du mouvement.</p>
+        <section><h2 className="font-title-md text-title-md text-primary">Données de l’espace membre</h2><p className="mt-2">L’accès aux informations est limité selon le rôle et le périmètre attribués au compte. Les coordonnées privées et les données sensibles ne sont pas destinées à l’annuaire public.</p></section>
+        <section><h2 className="font-title-md text-title-md text-primary">Formulaire de contact et newsletter</h2><p className="mt-2">Les informations transmises via ces formulaires servent à traiter la demande ou l’abonnement choisi. Le consentement demandé au formulaire est nécessaire à son envoi. Chaque formulaire indique son objet avant soumission.</p></section>
+        <section><h2 className="font-title-md text-title-md text-primary">Stockage sur cet appareil</h2><p className="mt-2">Le portail mémorise localement votre choix relatif au bandeau de confidentialité. Aucun outil de publicité ou de mesure d’audience n’est actuellement configuré sur le site public.</p></section>
+        <section><h2 className="font-title-md text-title-md text-primary">Photos et autres médias</h2><p className="mt-2">Les images publiées dans l’annuaire doivent être validées par les responsables concernés et accompagnées des autorisations nécessaires, en particulier lorsqu’elles représentent des mineurs. Les moyens de stockage des médias de l’espace membre ne sont pas encore activés.</p></section>
+      </div>
+    </PublicDocumentLayout>
+  );
 }

@@ -23,6 +23,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        sand: "#f1eee7",
         "on-tertiary": "#ffffff",
         "surface-container": "#edeef0",
         "tertiary": "#201400",
@@ -117,7 +118,15 @@ export default {
         DEFAULT: "0.25rem",
         lg: "0.5rem",
         xl: "0.75rem",
+        card: "1.25rem",
+        feature: "1.75rem",
         full: "9999px",
+      },
+      boxShadow: {
+        floating: "0 12px 36px rgba(7, 26, 59, 0.16)",
+      },
+      zIndex: {
+        cookie: "60",
       },
     },
   },

@@ -38,19 +38,19 @@ export function PublicContact() {
     <form onSubmit={submit} className="grid gap-5 sm:grid-cols-2">
       <div>
         <label htmlFor="contact-name" className="block text-sm font-semibold text-primary">Nom et prénom</label>
-        <input id="contact-name" name="fullName" required minLength={2} maxLength={120} placeholder="Ex. Marie Kouassi" className="mt-2 w-full rounded-xl border border-primary/20 bg-[#fffdf8] px-4 py-3.5 text-sm shadow-[0_4px_18px_rgba(7,26,59,0.06)] outline-none placeholder:text-on-surface-variant/60 focus:border-primary focus:ring-2 focus:ring-tertiary-fixed/40" />
+        <input id="contact-name" name="fullName" autoComplete="name" required minLength={2} maxLength={120} placeholder="Votre nom complet" className="mt-2 min-h-12 w-full rounded-card border border-outline bg-surface-container-low px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
       </div>
       <div>
         <label htmlFor="contact-email" className="block text-sm font-semibold text-primary">E-mail</label>
-        <input id="contact-email" name="email" type="email" required maxLength={160} placeholder="vous@exemple.ci" className="mt-2 w-full rounded-xl border border-primary/20 bg-[#fffdf8] px-4 py-3.5 text-sm shadow-[0_4px_18px_rgba(7,26,59,0.06)] outline-none placeholder:text-on-surface-variant/60 focus:border-primary focus:ring-2 focus:ring-tertiary-fixed/40" />
+        <input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={160} placeholder="vous@exemple.ci" className="mt-2 min-h-12 w-full rounded-card border border-outline bg-surface-container-low px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
       </div>
       <div>
         <label htmlFor="contact-phone" className="block text-sm font-semibold text-primary">Téléphone <span className="font-normal text-on-surface-variant">(facultatif)</span></label>
-        <input id="contact-phone" name="phone" type="tel" maxLength={30} placeholder="+225 …" className="mt-2 w-full rounded-xl border border-primary/20 bg-[#fffdf8] px-4 py-3.5 text-sm shadow-[0_4px_18px_rgba(7,26,59,0.06)] outline-none placeholder:text-on-surface-variant/60 focus:border-primary focus:ring-2 focus:ring-tertiary-fixed/40" />
+        <input id="contact-phone" name="phone" type="tel" autoComplete="tel" maxLength={30} placeholder="+225 …" className="mt-2 min-h-12 w-full rounded-card border border-outline bg-surface-container-low px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
       </div>
       <div>
         <label htmlFor="contact-subject" className="block text-sm font-semibold text-primary">Motif</label>
-        <select id="contact-subject" name="subject" defaultValue="JOIN" className="mt-2 w-full rounded-xl border border-primary/20 bg-[#fffdf8] px-4 py-3.5 text-sm shadow-[0_4px_18px_rgba(7,26,59,0.06)] outline-none focus:border-primary focus:ring-2 focus:ring-tertiary-fixed/40">
+        <select id="contact-subject" name="subject" defaultValue="JOIN" className="mt-2 min-h-12 w-full rounded-card border border-outline bg-surface-container-low px-4 py-3 text-sm text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
           <option value="JOIN">Rejoindre le mouvement</option>
           <option value="ACTIVITY">Informations sur les activités</option>
           <option value="PARTNERSHIP">Partenariat</option>
@@ -59,7 +59,7 @@ export function PublicContact() {
       </div>
       <div className="sm:col-span-2">
         <label htmlFor="contact-message" className="block text-sm font-semibold text-primary">Votre message</label>
-        <textarea id="contact-message" name="message" required minLength={10} maxLength={2000} rows={5} placeholder="Décrivez votre demande en quelques lignes…" className="mt-2 w-full resize-y rounded-xl border border-primary/20 bg-[#fffdf8] px-4 py-3.5 text-sm shadow-[0_4px_18px_rgba(7,26,59,0.06)] outline-none placeholder:text-on-surface-variant/60 focus:border-primary focus:ring-2 focus:ring-tertiary-fixed/40" />
+        <textarea id="contact-message" name="message" required minLength={10} maxLength={2000} rows={5} placeholder="Décrivez votre demande en quelques lignes…" className="mt-2 w-full resize-y rounded-card border border-outline bg-surface-container-low px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
       </div>
       <div className="sm:col-span-2">
         <label className="flex items-start gap-2 text-xs leading-5 text-on-surface-variant">
@@ -69,8 +69,8 @@ export function PublicContact() {
         <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute h-px w-px overflow-hidden opacity-0" />
       </div>
       <div className="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs leading-5 text-on-surface-variant">Votre message est orienté vers le responsable concerné. Réponse habituelle sous 48 h.</p>
-        <button type="submit" disabled={status === "pending"} className="rounded-xl bg-primary px-6 py-3.5 font-semibold text-on-primary shadow-[0_8px_20px_rgba(7,26,59,0.16)] transition hover:bg-primary-container disabled:cursor-wait disabled:opacity-60">
+        <p className="text-xs leading-5 text-on-surface-variant">Le motif choisi aide l’équipe à classer votre demande. N’indiquez pas de données médicales ou confidentielles dans ce formulaire.</p>
+        <button type="submit" disabled={status === "pending"} className="min-h-12 rounded-full bg-primary px-6 font-semibold text-on-primary transition-colors hover:bg-primary-container focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-wait disabled:opacity-60">
           {status === "pending" ? "Envoi en cours…" : "Envoyer le message"}
         </button>
       </div>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { NewsletterForm } from "./NewsletterForm";
 import { SocialLinks } from "./SocialLinks";
+import { CookieSettingsLink } from "./CookieSettingsLink";
 
 export function PortalFooter() {
   return (
@@ -16,7 +17,6 @@ export function PortalFooter() {
             </span>
           </Link>
           <p className="mt-5 max-w-sm leading-6">Un portail diocésain pour retrouver les paroisses, comprendre le mouvement et protéger l’espace de chaque membre.</p>
-          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.16em] text-primary-fixed">Suivez le mouvement</p>
           <SocialLinks />
         </div>
         <div>
@@ -25,7 +25,7 @@ export function PortalFooter() {
         </div>
         <div>
           <p className="font-semibold text-on-primary">Cadre et confiance</p>
-          <div className="mt-4 flex flex-col gap-2.5"><Link href="/legal/confidentialite" className="hover:text-white">Confidentialité</Link><Link href="/legal/cgu" className="hover:text-white">Conditions d’utilisation</Link><span>Référentiel 2026 en consolidation</span></div>
+          <div className="mt-4 flex flex-col gap-2.5"><Link href="/legal/confidentialite" className="hover:text-white">Confidentialité</Link><Link href="/legal/cgu" className="hover:text-white">Conditions d’utilisation</Link><span>Référentiel diocésain</span><CookieSettingsLink /></div>
         </div>
         <div>
           <p className="font-semibold text-on-primary">Recevoir les nouvelles</p>

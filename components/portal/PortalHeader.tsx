@@ -14,37 +14,40 @@ export function PortalHeader() {
         </Link>
         <nav className="flex shrink-0 items-center gap-0.5 text-xs sm:gap-2 sm:text-sm" aria-label="Navigation principale">
           <details className="relative lg:hidden">
-            <summary className="cursor-pointer list-none rounded-full border border-outline-variant px-3 py-2 font-semibold text-primary marker:hidden hover:bg-surface-container-low">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center rounded-full border border-outline-variant px-3 font-semibold text-primary marker:hidden hover:bg-surface-container-low focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
               Menu
             </summary>
-            <div className="absolute right-0 top-12 z-50 grid min-w-52 gap-1 rounded-2xl border border-outline-variant bg-surface-container-lowest p-2 text-sm shadow-[0_12px_30px_rgba(7,26,59,0.14)]">
-              <Link className="rounded-xl px-3 py-2.5 text-primary hover:bg-surface-container-low" href="/#mouvement">Le mouvement</Link>
-              <Link className="rounded-xl px-3 py-2.5 text-primary hover:bg-surface-container-low" href="/#parcours">Parcours</Link>
-              <Link className="rounded-xl px-3 py-2.5 text-primary hover:bg-surface-container-low" href="/#activites">Activités</Link>
-              <Link className="rounded-xl px-3 py-2.5 text-primary hover:bg-surface-container-low" href="/#territoire">Territoire</Link>
-              <Link className="rounded-xl px-3 py-2.5 text-primary hover:bg-surface-container-low" href="/#faq">FAQ</Link>
-              <Link className="rounded-xl px-3 py-2.5 text-primary hover:bg-surface-container-low" href="/#contact">Contact</Link>
+            <div className="absolute right-0 top-12 z-50 grid min-w-52 gap-1 rounded-feature border border-outline-variant bg-surface-container-lowest p-2 text-sm shadow-floating">
+              <Link className="min-h-11 rounded-xl px-3 py-3 text-primary hover:bg-surface-container-low" href="/#mouvement">Le mouvement</Link>
+              <Link className="min-h-11 rounded-xl px-3 py-3 text-primary hover:bg-surface-container-low" href="/#parcours">Parcours</Link>
+              <Link className="min-h-11 rounded-xl px-3 py-3 text-primary hover:bg-surface-container-low" href="/#activites">Activités</Link>
+              <Link className="min-h-11 rounded-xl px-3 py-3 text-primary hover:bg-surface-container-low" href="/#territoire">Territoire</Link>
+              <Link className="min-h-11 rounded-xl px-3 py-3 text-primary hover:bg-surface-container-low" href="/#faq">FAQ</Link>
+              <Link className="min-h-11 rounded-xl px-3 py-3 text-primary hover:bg-surface-container-low" href="/#contact">Contact</Link>
             </div>
           </details>
-          <Link className="hidden rounded-full px-3 py-2 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#mouvement">
+          <Link className="hidden min-h-11 items-center rounded-full px-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#mouvement">
             Le mouvement
           </Link>
-          <Link className="hidden rounded-full px-3 py-2 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#parcours">
+          <Link className="hidden min-h-11 items-center rounded-full px-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#parcours">
             Parcours
           </Link>
-          <Link className="hidden rounded-full px-3 py-2 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#activites">
+          <Link className="hidden min-h-11 items-center rounded-full px-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#activites">
             Activités
           </Link>
-          <Link className="hidden rounded-full px-3 py-2 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#territoire">
+          <Link className="hidden min-h-11 items-center rounded-full px-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#territoire">
             Territoire
           </Link>
-          <Link className="hidden rounded-full px-3 py-2 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#faq">
+          <Link className="hidden min-h-11 items-center rounded-full px-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#faq">
             FAQ
           </Link>
-          <Link className="hidden rounded-full px-3 py-2 text-on-surface-variant hover:bg-surface-container-low hover:text-primary sm:inline-flex" href="/paroisses">
+          <Link className="hidden min-h-11 items-center rounded-full px-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary sm:inline-flex" href="/paroisses">
             Annuaire
           </Link>
-          <Link className="whitespace-nowrap rounded-full bg-primary px-3 py-2.5 font-semibold text-on-primary hover:bg-primary-container sm:px-4" href="/login">
+          <Link className="hidden min-h-11 items-center rounded-full px-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary lg:inline-flex" href="/#contact">
+            Contact
+          </Link>
+          <Link className="min-h-11 whitespace-nowrap rounded-full bg-primary px-3 py-2.5 font-semibold text-on-primary transition-colors hover:bg-primary-container sm:px-4" href="/login">
             Espace membre
           </Link>
         </nav>

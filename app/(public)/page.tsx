@@ -1,82 +1,126 @@
-import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import {
   ActivityCarousel,
   DeaneryCard,
   DioceseMap,
+  LandingCookieConsent,
   PortalFooter,
   PortalHeader,
   PublicContact,
+  PublicPhoto,
 } from "@/components/portal";
 import { getPublicDirectory } from "@/modules/organisation/public";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  title: "CV-AV Daloa | Grandir, servir et avancer ensemble",
+  description: "Découvrez le mouvement Cœurs Vaillants – Âmes Vaillantes, retrouvez les paroisses du diocèse de Daloa et contactez une équipe près de chez vous.",
+};
 
-const values = [
-  { number: "01", title: "Grandir", text: "Un parcours adapté à chaque âge, du Benjamin au Meneur, sans confondre grade et responsabilité." },
-  { number: "02", title: "Servir", text: "Des activités et des engagements qui relient la vie du mouvement à la vie des paroisses." },
-  { number: "03", title: "Faire confiance", text: "Un référentiel documenté, des données signalées et un espace privé pour chaque membre." },
+const faqs = [
+  ["À qui s’adresse le mouvement CV-AV ?", "Le mouvement Cœurs Vaillants – Âmes Vaillantes accompagne les jeunes dans les paroisses du diocèse de Daloa. Les informations propres à chaque paroisse sont indiquées dans l’annuaire."],
+  ["Comment trouver une paroisse ?", "Recherchez son nom, sa ville ou son doyenné dans l’annuaire. Chaque fiche indique aussi le niveau de documentation disponible."],
+  ["Comment demander à rejoindre le mouvement ?", "Écrivez-nous avec le formulaire de contact. Votre demande sera transmise au responsable concerné ; elle ne crée pas automatiquement un compte."],
+  ["Qui peut voir les informations de mon compte ?", "Les comptes sont personnels et les informations privées ne sont pas publiées dans l’annuaire. Les accès des responsables sont limités à leur rôle et à leur périmètre."],
 ];
 
 const branches = [
-  ["Benjamin", "Découvrir le mouvement"],
-  ["Cadet", "Apprendre avec les autres"],
-  ["Aîné", "Prendre sa place"],
-  ["Meneur", "Accompagner et transmettre"],
-];
-
-const faqs = [
-  ["À qui s’adresse le mouvement CV-AV ?", "Le mouvement accueille les jeunes et les accompagnateurs dans les paroisses du diocèse de Daloa, avec un parcours adapté aux âges et aux responsabilités."],
-  ["Comment trouver une paroisse ?", "Consultez l’annuaire public, recherchez une paroisse ou un doyenné, puis utilisez la fiche de la paroisse pour prendre contact avec le responsable indiqué."],
-  ["Qui peut consulter les informations des membres ?", "Les informations personnelles restent dans l’espace privé du membre. Les responsables ne voient que les données nécessaires à leur fonction et à leur périmètre."],
-  ["Comment demander à rejoindre le mouvement ?", "Envoyez un message depuis le formulaire de contact en choisissant « Rejoindre le mouvement ». La demande est orientée vers le responsable concerné."],
+  { name: "Benjamin", text: "Un premier parcours au sein du mouvement." },
+  { name: "Cadet", text: "Un chemin qui prend de l’ampleur avec le groupe." },
+  { name: "Aîné", text: "Une place active dans la vie et le service." },
+  { name: "Meneur", text: "Un parcours distinct des fonctions de chef." },
 ];
 
 export default async function LandingPage() {
   const directory = await getPublicDirectory();
-  const parishCount = directory.reduce((count, doyenne) => count + doyenne.paroisses.length, 0);
+  const parishCount = directory.reduce((sum, doyenne) => sum + doyenne.paroisses.length, 0);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-surface text-on-surface">
+    <div className="min-h-screen overflow-x-clip bg-surface text-on-surface">
       <PortalHeader />
       <main>
-        <section id="accueil" className="scroll-mt-24 overflow-hidden bg-primary text-on-primary">
-          <div className="mx-auto grid w-full max-w-[1600px] gap-12 px-5 py-14 sm:gap-14 sm:px-10 sm:py-24 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:px-16 lg:py-28 xl:px-24">
-            <div>
-              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-tertiary-fixed">Mouvement CV-AV · Diocèse de Daloa</p>
-              <h1 className="max-w-4xl font-display-lg text-display-lg leading-tight sm:text-6xl">Grandir, servir et avancer ensemble.</h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-primary-fixed">Le portail du mouvement Cœurs Vaillants - Âmes Vaillantes pour retrouver les paroisses, découvrir les parcours et rejoindre un cadre qui compte.</p>
-              <div className="mt-9 flex flex-wrap gap-3"><Link href="/paroisses" className="rounded-full bg-tertiary-fixed-dim px-6 py-3.5 font-semibold text-on-tertiary-fixed hover:bg-tertiary-fixed">Trouver ma paroisse</Link><Link href="#contact" className="rounded-full border border-primary-fixed-dim px-6 py-3.5 font-semibold text-on-primary hover:bg-primary-container">Nous contacter</Link></div>
-              <div className="mt-10 grid max-w-2xl grid-cols-3 gap-2 border-t border-primary-container pt-5 text-sm sm:mt-12 sm:gap-5"><div className="min-w-0"><strong className="block text-2xl text-on-primary">1</strong><span className="block break-words text-primary-fixed">diocèse</span></div><div className="min-w-0"><strong className="block text-2xl text-on-primary">{directory.length}</strong><span className="block break-words text-primary-fixed">doyennés</span></div><div className="min-w-0"><strong className="block text-2xl text-on-primary">{parishCount}</strong><span className="block break-words text-primary-fixed">paroisses documentées</span></div></div>
-            </div>
-            <div className="relative min-h-[420px] border-t border-primary-container pt-8 lg:min-h-[420px] lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
-              <div className="absolute right-0 top-0 h-24 w-24 border-r border-t border-tertiary-fixed-dim" aria-hidden="true" />
-              <div className="flex h-full flex-col justify-between py-4">
-                <div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-tertiary-fixed">Un portail pour</p><p className="mt-5 max-w-sm font-headline-md text-headline-md">Les jeunes, les familles, les chefs et les paroisses.</p></div>
-                <div className="relative mx-auto w-full max-w-sm rounded-[1.75rem] border border-primary-fixed-dim/40 bg-primary-container p-5 sm:p-8"><div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5"><Image src="/assets/cvav-emblem.png" alt="Emblème du mouvement CV-AV" width={120} height={120} className="h-20 w-20 shrink-0 object-contain sm:h-24 sm:w-24" priority /><div><p className="text-xs uppercase tracking-[0.16em] text-tertiary-fixed">Repère diocésain</p><p className="mt-2 font-title-md text-title-md text-on-primary">Daloa 2026</p><p className="mt-2 text-sm leading-5 text-primary-fixed">Une structure lisible. Des données identifiables. Un espace personnel.</p></div></div></div>
-                <p className="max-w-sm text-sm leading-6 text-primary-fixed">La composition des paroisses est publiée avec son niveau de fiabilité. Une donnée à vérifier n’est jamais présentée comme une certitude.</p>
+        <section id="accueil" className="scroll-mt-24 bg-sand">
+          <div className="mx-auto grid w-full max-w-[1440px] gap-10 px-4 py-8 sm:px-8 sm:py-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch lg:gap-12 lg:px-12 lg:py-14">
+            <div className="flex flex-col justify-center py-4 sm:py-8 lg:py-12">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Cœurs Vaillants – Âmes Vaillantes · Diocèse de Daloa</p>
+              <h1 className="mt-5 max-w-2xl font-display-lg text-display-lg leading-[1.08] text-primary sm:text-6xl">Grandir, servir et avancer ensemble.</h1>
+              <p className="mt-6 max-w-xl text-base leading-7 text-on-surface-variant sm:text-lg sm:leading-8">Découvrez le mouvement, retrouvez les paroisses du diocèse et prenez contact avec une équipe près de chez vous.</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href="/paroisses" className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 font-semibold text-on-primary transition-colors hover:bg-primary-container focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Trouver une paroisse</Link>
+                <Link href="#mouvement" className="inline-flex min-h-12 items-center justify-center rounded-full border border-primary/25 px-6 font-semibold text-primary transition-colors hover:bg-surface-container-lowest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Découvrir le mouvement</Link>
               </div>
+              <div className="mt-10 grid max-w-lg grid-cols-2 gap-5 border-t border-outline-variant pt-5 sm:grid-cols-3">
+                <div><strong className="block text-2xl tabular-nums text-primary">{directory.length}</strong><span className="text-sm text-on-surface-variant">doyennés référencés</span></div>
+                <div><strong className="block text-2xl tabular-nums text-primary">{parishCount}</strong><span className="text-sm text-on-surface-variant">paroisses listées</span></div>
+                <div className="col-span-2 sm:col-span-1"><span className="text-sm leading-6 text-on-surface-variant">Données présentées selon leur niveau de vérification.</span></div>
+              </div>
+            </div>
+            <figure className="relative min-h-[22rem] overflow-hidden rounded-feature bg-surface-container-low sm:min-h-[30rem] lg:min-h-[36rem]">
+              <PublicPhoto src="/assets/public/hero-cvav.webp" alt="Jeunes du mouvement CV-AV lors d’une activité" label="Ajouter la photo principale du mouvement" className="absolute inset-0" sizes="(max-width: 1024px) 100vw, 56vw" priority />
+              <figcaption className="absolute inset-x-4 bottom-4 rounded-card bg-primary p-4 text-on-primary sm:inset-x-6 sm:bottom-6 sm:p-5">
+                <span className="text-xs font-semibold uppercase tracking-[0.15em] text-tertiary-fixed">Une présence dans le diocèse</span>
+                <span className="mt-1 block text-sm leading-6 text-primary-fixed">Un annuaire pour s’orienter, un espace privé pour chaque membre.</span>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section id="mouvement" className="scroll-mt-24 mx-auto w-full max-w-[1440px] px-4 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-16">
+            <div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Le mouvement</p><h2 className="mt-4 max-w-xl font-display-lg text-display-lg text-primary">Une aventure humaine, portée par les paroisses.</h2></div>
+            <p className="max-w-2xl text-base leading-7 text-on-surface-variant sm:text-lg sm:leading-8">Le portail rassemble les repères publics du CV-AV dans le diocèse de Daloa. Les informations d’organisation restent distinctes des données personnelles des membres.</p>
+          </div>
+          <div className="mt-12 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+            <Link href="/paroisses" className="group flex min-h-[19rem] flex-col justify-between rounded-feature bg-primary p-6 text-on-primary transition-colors hover:bg-primary-container sm:p-9">
+              <div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-tertiary-fixed">Annuaire territorial</p><h3 className="mt-5 max-w-lg font-headline-lg text-headline-lg sm:text-4xl">Commencez par votre paroisse.</h3></div>
+              <span className="flex items-center justify-between gap-4 border-t border-primary-fixed-dim/40 pt-4 text-sm text-primary-fixed"><span>Parcourir les doyennés et les paroisses</span><span className="text-xl transition-transform group-hover:translate-x-1" aria-hidden="true">→</span></span>
+            </Link>
+            <div className="flex flex-col justify-between rounded-feature border border-outline-variant bg-surface-container-low p-6 sm:p-9">
+              <div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">Espace membre</p><h3 className="mt-5 max-w-md font-headline-lg text-headline-lg text-primary">Un accès personnel, selon votre rôle.</h3><p className="mt-4 max-w-md leading-7 text-on-surface-variant">Les responsables et les membres utilisent leurs propres comptes. Les droits suivent leur fonction et leur rattachement.</p></div>
+              <Link href="/login" className="mt-8 inline-flex min-h-11 items-center self-start rounded-full border border-primary/25 px-5 font-semibold text-primary transition-colors hover:bg-surface-container-lowest">Accéder à mon espace <span className="ml-3" aria-hidden="true">↗</span></Link>
             </div>
           </div>
         </section>
 
-        <section className="border-b border-outline-variant/60 bg-surface-container-lowest" aria-label="Repères de confiance"><div className="mx-auto grid w-full max-w-[1600px] gap-0 px-5 sm:px-10 lg:px-16 xl:px-24 md:grid-cols-3">{["Un annuaire diocésain", "Des sources visibles", "Un espace personnel"].map((item, index) => <div key={item} className="border-b border-outline-variant/50 py-5 text-sm last:border-0 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0"><span className="mr-3 font-semibold text-tertiary-container">0{index + 1}</span><span className="font-semibold text-primary">{item}</span></div>)}</div></section>
+        <section id="parcours" className="scroll-mt-24 bg-surface-container-low">
+          <div className="mx-auto w-full max-w-[1440px] px-4 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+            <div className="grid gap-6 md:grid-cols-[1fr_0.8fr] md:items-end"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Les parcours</p><h2 className="mt-4 max-w-2xl font-display-lg text-display-lg text-primary">Des repères selon les âges et les responsabilités.</h2></div><p className="max-w-lg text-sm leading-6 text-on-surface-variant">Les grades et les fonctions de chef sont des notions différentes. Un grade ne confère pas, à lui seul, un accès d’administration.</p></div>
+            <div className="mt-10 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {branches.map((branch, index) => <article key={branch.name} className="flex min-h-48 flex-col justify-between rounded-card border border-outline-variant bg-surface-container-lowest p-5 sm:p-6"><span className="text-xs font-semibold tabular-nums text-secondary">0{index + 1}</span><div><h3 className="font-headline-md text-headline-md text-primary">{branch.name}</h3><p className="mt-2 text-sm leading-6 text-on-surface-variant">{branch.text}</p></div></article>)}
+            </div>
+          </div>
+        </section>
 
-        <section id="mouvement" className="mx-auto w-full max-w-[1600px] px-5 py-20 sm:px-10 sm:py-28 lg:px-16 xl:px-24"><div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Le mouvement</p><h2 className="mt-4 max-w-xl font-display-lg text-display-lg text-primary">Une présence qui commence dans chaque paroisse.</h2></div><p className="max-w-2xl text-lg leading-8 text-on-surface-variant">CV-AV rassemble des enfants, des jeunes et des accompagnateurs autour d’un parcours de formation, de fraternité et de service. Le portail rend cette organisation plus facile à comprendre sans exposer les données privées des membres.</p></div><div className="mt-14 grid gap-8 md:grid-cols-3">{values.map((value) => <article key={value.number} className="border-t-2 border-primary pt-5"><span className="text-sm font-semibold text-tertiary-container">{value.number}</span><h3 className="mt-5 font-headline-md text-headline-md text-primary">{value.title}</h3><p className="mt-3 leading-7 text-on-surface-variant">{value.text}</p></article>)}</div></section>
+        <section id="activites" className="scroll-mt-24 mx-auto w-full max-w-[1440px] px-4 py-16 sm:px-8 sm:py-24 lg:px-12">
+          <div className="mb-8 grid gap-4 sm:grid-cols-[1fr_0.7fr] sm:items-end"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">La vie du mouvement</p><h2 className="mt-4 max-w-2xl font-display-lg text-display-lg text-primary">Des souvenirs à partager.</h2></div><p className="max-w-lg text-sm leading-6 text-on-surface-variant">Les photos sont à ajouter dans le dossier public indiqué dans le projet. Seuls les visuels autorisés doivent être publiés.</p></div>
+          <ActivityCarousel />
+        </section>
 
-        <section id="parcours" className="scroll-mt-24 bg-[#f1eee7] px-5 py-20 sm:px-10 sm:py-24 lg:px-16"><div className="mx-auto w-full max-w-[1600px]"><div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Les parcours</p><h2 className="mt-4 font-display-lg text-display-lg text-primary">Chacun avance à son rythme.</h2></div><p className="max-w-md text-sm leading-6 text-on-surface-variant">Les grades décrivent un parcours. Ils ne donnent pas automatiquement accès à l’administration de la plateforme.</p></div><div className="mt-12 grid gap-px overflow-hidden border border-outline-variant/70 bg-outline-variant/70 sm:grid-cols-2 lg:grid-cols-4">{branches.map(([name, text], index) => <article key={name} className="bg-[#f1eee7] p-6"><span className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">0{index + 1}</span><h3 className="mt-12 font-headline-md text-headline-md text-primary">{name}</h3><p className="mt-3 text-sm leading-6 text-on-surface-variant">{text}</p></article>)}</div></div></section>
+        <section id="territoire" className="scroll-mt-24 bg-sand">
+          <div className="mx-auto grid w-full max-w-[1440px] gap-6 px-4 py-16 sm:px-8 sm:py-20 lg:grid-cols-[0.92fr_1.08fr] lg:items-start lg:px-12 lg:py-24">
+            <DioceseMap doyennes={directory} />
+            <div className="rounded-feature border border-outline-variant bg-surface-container-lowest p-5 sm:p-7">
+              <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Parcourir le territoire</p><h2 className="mt-3 font-display-lg text-display-lg text-primary">Les doyennés.</h2></div><Link href="/paroisses" className="inline-flex min-h-11 items-center font-semibold text-primary underline-offset-4 hover:underline">Tout l’annuaire <span className="ml-2" aria-hidden="true">↗</span></Link></div>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">{directory.map((doyenne) => <DeaneryCard key={doyenne.id} id={doyenne.id} name={doyenne.name} parishCount={doyenne.paroisses.length} hasUnverifiedParishes={doyenne.paroisses.some((paroisse) => paroisse.confidence !== "CONFIRMED_CURRENT")} />)}</div>
+            </div>
+          </div>
+        </section>
 
-        <section id="activites" className="scroll-mt-24 mx-auto w-full max-w-[1600px] px-5 py-20 sm:px-10 sm:py-28 lg:px-16 xl:px-24"><div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Archives du mouvement</p><h2 className="mt-4 max-w-2xl font-display-lg text-display-lg text-primary">Ce qui se vit sur le terrain.</h2></div><p className="max-w-md text-sm leading-6 text-on-surface-variant">Une galerie sobre, alimentée avec les photos validées par les responsables et les autorisations nécessaires.</p></div><ActivityCarousel /></section>
+        <section id="faq" className="scroll-mt-24 mx-auto grid w-full max-w-[1440px] gap-10 px-4 py-16 sm:px-8 sm:py-24 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20 lg:px-12">
+          <div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Questions fréquentes</p><h2 className="mt-4 max-w-lg font-display-lg text-display-lg text-primary">Avant de nous écrire.</h2><p className="mt-5 max-w-md leading-7 text-on-surface-variant">Les repères essentiels pour les familles, les jeunes et les responsables.</p></div>
+          <div className="border-t border-outline-variant">{faqs.map(([question, answer]) => <details key={question} className="group border-b border-outline-variant"><summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-6 py-4 font-semibold text-primary marker:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"><span>{question}</span><span className="text-xl font-normal text-secondary transition-transform group-open:rotate-45" aria-hidden="true">+</span></summary><p className="max-w-2xl pb-5 pr-8 leading-7 text-on-surface-variant">{answer}</p></details>)}</div>
+        </section>
 
-        <section id="territoire" className="scroll-mt-24 bg-surface-container-low px-5 py-20 sm:px-10 sm:py-24 lg:px-16"><div className="mx-auto grid w-full max-w-[1600px] gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start"><DioceseMap /><div className="rounded-[2rem] border border-outline-variant bg-surface-container-lowest p-5 sm:p-8"><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Annuaire diocésain</p><h2 className="mt-3 font-display-lg text-display-lg text-primary">Choisir un doyenné.</h2></div><Link href="/paroisses" className="font-semibold text-primary hover:underline">Voir tout l’annuaire →</Link></div><div className="mt-8 grid gap-3 sm:grid-cols-2">{directory.map((doyenne) => <DeaneryCard key={doyenne.id} id={doyenne.id} name={doyenne.name} parishCount={doyenne.paroisses.length} hasUnverifiedParishes={doyenne.paroisses.some((paroisse) => paroisse.confidence !== "CONFIRMED_CURRENT")} />)}</div></div></div></section>
-
-        <section id="faq" className="scroll-mt-24 mx-auto w-full max-w-[1600px] px-5 py-20 sm:px-10 sm:py-28 lg:px-16 xl:px-24"><div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr]"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Questions fréquentes</p><h2 className="mt-4 max-w-lg font-display-lg text-display-lg text-primary">Les réponses avant de commencer.</h2><p className="mt-5 max-w-md leading-7 text-on-surface-variant">Un vocabulaire simple pour les familles, les jeunes et les responsables qui découvrent le mouvement.</p></div><div className="border-t border-outline-variant">{faqs.map(([question, answer]) => <details key={question} className="group border-b border-outline-variant"><summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-semibold text-primary"><span>{question}</span><span className="text-xl font-normal text-secondary transition-transform group-open:rotate-45">+</span></summary><p className="max-w-2xl pb-5 pr-10 leading-7 text-on-surface-variant">{answer}</p></details>)}</div></div></section>
-
-        <section id="contact" className="bg-[#f1eee7] px-5 py-20 sm:px-10 sm:py-24 lg:px-16"><div className="mx-auto grid w-full max-w-[1600px] gap-10 rounded-[2rem] border border-outline-variant bg-[#f7f4ed] p-6 sm:p-10 lg:grid-cols-[0.65fr_1.35fr] lg:p-14"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Nous contacter</p><h2 className="mt-4 max-w-md font-display-lg text-display-lg text-primary">Une question ? Parlons-en.</h2><p className="mt-5 max-w-md leading-7 text-on-surface-variant">Ce formulaire est destiné aux familles, aux jeunes, aux responsables et aux partenaires. Il ne crée pas automatiquement un compte membre.</p><div className="mt-8 border-l-2 border-tertiary-container pl-4 text-sm leading-6 text-on-surface-variant">Votre message est routé vers le bon responsable. Les informations personnelles ne sont pas publiées dans l’annuaire.</div></div><PublicContact /></div></section>
-
-        <section className="mx-auto w-full max-w-[1600px] px-5 py-20 sm:px-10 sm:py-24 lg:px-16 xl:px-24"><div className="grid gap-8 rounded-[2rem] border border-primary bg-primary p-8 text-on-primary sm:p-12 lg:grid-cols-[1fr_auto] lg:items-center"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-tertiary-fixed">Prêt à commencer ?</p><h2 className="mt-4 max-w-2xl font-display-lg text-display-lg">Commencez par trouver votre paroisse.</h2><p className="mt-4 max-w-xl leading-7 text-primary-fixed">L’annuaire est public. L’espace membre, lui, reste personnel et protégé par les droits de chaque compte.</p></div><Link href="/paroisses" className="inline-flex justify-center rounded-xl bg-tertiary-fixed-dim px-6 py-3.5 font-semibold text-on-tertiary-fixed hover:bg-tertiary-fixed">Consulter l’annuaire</Link></div></section>
+        <section id="contact" className="scroll-mt-24 bg-surface-container-low">
+          <div className="mx-auto grid w-full max-w-[1440px] gap-8 px-4 py-16 sm:px-8 sm:py-20 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16 lg:px-12 lg:py-24">
+            <div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Contact</p><h2 className="mt-4 max-w-lg font-display-lg text-display-lg text-primary">Votre prochaine étape commence ici.</h2><p className="mt-5 max-w-md leading-7 text-on-surface-variant">Une question sur le mouvement, une paroisse ou une demande pour rejoindre une équipe ? Écrivez-nous, sans créer de compte membre.</p><p className="mt-6 border-l-2 border-tertiary-fixed-dim pl-4 text-sm leading-6 text-on-surface-variant">Votre message est transmis au responsable concerné. Les coordonnées privées ne sont pas affichées dans l’annuaire.</p></div>
+            <div className="rounded-feature border border-outline-variant bg-surface-container-lowest p-5 sm:p-8"><PublicContact /></div>
+          </div>
+        </section>
       </main>
       <PortalFooter />
+      <LandingCookieConsent />
     </div>
   );
 }
