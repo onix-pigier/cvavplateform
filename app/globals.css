@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+ * CVAV Platform — feuille de style globale.
+ *
+ * Reproduit l'union des 30 variantes de blocs <style> des maquettes Stitch
+ * (`design-stitch/`) : réinitialisation plein écran, safe-areas iOS, grille
+ * sans barre de défilement, et règles d'impression A4 pour les documents
+ * officiels (quittances, bordereaux, procès-verbaux...).
+ * ------------------------------------------------------------------------- */
+
+@layer base {
+  html,
+  body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fb;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    overscroll-behavior: none;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    color: #191c1e;
+  }
+
+  /* Encoches / barres de navigation iOS dans les écrans mobiles de terrain. */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Les maquettes neutralisent les marges du premier/dernier bloc de <main>. */
+  main > :first-child {
+    margin-top: 0 !important;
+  }
+  main > :last-child {
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Barres de défilement masquées — repris tel quel des maquettes. */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Sur les très grands écrans, les pages éditoriales utilisent davantage la
+ * largeur disponible. Les laptops conservent la largeur de lecture standard. */
+@media (min-width: 1536px) {
+  .max-w-7xl {
+    max-width: 100rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Impression — documents A4 officiels (cf. inventaire des écrans §4, §6, §7).
+ * Les maquettes déclarent des variantes légèrement différentes ; l'union
+ * ci-dessous couvre tous les cas déjà listés (header/footer/.no-print masqués,
+ * fond blanc forcé, planche A4 sans ombre ni arrondi).
+ * ------------------------------------------------------------------------- */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  header,
+  footer,
+  .no-print,
+  .no-print-area {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  main {
+    padding: 0 !important;
+    padding-top: 0 !important;
+    background: transparent !important;
+  }
+
+  #printable-a4-sheet {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    padding: 10mm 12mm !important;
+    margin: 0 auto !important;
+  }
+
+  .print-page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .print-shadow-none {
+    box-shadow: none !important;
+  }
+}

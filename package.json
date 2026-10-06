@@ -1,0 +1,51 @@
+{
+  "name": "cvav-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "tsx prisma/seed.ts",
+    "test": "npm run test:unit && npm run test:security && npm run test:regression && npm run test:fuzz",
+    "test:ci": "npm test && node --import tsx tests/support/require-ci-env.ts && npm run test:integration && npm run test:functional && npm run test:contract",
+    "test:unit": "node --import tsx --test tests/unit/*.test.ts",
+    "test:integration": "node --import tsx --test tests/integration/*.test.ts",
+    "test:functional": "node --import tsx --test tests/functional/*.test.ts",
+    "test:security": "node --import tsx --test tests/security/*.test.ts",
+    "test:regression": "node --import tsx --test tests/regression/*.test.ts",
+    "test:fuzz": "node --import tsx --test tests/fuzz/*.test.ts",
+    "test:contract": "node --import tsx --test tests/contract/*.test.ts",
+    "test:load": "node --import tsx tests/load/http-load.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "bcryptjs": "^2.4.3",
+    "jose": "^5.9.6",
+    "next": "^16.0.0",
+    "pg": "^8.23.1",
+    "qrcode": "^1.5.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.10.2",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "autoprefixer": "^10.4.20",
+    "dotenv": "^18.0.5",
+    "parse5": "^8.0.1",
+    "postcss": "^8.5.1",
+    "prisma": "^7.10.0",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

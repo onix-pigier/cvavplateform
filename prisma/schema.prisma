@@ -1,0 +1,1146 @@
+// ============================================================================
+// CVAV PLATFORM — SCHÉMA PRISMA CANONIQUE
+// Système d'Information Diocésain — Mouvement Cœurs Vaillants – Âmes Vaillantes
+// ============================================================================
+// Sources faisant foi, dans cet ordre de priorité en cas de divergence :
+//   Volume 00-C (corrections terrain, D-074 à D-081)
+//   Volume 00-B (addendum paniers B/C, D-065 à D-073)
+//   Volume 00   (ADR initial, D-001 à D-064)
+//   Volume 04   (Domain Model initial)
+//   Volume 11   (RBAC + Scope)
+//   TDD         (conventions techniques)
+//
+// Conventions :
+//   - Modèles et champs en anglais (code), libellés métier en français côté UI.
+//   - Identifiants UUID partout (TDD §6.1) : pas de fuite par énumération.
+//   - Aucune suppression physique sur les entités métier : un champ status/
+//     isActive porte la désactivation logique (TDD §6.1, Volume 04 §4.12).
+//   - createdAt/updatedAt systématiques sur les entités mutables.
+//   - Les contraintes d'unicité PARTIELLES (ex. D-005 : un seul Membership actif
+//     par Personne ; D-052 : un seul par Équipe/année) ne sont pas exprimables
+//     nativement en Prisma (@@unique ne filtre pas sur isActive=true). Elles
+//     sont donc : (a) contrôlées au niveau service avant écriture, et (b)
+//     recommandées comme index partiels PostgreSQL ajoutés en migration SQL
+//     manuelle (CREATE UNIQUE INDEX ... WHERE "isActive" = true), comme annoncé
+//     au TDD §6.3.
+//   - Toute entité scopée porte scopeType + scopeId (Volume 11 §11.3) plutôt
+//     qu'une FK dédiée, sauf quand la portée est structurellement fixe
+//     (ex. Membership.paroisseId direct).
+// ============================================================================
+
+// Prisma 7 : générateur Rust-free `prisma-client`, `output` obligatoire
+// (plus de génération dans node_modules). La connexion à la base est définie
+// dans `prisma.config.ts` (datasource) — l'URL ne vit plus ici.
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum Sex {
+  M
+  F
+}
+
+enum PersonStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  BLOCKED
+}
+
+/// Hiérarchie de scope (Volume 11 §11.4) : DIOCESE > DOYENNE > PAROISSE >
+/// SECTION > EQUIPE > SELF. ACTIVITY est un scope transversal additionnel pour
+/// les mandats bornés à une activité précise (REFERENT_SECURITE, D-072).
+enum ScopeType {
+  DIOCESE
+  DOYENNE
+  PAROISSE
+  SECTION
+  EQUIPE
+  ACTIVITY
+  SELF
+}
+
+/// D-074 : remplace l'ancienne entité SousSection. Une Section EN_ATTENTE
+/// dépend administrativement d'une Section RECOGNIZED (sponsorSection).
+enum RecognitionStatus {
+  PENDING
+  RECOGNIZED
+}
+
+enum TeamLeadershipRole {
+  LEADER
+  ASSISTANT
+}
+
+enum MandateStatus {
+  ACTIVE
+  ENDED
+  RENEWED
+}
+
+/// D-076 : MENEUR est une catégorie de grade à part — ni MILITANT classique,
+/// ni CHEF. Elle ne confère aucun rôle applicatif.
+enum GradeCategory {
+  MILITANT
+  MENEUR
+  CHEF
+}
+
+/// D-075 corrige l'ordre et les intitulés précédemment verrouillés à tort
+/// (AA → AP → AC → RC). Séquence réelle sourcée des statuts CVAV-CI :
+/// AA → AC → AP → APHG. "RC" (Responsable de Charge) n'existe pas.
+enum ChefQualificationCode {
+  AA
+  AC
+  AP
+  APHG
+}
+
+enum AttendanceSource {
+  MANUAL
+  NFC
+}
+
+/// D-067 : une carte REVOKED ne redevient jamais ACTIVE, même retrouvée.
+enum CardStatus {
+  ACTIVE
+  SUSPENDED
+  REVOKED
+}
+
+enum ActivityStatus {
+  PLANNED
+  ONGOING
+  COMPLETED
+  ARCHIVED
+}
+
+enum CeremonySessionStatus {
+  PLANNED
+  VALIDATED
+  COMPLETED
+  ARCHIVED
+}
+
+enum CeremonyCandidateStatus {
+  PROPOSED
+  APPROVED
+  COMPLETED
+}
+
+enum SpiritualOpinion {
+  PENDING
+  FAVORABLE
+  RESERVED
+  UNFAVORABLE
+}
+
+enum PaymentStatus {
+  UP_TO_DATE
+  PARTIAL
+  LATE
+}
+
+/// D-071.
+enum PaymentMethod {
+  CASH
+  MOBILE_MONEY
+  BANK_TRANSFER
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+/// D-056 (circuit à 2 niveaux) + D-062 (anti-auto-validation : voir
+/// CertificateRequest.escalated).
+enum CertificateRequestStatus {
+  PENDING
+  SECTION_APPROVED
+  APPROVED
+  REJECTED
+  ISSUED
+}
+
+enum CertificateStatus {
+  VALID
+  REVOKED
+}
+
+enum NotificationChannel {
+  APP
+  EMAIL
+  SMS
+  WHATSAPP
+}
+
+enum BroadcastStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+}
+
+enum BackupStatus {
+  SUCCESS
+  FAILED
+}
+
+enum BackupType {
+  AUTOMATIC
+  MANUAL
+}
+
+enum MediaKind {
+  AVATAR
+  PHOTO
+  VIDEO
+  DOCUMENT
+}
+
+enum MediaVisibility {
+  PRIVATE
+  SCOPE
+  PUBLIC
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — ORGANISATION
+// ============================================================================
+
+model Diocese {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  isActive  Boolean  @default(true)
+
+  doyennes Doyenne[]
+  settings DioceseSettings?
+
+  @@map("dioceses")
+}
+
+/// D-002 : Doyenné = Secteur = Vicariat, entité unique avec alias de
+/// présentation selon l'usage local du diocèse.
+model Doyenne {
+  id         String   @id @default(uuid())
+  name       String
+  aliasLabel String? // "Secteur" ou "Vicariat" selon le diocèse
+  dioceseId  String
+  diocese    Diocese  @relation(fields: [dioceseId], references: [id])
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  paroisses Paroisse[]
+
+  @@index([dioceseId])
+  @@map("doyennes")
+}
+
+model Ville {
+  id     String @id @default(uuid())
+  name   String
+  region String
+
+  paroisses Paroisse[]
+
+  @@map("villes")
+}
+
+/// Niveau de confiance de la donnée de rattachement, recommandé par le
+/// référentiel diocésain pour ne jamais publier une affectation non
+/// vérifiée comme si elle était actuelle (cf. document "Référentiel —
+/// Diocèse de Daloa & CV-AV", §2 et §8).
+enum DataConfidence {
+  CONFIRMED_CURRENT // 🟢 confirmé par une source récente
+  OFFICIAL_HISTORICAL // 🔵 document diocésain officiel antérieur
+  HISTORICAL_TO_VERIFY // 🟠 indice utile, rattachement actuel à recouper
+  TO_DOCUMENT // 🔴 information manquante
+}
+
+model Paroisse {
+  id         String         @id @default(uuid())
+  name       String
+  doyenneId  String
+  doyenne    Doyenne        @relation(fields: [doyenneId], references: [id])
+  villeId    String
+  ville      Ville          @relation(fields: [villeId], references: [id])
+  address    String?
+  isActive   Boolean        @default(true)
+  confidence DataConfidence @default(TO_DOCUMENT)
+  source     String?
+  sourceDate DateTime?
+  verifiedAt DateTime?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  sections    Section[]
+  memberships Membership[]
+  documents   DocumentRecord[]
+
+  @@index([doyenneId])
+  @@index([villeId])
+  @@map("paroisses")
+}
+
+/// D-074 : fusionne l'ancienne entité SousSection. Le statut de
+/// reconnaissance remplace la dimension pédagogique précédemment (et
+/// erronément) attribuée à la sous-section.
+model Section {
+  id                String            @id @default(uuid())
+  name              String
+  paroisseId        String
+  paroisse          Paroisse          @relation(fields: [paroisseId], references: [id])
+  recognitionStatus RecognitionStatus @default(RECOGNIZED)
+  sponsorSectionId  String?
+  sponsorSection    Section?          @relation("SectionSponsor", fields: [sponsorSectionId], references: [id])
+  sponsoredSections Section[]         @relation("SectionSponsor")
+  isActive          Boolean           @default(true)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  teams       Team[]
+  memberships Membership[]
+
+  @@index([paroisseId])
+  @@map("sections")
+}
+
+/// D-061 : label fixe par tranche pédagogique cible (ex. targetGradeCode =
+/// "BENJAMIN"). Ce sont les militants qui changent d'équipe en grandissant,
+/// jamais l'inverse.
+model Team {
+  id              String   @id @default(uuid())
+  name            String
+  sectionId       String
+  section         Section  @relation(fields: [sectionId], references: [id])
+  targetGradeCode String? // référence libre vers Grade.code
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  memberships Membership[]
+  leaderships TeamLeadership[]
+
+  @@index([sectionId])
+  @@map("teams")
+}
+
+/// D-053 : un Leader principal + N Assistants. Le chef n'est pas listé dans
+/// Membership de sa propre équipe (il n'est pas un militant de l'équipe).
+model TeamLeadership {
+  id           String             @id @default(uuid())
+  teamId       String
+  team         Team               @relation(fields: [teamId], references: [id])
+  personId     String
+  person       Person             @relation(fields: [personId], references: [id])
+  role         TeamLeadershipRole
+  pastoralYear String
+
+  @@unique([teamId, personId, pastoralYear])
+  @@index([teamId, pastoralYear])
+  @@map("team_leaderships")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — IDENTITY & MEMBERSHIP
+// ============================================================================
+
+/// Identité civile unique. Peut exister sans Compte (D-065 corrections ;
+/// Volume 00 : parrain référencé, enfant trop jeune pour un accès).
+model Person {
+  id        String       @id @default(uuid())
+  firstName String
+  lastName  String
+  birthDate DateTime
+  sex       Sex
+  phone     String?
+  email     String?
+  status    PersonStatus @default(ACTIVE)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  account                         Account?
+  memberships                     Membership[]
+  teamLeaderships                 TeamLeadership[]
+  mandatesHeld                    Mandate[]                @relation("MandateHolder")
+  gradeHistory                    GradeHistory[]           @relation("GradeHolder")
+  gradesAwarded                   GradeHistory[]           @relation("GradeAwarder")
+  chefQualifications              ChefQualification[]      @relation("ChefQualificationHolder")
+  chefQualificationsAwarded       ChefQualification[]      @relation("ChefQualificationAwarder")
+  contributions                   Contribution[]
+  presences                       Presence[]
+  responsibleActivities           Activity[]
+  ceremonyCandidacies             CeremonyCandidate[]
+  spiritualOpinionsGiven          SpiritualOpinionRecord[]
+  certificateRequestsMade         CertificateRequest[]     @relation("RequestRequester")
+  certificateRequestsCreated      CertificateRequest[]     @relation("RequestCreator")
+  certificateRequestsValidatedL1  CertificateRequest[]     @relation("RequestLevel1Validator")
+  certificateRequestsValidatedL2  CertificateRequest[]     @relation("RequestLevel2Validator")
+  broadcastsAuthored              Broadcast[]
+  tutorsAsMinor                   Tutor[]                  @relation("TutorOfMinor")
+  healthProfile                   HealthProfile?
+  mediaAssets                     MediaAsset[]
+
+  @@map("persons")
+}
+
+/// Accès applicatif : identifiants, mot de passe, sessions. Distinct de
+/// l'identité civile (Volume 00, correction §1). Jamais créé en doublon pour
+/// une même Personne (D-014).
+model Account {
+  id           String        @id @default(uuid())
+  personId     String        @unique
+  person       Person        @relation(fields: [personId], references: [id])
+  username     String        @unique
+  passwordHash String
+  status       AccountStatus @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+
+  userRoles            UserRole[]
+  membershipCards      MembershipCard[]
+  auditLogs            AuditLog[]
+  notifications        Notification[]
+  presencesRecorded    Presence[]
+  paymentsRecorded     Payment[]
+  transactionsRecorded FinancialTransaction[]
+  documentsAdded       DocumentRecord[]
+  uploadedMedia        MediaAsset[]       @relation("MediaUploader")
+
+  @@map("accounts")
+}
+
+/// Référentiel des niveaux d'accès : SUPER_ADMIN, ADMIN_DOYENNE,
+/// ADMIN_PAROISSE, CHEF, MILITANT, AUMONIER_DIOCESE/DOYENNE/PAROISSE,
+/// PARRAIN_MARRAINE_* (Volume 00 addendum RBAC).
+model Role {
+  id        String    @id @default(uuid())
+  code      String    @unique
+  scopeType ScopeType
+
+  userRoles   UserRole[]
+  permissions Permission[]
+
+  @@map("roles")
+}
+
+/// Association historisée entre un Compte, un Rôle et un périmètre.
+model UserRole {
+  id        String    @id @default(uuid())
+  accountId String
+  account   Account   @relation(fields: [accountId], references: [id])
+  roleId    String
+  role      Role      @relation(fields: [roleId], references: [id])
+  scopeType ScopeType
+  scopeId   String? // null pour un scope implicite (ex. DIOCESE unique en V1)
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+
+  @@index([accountId])
+  @@index([roleId, scopeType, scopeId])
+  @@map("user_roles")
+}
+
+/// Référentiel étendu des fonctions : TRESORIER, SECRETAIRE, CHEF_SECTION,
+/// AUMONIER, SOEUR_CONSEILLERE (D-079), REFERENT_SECURITE (D-072),
+/// PRESIDENT, VICE_PRESIDENT... jamais codé en dur.
+model Fonction {
+  id          String  @id @default(uuid())
+  code        String  @unique
+  label       String
+  votingRight Boolean @default(true) // D-079 : false pour Sœur conseillère
+
+  mandates    Mandate[]
+  permissions Permission[]
+
+  @@map("fonctions")
+}
+
+enum GovernanceBodyType {
+  COUNCIL
+  BUREAU
+}
+
+/// Conseil ou Bureau (diocésain, de doyenné), organe de gouvernance avec
+/// membres et mandats (D-007).
+model GovernanceBody {
+  id        String             @id @default(uuid())
+  name      String
+  type      GovernanceBodyType
+  scopeType ScopeType
+  scopeId   String
+
+  mandates Mandate[]
+
+  @@map("governance_bodies")
+}
+
+/// Période durant laquelle une Fonction est exercée par une Personne sur un
+/// périmètre donné — dates libres (D-060), défaut = année pastorale ou durée
+/// réglementaire proposée par l'IHM (D-078), jamais bloquant en base.
+model Mandate {
+  id                String          @id @default(uuid())
+  personId          String
+  person            Person          @relation("MandateHolder", fields: [personId], references: [id])
+  fonctionId        String
+  fonction          Fonction        @relation(fields: [fonctionId], references: [id])
+  governanceBodyId  String?
+  governanceBody    GovernanceBody? @relation(fields: [governanceBodyId], references: [id])
+  scopeType         ScopeType
+  scopeId           String? // paroisseId / doyenneId / teamId / activityId (REFERENT_SECURITE) selon scopeType
+  startDate         DateTime
+  endDate           DateTime?
+  status            MandateStatus   @default(ACTIVE)
+  previousMandateId String?         @unique
+  previousMandate   Mandate?        @relation("MandateRenewal", fields: [previousMandateId], references: [id])
+  renewedBy         Mandate?        @relation("MandateRenewal")
+  createdAt         DateTime        @default(now())
+
+  @@index([personId])
+  @@index([fonctionId, scopeType, scopeId])
+  @@map("mandates")
+}
+
+/// Référentiel administrable des grades militants. BENJAMIN, CADET, AINE
+/// (category MILITANT), MENEUR (category MENEUR, D-076 — ne confère aucun
+/// rôle applicatif). Âges par défaut en seed uniquement (D-081).
+model Grade {
+  id         String        @id @default(uuid())
+  code       String        @unique
+  name       String
+  category   GradeCategory
+  order      Int
+  conditions Json?
+  isActive   Boolean       @default(true)
+
+  gradeHistories GradeHistory[]
+
+  @@map("grades")
+}
+
+/// Parcours militant : Benjamin → Cadet → Aîné → Meneur. Le grade courant est
+/// la ligne sans endedAt. Figé (lastMilitantGrade) au passage Chef, jamais
+/// écrasé (D-054).
+model GradeHistory {
+  id            String    @id @default(uuid())
+  personId      String
+  person        Person    @relation("GradeHolder", fields: [personId], references: [id])
+  gradeId       String
+  grade         Grade     @relation(fields: [gradeId], references: [id])
+  obtainedAt    DateTime
+  endedAt       DateTime?
+  awardedById   String?
+  awardedBy     Person?   @relation("GradeAwarder", fields: [awardedById], references: [id])
+  justification String?
+
+  @@index([personId])
+  @@map("grade_histories")
+}
+
+/// Parcours chef, totalement distinct de GradeHistory (D-054), séquence
+/// corrigée AA → AC → AP → APHG (D-075).
+model ChefQualification {
+  id          String                @id @default(uuid())
+  personId    String
+  person      Person                @relation("ChefQualificationHolder", fields: [personId], references: [id])
+  code        ChefQualificationCode
+  obtainedAt  DateTime
+  endedAt     DateTime?
+  awardedById String?
+  awardedBy   Person?               @relation("ChefQualificationAwarder", fields: [awardedById], references: [id])
+
+  @@index([personId])
+  @@map("chef_qualifications")
+}
+
+/// Rattachement organisationnel actif. Un seul actif par Personne à un
+/// instant T (D-005) et un seul par Équipe/année pastorale (D-052) — voir
+/// note d'en-tête sur les contraintes partielles.
+model Membership {
+  id           String    @id @default(uuid())
+  personId     String
+  person       Person    @relation(fields: [personId], references: [id])
+  paroisseId   String
+  paroisse     Paroisse  @relation(fields: [paroisseId], references: [id])
+  sectionId    String
+  section      Section   @relation(fields: [sectionId], references: [id])
+  teamId       String?
+  team         Team?     @relation(fields: [teamId], references: [id])
+  pastoralYear String
+  isActive     Boolean   @default(true)
+  startDate    DateTime  @default(now())
+  endDate      DateTime?
+
+  @@index([paroisseId])
+  @@index([teamId, pastoralYear])
+  @@index([personId, isActive])
+  @@map("memberships")
+}
+
+/// Représentant légal d'une Personne mineure (D-070) — simple fiche de
+/// contact, pas un second Compte.
+model Tutor {
+  id            String   @id @default(uuid())
+  minorPersonId String
+  minorPerson   Person   @relation("TutorOfMinor", fields: [minorPersonId], references: [id])
+  firstName     String
+  lastName      String
+  phone         String
+  email         String?
+  relationship  String // "Père", "Mère", "Tuteur légal"...
+  createdAt     DateTime @default(now())
+
+  healthConsents HealthProfileConsent[]
+
+  @@index([minorPersonId])
+  @@map("tutors")
+}
+
+/// Carte NFC associée à un Compte (D-065/066/067). Historisées : une seule
+/// ACTIVE à la fois ; REVOKED irréversible.
+model MembershipCard {
+  id        String     @id @default(uuid())
+  accountId String
+  account   Account    @relation(fields: [accountId], references: [id])
+  nfcUid    String     @unique
+  status    CardStatus @default(ACTIVE)
+  issuedAt  DateTime   @default(now())
+  revokedAt DateTime?
+
+  @@index([accountId, status])
+  @@map("membership_cards")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — ACTIVITIES & ATTENDANCE
+// ============================================================================
+
+model ActivityType {
+  id                 String  @id @default(uuid())
+  name               String  @unique
+  requiresValidation Boolean @default(false)
+
+  activities Activity[]
+
+  @@map("activity_types")
+}
+
+model Activity {
+  id             String         @id @default(uuid())
+  name           String
+  activityTypeId String
+  activityType   ActivityType   @relation(fields: [activityTypeId], references: [id])
+  startDate      DateTime
+  endDate        DateTime
+  location       String?
+  scopeType      ScopeType
+  scopeId        String
+  status         ActivityStatus @default(PLANNED)
+  responsibleId  String?
+  responsible    Person?        @relation(fields: [responsibleId], references: [id])
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  presences           Presence[]
+  transactions        FinancialTransaction[]
+  pilgrimageLogistics PilgrimageLogistics?
+  // Une Cérémonie reste un TypeActivité (Volume 02/04) ; son détail collectif
+  // vit dans CeremonySession, reliée ici en 1-0..1 (D-057).
+  ceremonySession     CeremonySession?
+
+  @@index([scopeType, scopeId])
+  @@index([activityTypeId])
+  @@map("activities")
+}
+
+/// D-069 : spécialisation d'Activité, jamais une entité racine indépendante.
+model PilgrimageLogistics {
+  id            String   @id @default(uuid())
+  activityId    String   @unique
+  activity      Activity @relation(fields: [activityId], references: [id])
+  accommodation String?
+  transport     String?
+  catering      String?
+  specialNeeds  String?
+
+  @@map("pilgrimage_logistics")
+}
+
+/// Toujours saisie par un Chef (ou via carte NFC, D-066), jamais
+/// auto-déclarée par le militant.
+model Presence {
+  id            String           @id @default(uuid())
+  activityId    String
+  activity      Activity         @relation(fields: [activityId], references: [id])
+  personId      String
+  person        Person           @relation(fields: [personId], references: [id])
+  present       Boolean
+  justification String?
+  recordedById  String? // Account.id ; null si source = NFC
+  recordedBy    Account?         @relation(fields: [recordedById], references: [id])
+  source        AttendanceSource @default(MANUAL)
+  createdAt     DateTime         @default(now())
+
+  @@unique([activityId, personId])
+  @@index([personId])
+  @@map("presences")
+}
+
+/// D-057 : les cérémonies sont des événements collectifs, jamais des objets
+/// individuels isolés.
+model CeremonySession {
+  id         String                @id @default(uuid())
+  name       String
+  eventDate  DateTime
+  scopeType  ScopeType
+  scopeId    String
+  activityId String?               @unique
+  activity   Activity?             @relation(fields: [activityId], references: [id])
+  status     CeremonySessionStatus @default(PLANNED)
+  createdAt  DateTime              @default(now())
+
+  candidates        CeremonyCandidate[]
+  spiritualOpinions SpiritualOpinionRecord[]
+
+  @@map("ceremony_sessions")
+}
+
+model CeremonyCandidate {
+  id                String                  @id @default(uuid())
+  ceremonySessionId String
+  ceremonySession   CeremonySession         @relation(fields: [ceremonySessionId], references: [id])
+  personId          String
+  person            Person                  @relation(fields: [personId], references: [id])
+  targetRite        String // FOULARD_VERT, INVESTITURE_CHEF...
+  status            CeremonyCandidateStatus @default(PROPOSED)
+
+  @@unique([ceremonySessionId, personId])
+  @@map("ceremony_candidates")
+}
+
+/// Avis de l'Aumônier (ou de la Sœur conseillère, sans effet bloquant —
+/// D-079) sur une cérémonie ou une progression ChefQualification sensible.
+model SpiritualOpinionRecord {
+  id                String           @id @default(uuid())
+  ceremonySessionId String?
+  ceremonySession   CeremonySession? @relation(fields: [ceremonySessionId], references: [id])
+  authorPersonId    String
+  author            Person           @relation(fields: [authorPersonId], references: [id])
+  opinion           SpiritualOpinion @default(PENDING)
+  comment           String?
+  createdAt         DateTime         @default(now())
+
+  @@map("spiritual_opinion_records")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — FINANCE
+// ============================================================================
+
+/// D-077 : remplace l'enum fermé {MILITANT, CHEF, SPECIAL} (D-050/D-063).
+/// gradeOrQualificationCode référence librement Grade.code ou
+/// ChefQualificationCode — barème 100% configurable, un tarif par grade réel.
+model FeeGrid {
+  id                       String  @id @default(uuid())
+  pastoralYear             String
+  gradeOrQualificationCode String
+  amount                   Decimal @db.Decimal(10, 2)
+  scopeType                ScopeType
+  scopeId                  String
+
+  @@unique([pastoralYear, gradeOrQualificationCode, scopeType, scopeId])
+  @@map("fee_grids")
+}
+
+model Contribution {
+  id                       String        @id @default(uuid())
+  personId                 String
+  person                   Person        @relation(fields: [personId], references: [id])
+  pastoralYear             String
+  gradeOrQualificationCode String
+  expectedAmount           Decimal       @db.Decimal(10, 2)
+  paidAmount               Decimal       @default(0) @db.Decimal(10, 2)
+  status                   PaymentStatus @default(LATE)
+  createdAt                DateTime      @default(now())
+  updatedAt                DateTime      @updatedAt
+
+  payments Payment[]
+
+  @@unique([personId, pastoralYear, gradeOrQualificationCode])
+  @@map("contributions")
+}
+
+/// D-071 : reçu PDF auto-numéroté si method = CASH.
+model Payment {
+  id             String        @id @default(uuid())
+  contributionId String
+  contribution   Contribution  @relation(fields: [contributionId], references: [id])
+  amount         Decimal       @db.Decimal(10, 2)
+  paidAt         DateTime      @default(now())
+  method         PaymentMethod @default(CASH)
+  receiptNumber  String?
+  receiptPdfUrl  String?
+  recordedById   String
+  recordedBy     Account       @relation(fields: [recordedById], references: [id])
+
+  @@index([contributionId])
+  @@map("payments")
+}
+
+model FinancialTransaction {
+  id           String          @id @default(uuid())
+  type         TransactionType
+  category     String // cotisation/don/participation_camp/subvention | transport/alimentation/materiel/decoration/location/autre
+  amount       Decimal         @db.Decimal(10, 2)
+  date         DateTime        @default(now())
+  scopeType    ScopeType
+  scopeId      String
+  activityId   String?
+  activity     Activity?       @relation(fields: [activityId], references: [id])
+  recordedById String
+  recordedBy   Account         @relation(fields: [recordedById], references: [id])
+
+  @@index([scopeType, scopeId])
+  @@map("financial_transactions")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — REQUESTS & CERTIFICATES
+// ============================================================================
+
+model RequestType {
+  id                      String    @id @default(uuid())
+  name                    String    @unique
+  requiredValidationLevel ScopeType
+  generatesCertificate    Boolean   @default(true)
+
+  requests CertificateRequest[]
+
+  @@map("request_types")
+}
+
+/// Circuit à 2 niveaux (D-056). `escalated` = true quand le niveau N1 a été
+/// court-circuité parce que le demandeur en était lui-même le validateur
+/// théorique (D-062, anti-auto-validation).
+model CertificateRequest {
+  id                String                   @id @default(uuid())
+  requestTypeId     String
+  requestType       RequestType              @relation(fields: [requestTypeId], references: [id])
+  requesterId       String
+  requester         Person                   @relation("RequestRequester", fields: [requesterId], references: [id])
+  createdById       String
+  createdBy         Person                   @relation("RequestCreator", fields: [createdById], references: [id])
+  status            CertificateRequestStatus @default(PENDING)
+  level1ValidatorId String?
+  level1Validator   Person?                  @relation("RequestLevel1Validator", fields: [level1ValidatorId], references: [id])
+  level2ValidatorId String?
+  level2Validator   Person?                  @relation("RequestLevel2Validator", fields: [level2ValidatorId], references: [id])
+  escalated         Boolean                  @default(false)
+  decisionNote      String?
+  createdAt         DateTime                 @default(now())
+  closedAt          DateTime?
+
+  certificate Certificate?
+
+  @@index([requesterId])
+  @@index([status])
+  @@map("certificate_requests")
+}
+
+/// Jamais créée manuellement — résulte uniquement de la validation d'une
+/// CertificateRequest. Intégrité : hash SHA-256 du contenu (D-068), pas de
+/// PKI X.509.
+model Certificate {
+  id                   String             @id @default(uuid())
+  certificateRequestId String             @unique
+  certificateRequest   CertificateRequest @relation(fields: [certificateRequestId], references: [id])
+  uniqueNumber         String             @unique
+  qrCode               String
+  contentHash          String
+  hashAlgorithm        String             @default("SHA-256")
+  generatedAt          DateTime           @default(now())
+  templateUsed         String?
+  pdfUrl               String
+  status               CertificateStatus  @default(VALID)
+
+  @@map("certificates")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — DOCUMENTS
+// ============================================================================
+
+model DocumentRecord {
+  id         String    @id @default(uuid())
+  name       String
+  category   String
+  fileUrl    String
+  scopeType  ScopeType
+  scopeId    String
+  paroisseId String?
+  paroisse   Paroisse? @relation(fields: [paroisseId], references: [id])
+  addedById  String
+  addedBy    Account   @relation(fields: [addedById], references: [id])
+  createdAt  DateTime  @default(now())
+
+  @@index([scopeType, scopeId])
+  @@map("documents")
+}
+
+model LibraryDocument {
+  id          String   @id @default(uuid())
+  title       String
+  category    String // chant / règlement / guide / formulaire / officiel
+  fileUrl     String
+  accessRoles String[] // codes de Role autorisés à consulter
+  createdAt   DateTime @default(now())
+
+  @@map("library_documents")
+}
+
+/// Les octets restent dans un stockage objet. Cette table ne conserve que la
+/// métadonnée nécessaire à l'accès, au contrôle de scope et à la traçabilité.
+model MediaAsset {
+  id             String          @id @default(uuid())
+  ownerPersonId  String?
+  ownerPerson    Person?         @relation(fields: [ownerPersonId], references: [id])
+  uploadedById   String
+  uploadedBy     Account         @relation("MediaUploader", fields: [uploadedById], references: [id])
+  kind           MediaKind
+  visibility     MediaVisibility @default(PRIVATE)
+  storageProvider String
+  objectKey      String          @unique
+  mimeType       String
+  byteSize       BigInt
+  checksum       String?
+  width          Int?
+  height         Int?
+  durationSeconds Int?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([ownerPersonId])
+  @@index([uploadedById])
+  @@index([kind, visibility])
+  @@map("media_assets")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — NOTIFICATIONS
+// ============================================================================
+
+model Notification {
+  id         String              @id @default(uuid())
+  accountId  String
+  account    Account             @relation(fields: [accountId], references: [id])
+  type       String
+  message    String
+  targetLink String?
+  read       Boolean             @default(false)
+  channel    NotificationChannel @default(APP)
+  createdAt  DateTime            @default(now())
+
+  @@index([accountId, read])
+  @@map("notifications")
+}
+
+/// D-059 : diffusion unidirectionnelle uniquement, jamais de conversation
+/// retour. La messagerie interactive est repoussée en V2.
+model Broadcast {
+  id              String                @id @default(uuid())
+  authorId        String
+  author          Person                @relation(fields: [authorId], references: [id])
+  targetScopeType ScopeType?
+  targetScopeId   String?
+  targetRoleCode  String?
+  channels        NotificationChannel[]
+  status          BroadcastStatus       @default(DRAFT)
+  content         String
+  createdAt       DateTime              @default(now())
+  sentAt          DateTime?
+
+  @@map("broadcasts")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — SANTÉ (D-072, D-073) — portée volontairement minimale
+// ============================================================================
+
+/// Jamais un dossier médical. Deux champs substantiels seulement :
+/// allergies + contact d'urgence. Purge automatique à l'archivage du Compte
+/// (2 ans, D-073) — cycle de vie distinct de l'historique métier permanent.
+model HealthProfile {
+  id                    String   @id @default(uuid())
+  personId              String   @unique
+  person                Person   @relation(fields: [personId], references: [id])
+  allergies             String?
+  emergencyContactName  String
+  emergencyContactPhone String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  consents HealthProfileConsent[]
+
+  @@map("health_profiles")
+}
+
+/// Le consentement n'est jamais présumé (D-072) : sans ligne valide ici,
+/// aucune HealthProfile ne peut être créée (contrôlé en service, WF-31).
+model HealthProfileConsent {
+  id              String        @id @default(uuid())
+  healthProfileId String
+  healthProfile   HealthProfile @relation(fields: [healthProfileId], references: [id])
+  tutorId         String
+  tutor           Tutor         @relation(fields: [tutorId], references: [id])
+  consentedAt     DateTime      @default(now())
+  consentText     String
+
+  @@map("health_profile_consents")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — ADMINISTRATION & SETTINGS
+// ============================================================================
+
+model DioceseSettings {
+  id                String  @id @default(uuid())
+  dioceseId         String  @unique
+  diocese           Diocese @relation(fields: [dioceseId], references: [id])
+  logoUrl           String?
+  colors            Json?
+  signatures        Json?
+  documentTemplates Json?
+  contactInfo       String?
+
+  @@map("diocese_settings")
+}
+
+/// Messages reçus depuis le portail public. Ils sont séparés des comptes et
+/// des données militantes ; un responsable peut ensuite les traiter depuis
+/// une console dédiée.
+model PublicContactRequest {
+  id        String   @id @default(uuid())
+  fullName  String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  consent   Boolean
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@map("public_contact_requests")
+}
+
+/// Abonnements newsletter publics, sans création de compte membre.
+model NewsletterSubscription {
+  id          String    @id @default(uuid())
+  email       String    @unique
+  status      String    @default("ACTIVE")
+  consentedAt DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("newsletter_subscriptions")
+}
+
+// ============================================================================
+// BOUNDED CONTEXT — AUDIT
+// ============================================================================
+
+/// Aucune donnée n'est supprimée dans le système : toute suppression
+/// logique génère une entrée ici (Volume 04 §4.10).
+model AuditLog {
+  id         String   @id @default(uuid())
+  accountId  String?
+  account    Account? @relation(fields: [accountId], references: [id])
+  action     String
+  entityType String
+  entityId   String
+  before     Json?
+  after      Json?
+  timestamp  DateTime @default(now())
+  ipAddress  String?
+  device     String?
+
+  @@index([entityType, entityId])
+  @@index([accountId])
+  @@map("audit_logs")
+}
+
+model Backup {
+  id         String       @id @default(uuid())
+  executedAt DateTime     @default(now())
+  status     BackupStatus
+  type       BackupType
+  fileSize   String?
+  location   String?
+
+  @@map("backups")
+}
+
+// ============================================================================
+// MOTEUR RBAC + SCOPE (Volume 11)
+// ============================================================================
+
+/// Référentiel des objets métier : UTILISATEUR, ACTIVITE, DEMANDE,
+/// COTISATION, CARTE_MEMBRE, FICHE_SANITAIRE...
+model Resource {
+  id    String @id @default(uuid())
+  code  String @unique
+  label String
+
+  permissions Permission[]
+
+  @@map("resources")
+}
+
+/// CREATE, READ, UPDATE, VALIDATE, REJECT, ARCHIVE, EXPORT, ASSIGN,
+/// SUSPEND, REVOKE...
+model Action {
+  id    String @id @default(uuid())
+  code  String @unique
+  label String
+
+  permissions Permission[]
+
+  @@map("actions")
+}
+
+/// Association Rôle (ou Fonction) × Ressource × Action × scope maximal
+/// autorisé. Ne définit jamais un scope concret : résolu à l'exécution à
+/// partir du UserRole/Mandat de l'utilisateur connecté (Volume 11 §11.3).
+model Permission {
+  id           String    @id @default(uuid())
+  roleId       String?
+  role         Role?     @relation(fields: [roleId], references: [id])
+  fonctionId   String?
+  fonction     Fonction? @relation(fields: [fonctionId], references: [id])
+  resourceId   String
+  resource     Resource  @relation(fields: [resourceId], references: [id])
+  actionId     String
+  action       Action    @relation(fields: [actionId], references: [id])
+  maxScopeType ScopeType
+  condition    Json?
+
+  @@index([roleId])
+  @@index([fonctionId])
+  @@map("permissions")
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Image non disponible">
+  <!-- Placeholder générique — remplace les illustrations/photos externes mortes des maquettes Stitch -->
+  <rect width="400" height="300" fill="#e7e8ea"/>
+  <rect x="1" y="1" width="398" height="298" fill="none" stroke="#c5c6cf" stroke-width="2"/>
+  <circle cx="152" cy="104" r="16" fill="#c5c6cf"/>
+  <path d="M96 204l52-64 36 42 24-28 64 76H96z" fill="#c5c6cf"/>
+  <text x="200" y="268" font-family="Epilogue, Inter, sans-serif" font-size="14" font-weight="600" letter-spacing="3" fill="#75777f" text-anchor="middle">CV-AV</text>
+</svg>

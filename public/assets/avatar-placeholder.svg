@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Portrait non disponible">
+  <!-- Placeholder de portrait — remplace les avatars externes morts des maquettes Stitch -->
+  <rect width="200" height="200" fill="#e7e8ea"/>
+  <circle cx="100" cy="74" r="32" fill="#c5c6cf"/>
+  <path d="M42 172c0-32 26-54 58-54s58 22 58 54v28H42z" fill="#c5c6cf"/>
+  <text x="100" y="196" font-family="Inter, sans-serif" font-size="11" letter-spacing="2" fill="#75777f" text-anchor="middle">CV-AV</text>
+</svg>
