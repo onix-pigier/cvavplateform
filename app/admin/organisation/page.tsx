@@ -1,0 +1,38 @@
+import Link from "next/link";
+import { getSession } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { getAdminContext } from "@/lib/admin/context";
+import { scopeLabel } from "@/lib/admin/territory";
+import { ScopedAdminShell } from "@/components/dashboard/ScopedAdminShell";
+
+export const dynamic = "force-dynamic";
+
+export default async function AdminOrganisationPage({ searchParams }: { searchParams: Promise<{ role?: string; scopeId?: string }> }) {
+  const session = await getSession();
+  if (!session) return <main className="p-8"><p>Votre session n’est pas active.</p><Link href="/login">Se connecter</Link></main>;
+  const query = await searchParams;
+  const context = await getAdminContext(session, query.role, query.scopeId);
+  if (!context) return <main className="mx-auto max-w-xl p-8"><h1 className="font-headline-lg text-headline-lg text-primary">Accès non disponible</h1><p className="mt-3 text-on-surface-variant">Aucun périmètre territorial n’est rattaché à un de vos rôles actifs.</p><Link href="/espace" className="mt-5 inline-flex min-h-11 items-center rounded-full bg-primary px-5 font-semibold text-on-primary">Choisir un espace</Link></main>;
+  if (!context.canReadOrganisation) return <main className="mx-auto max-w-xl p-8"><h1 className="font-headline-lg text-headline-lg text-primary">Accès non autorisé</h1><p className="mt-3 text-on-surface-variant">Votre fonction ne permet pas de consulter le référentiel territorial dans ce périmètre.</p><Link href="/espace" className="mt-5 inline-flex min-h-11 items-center rounded-full bg-primary px-5 font-semibold text-on-primary">Retour à mon espace</Link></main>;
+
+  const doyennes = context.parishIds.length ? await prisma.doyenne.findMany({
+    where: { isActive: true, paroisses: { some: { id: { in: context.parishIds } } } }, orderBy: { name: "asc" },
+    include: { paroisses: { where: { id: { in: context.parishIds }, isActive: true }, orderBy: { name: "asc" }, select: { id: true, name: true, ville: { select: { name: true } }, confidence: true, source: true, sourceDate: true } } },
+  }) : [];
+  const allParishes = doyennes.flatMap((doyenne) => doyenne.paroisses);
+  const confidenceLabels: Record<string, string> = { CONFIRMED_CURRENT: "Confirmé", OFFICIAL_HISTORICAL: "Source historique", HISTORICAL_TO_VERIFY: "À recouper", TO_DOCUMENT: "À documenter" };
+
+  return <ScopedAdminShell roleCode={context.assignment.roleCode} roleLabel={context.roleLabel} scopeLabel={scopeLabel(context.assignment.scopeType)} userName={context.userName} scopeId={context.assignment.scopeId} canCreateMilitants={context.canCreateMilitants} canReviewPreRegistrations={context.canReviewPreRegistrations} canReadOrganisation={context.canReadOrganisation} canReadPeople={context.canReadPeople} canReadActivities={context.canReadActivities} canReadRequests={context.canReadRequests} canReadAudit={context.canReadAudit}>
+    <div className="mx-auto max-w-[1500px]">
+      <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">Référentiel diocésain · {scopeLabel(context.assignment.scopeType)}</p><h1 className="mt-2 font-display-lg text-display-lg text-primary">Organisation territoriale</h1><p className="mt-2 max-w-2xl text-sm leading-6 text-on-surface-variant">Le diocèse et les unités que votre rôle vous permet de consulter, avec le niveau de fiabilité connu pour chaque rattachement.</p></div><Link href={`/admin/dashboard?role=${encodeURIComponent(context.assignment.roleCode)}&scopeId=${encodeURIComponent(context.assignment.scopeId ?? "")}`} className="inline-flex min-h-11 items-center rounded-full border border-outline-variant bg-surface-container-lowest px-5 text-sm font-semibold text-primary hover:bg-surface-container-high">Retour au tableau de bord</Link></div>
+      <section aria-label="Résumé territorial" className="mt-7 grid gap-3 sm:grid-cols-3"><article className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">Doyennés visibles</p><p className="mt-4 font-display-lg text-display-lg tabular-nums text-primary">{doyennes.length}</p></article><article className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">Paroisses actives</p><p className="mt-4 font-display-lg text-display-lg tabular-nums text-primary">{allParishes.length}</p></article><article className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">À documenter ou recouper</p><p className="mt-4 font-display-lg text-display-lg tabular-nums text-primary">{allParishes.filter((parish) => parish.confidence === "TO_DOCUMENT" || parish.confidence === "HISTORICAL_TO_VERIFY").length}</p></article></section>
+
+      <div className="mt-8 space-y-5">{doyennes.map((doyenne) => <section key={doyenne.id} id={`doyenne-${doyenne.id}`} className="scroll-mt-24 overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-lowest">
+        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant bg-surface-container-low px-5 py-4"><div><p className="text-xs font-semibold uppercase tracking-[0.13em] text-secondary">{doyenne.aliasLabel || "Doyenné"}</p><h2 className="mt-1 font-title-lg text-title-lg text-primary">{doyenne.name}</h2></div><span className="rounded-full border border-outline-variant bg-surface-container-lowest px-3 py-1.5 text-xs tabular-nums">{doyenne.paroisses.length} paroisses visibles</span></header>
+        {doyenne.paroisses.length ? <ul className="divide-y divide-outline-variant/70">{doyenne.paroisses.map((parish) => <li key={parish.id} id={`parish-${parish.id}`} className="scroll-mt-24 grid gap-3 px-5 py-4 md:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_auto] md:items-center"><div><h3 className="font-semibold text-primary">{parish.name}</h3><p className="mt-1 text-sm text-on-surface-variant">{parish.ville.name}</p></div><div><span className="text-xs text-secondary">Fiabilité du rattachement</span><p className="mt-1 text-sm">{confidenceLabels[parish.confidence] ?? "Non renseignée"}</p>{parish.source && <p className="mt-1 text-xs text-on-surface-variant">Source : {parish.source}{parish.sourceDate ? ` · ${parish.sourceDate.toLocaleDateString("fr-FR")}` : ""}</p>}</div><Link href={`/paroisses/${parish.id}`} className="inline-flex min-h-10 items-center justify-center rounded-full border border-outline-variant px-4 text-sm font-semibold text-primary hover:bg-surface-container-low">Fiche publique</Link></li>)}</ul> : <p className="p-5 text-sm text-on-surface-variant">Aucune paroisse active rattachée à ce périmètre.</p>}
+      </section>)}
+      {!doyennes.length && <section className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-7"><h2 className="font-title-lg text-title-lg text-primary">Aucune donnée dans ce périmètre</h2><p className="mt-2 text-sm leading-6 text-on-surface-variant">Vérifiez le rattachement de votre rôle ou contactez l’administrateur supérieur. Aucun territoire fictif n’est affiché.</p></section>}</div>
+      <p className="mt-6 rounded-xl border border-outline-variant bg-surface-container-low p-4 text-xs leading-5 text-on-surface-variant">Cette vue est en consultation : la modification de la structure diocésaine sera activée lorsqu’un parcours de proposition et de validation sera disponible.</p>
+    </div>
+  </ScopedAdminShell>;
+}

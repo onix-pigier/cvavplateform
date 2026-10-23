@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ConfidenceBadge, DirectoryFooter, DirectoryHeader, PublicPhoto } from "@/components/portal";
 import { getPublicParoisse } from "@/modules/organisation/public";
+import { getParishCoverPhoto } from "@/lib/portal/public-photos";
 
 export const dynamic = "force-dynamic";
 
@@ -29,18 +30,54 @@ export default async function ParoisseDetailPage({ params }: { params: Promise<{
   if (!paroisse) notFound();
 
   const teams = paroisse.sections.flatMap((section) => section.teams.map((team) => ({ ...team, sectionName: section.name, currentLeaders: latestLeaders(team.leaderships) })));
+  const coverPhoto = getParishCoverPhoto(paroisse.id);
   const leaders = teams.flatMap((team) => team.currentLeaders.map((leadership) => leadership.person)).filter((person, index, people) => people.findIndex((item) => item.id === person.id) === index);
+  const teamPhotoSlots = Array.from({ length: 5 }, (_, index) => teams[index] ?? null);
 
   return (
     <div className="flex min-h-screen flex-col bg-surface text-on-surface">
       <DirectoryHeader />
       <main className="flex-1">
-        <section className="bg-sand">
-          <div className="mx-auto w-full max-w-[1440px] px-4 py-8 sm:px-8 sm:py-12 lg:px-12 lg:py-14">
-            <nav aria-label="Fil d’Ariane" className="flex flex-wrap items-center gap-2 text-sm text-on-surface-variant"><Link href="/paroisses" className="inline-flex min-h-11 items-center font-semibold text-primary hover:underline">Annuaire</Link><span aria-hidden="true">/</span><Link href={`/doyennes/${encodeURIComponent(paroisse.doyenne.id)}`} className="inline-flex min-h-11 items-center font-semibold text-primary hover:underline">{paroisse.doyenne.name}</Link><span aria-hidden="true">/</span><span aria-current="page">{paroisse.name}</span></nav>
-            <div className="mt-4 grid gap-8 lg:grid-cols-[1fr_0.62fr] lg:items-end">
-              <div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Fiche paroisse · {paroisse.doyenne.name}</p><h1 className="mt-3 max-w-3xl font-display-lg text-display-lg text-primary sm:text-6xl">{paroisse.name}</h1><p className="mt-3 text-lg text-on-surface-variant">{paroisse.ville.name} · Diocèse de Daloa</p><p className="mt-5 max-w-2xl leading-7 text-on-surface-variant">Équipes, responsables et activités documentés pour cette paroisse.</p><div className="mt-5"><ConfidenceBadge confidence={paroisse.confidence} /></div></div>
-              <div className="grid grid-cols-3 gap-2 rounded-feature border border-outline-variant bg-surface-container-lowest p-4 sm:gap-3 sm:p-5"><div><strong className="block text-2xl tabular-nums text-primary">{paroisse.sections.length}</strong><span className="text-xs text-on-surface-variant">sections</span></div><div><strong className="block text-2xl tabular-nums text-primary">{teams.length}</strong><span className="text-xs text-on-surface-variant">équipes</span></div><div><strong className="block text-2xl tabular-nums text-primary">{leaders.length}</strong><span className="text-xs text-on-surface-variant">responsables</span></div></div>
+        <section className="relative isolate min-h-[760px] overflow-hidden bg-primary text-white sm:min-h-[700px]">
+          <div className="absolute inset-0" aria-hidden="true">
+            <PublicPhoto src={coverPhoto ?? `/assets/public/paroisses/${paroisse.id}/couverture.webp`} alt="" label={coverPhoto ? "Photo indisponible" : "Photo de couverture à ajouter"} placeholderPosition="center" className="h-full w-full" fit="contain" containBackdrop backgroundClassName="bg-primary" sizes="100vw" priority />
+          </div>
+          <div className="pointer-events-none absolute inset-0 bg-primary/55" aria-hidden="true" />
+          <div className="relative mx-auto flex min-h-[760px] w-full max-w-[1600px] flex-col px-4 py-6 sm:min-h-[700px] sm:px-8 sm:py-8 lg:px-12 lg:py-10">
+            <nav aria-label="Fil d’Ariane" className="flex flex-wrap items-center gap-2 self-start rounded-full bg-primary/90 px-4 text-sm text-white">
+              <Link href="/paroisses" className="inline-flex min-h-11 items-center font-semibold text-white hover:underline">Annuaire</Link><span aria-hidden="true">/</span><Link href={`/doyennes/${encodeURIComponent(paroisse.doyenne.id)}`} className="inline-flex min-h-11 items-center font-semibold text-white hover:underline">{paroisse.doyenne.name}</Link><span aria-hidden="true">/</span><span aria-current="page">{paroisse.name}</span>
+            </nav>
+
+            <div className="mt-10 grid flex-1 content-start gap-8 lg:mt-14 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.55fr)] lg:items-center">
+              <div className="max-w-3xl rounded-feature bg-primary/90 p-5 sm:p-8 lg:p-10">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/80">Fiche paroisse · {paroisse.doyenne.name}</p>
+                <h1 className="mt-3 font-display-lg text-display-lg text-white sm:text-6xl">{paroisse.name}</h1>
+                <p className="mt-3 text-lg text-white/90">{paroisse.ville.name} · Diocèse de Daloa</p>
+                <p className="mt-4 max-w-2xl leading-7 text-white/90">Équipes, responsables et activités documentés pour cette paroisse.</p>
+                <div className="mt-5"><ConfidenceBadge confidence={paroisse.confidence} /></div>
+                <div className="mt-6 grid grid-cols-3 gap-3 border-t border-white/25 pt-5">
+                  <div><strong className="block text-2xl tabular-nums text-white">{paroisse.sections.length}</strong><span className="text-xs text-white/80">sections</span></div>
+                  <div><strong className="block text-2xl tabular-nums text-white">{teams.length}</strong><span className="text-xs text-white/80">équipes</span></div>
+                  <div><strong className="block text-2xl tabular-nums text-white">{leaders.length}</strong><span className="text-xs text-white/80">responsables</span></div>
+                </div>
+              </div>
+
+              <section aria-labelledby="equipe-photos-title" className="rounded-feature bg-surface-container-lowest p-4 text-primary sm:p-6">
+                <h2 id="equipe-photos-title" className="font-title-md text-title-md">Les équipes de la paroisse</h2>
+                <p className="mt-1 text-sm text-on-surface-variant">Portraits des équipes · emplacements à compléter</p>
+                <ul className="mt-5 grid grid-cols-3 justify-items-center gap-x-2 gap-y-5 sm:grid-cols-5 sm:gap-3">
+                  {teamPhotoSlots.map((team, index) => (
+                    <li key={team?.id ?? `team-photo-slot-${index + 1}`} className="flex min-w-0 flex-col items-center gap-2 text-center">
+                      {team ? (
+                        <PublicPhoto src={`/assets/public/paroisses/${paroisse.id}/equipes/${team.id}.webp`} alt={`Photo de l’équipe ${team.name}`} label="Photo à ajouter" placeholderPosition="center" className="h-16 w-16 rounded-full border-2 border-outline-variant sm:h-[4.5rem] sm:w-[4.5rem]" sizes="72px" />
+                      ) : (
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-outline bg-surface-container-low text-center text-[10px] font-semibold leading-tight text-on-surface-variant sm:h-[4.5rem] sm:w-[4.5rem]">Photo<br />à ajouter</div>
+                      )}
+                      <span className="w-full max-w-24 truncate text-xs font-medium text-primary" title={team?.name ?? "Équipe à documenter"}>{team?.name ?? "Équipe à documenter"}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
             </div>
           </div>
         </section>

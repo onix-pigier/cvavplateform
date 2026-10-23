@@ -6,7 +6,7 @@ export function PortalHeader() {
     <header className="sticky top-0 z-40 border-b border-outline-variant/60 bg-surface-container-lowest">
       <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-3 px-3 py-3 sm:gap-6 sm:px-8 xl:px-12">
         <Link href="/#accueil" className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="Accueil CV-AV Daloa">
-          <Image src="/assets/cvav-emblem.png" alt="Emblème CV-AV" width={80} height={80} className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10" priority />
+          <Image src="/assets/public/logo.png" alt="Logo CV-AV Daloa" width={80} height={80} className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10" priority />
           <span className="flex min-w-0 flex-col">
             <span className="font-title-md text-title-md text-primary">CV-AV Daloa</span>
             <span className="hidden text-[11px] uppercase tracking-[0.14em] text-on-surface-variant min-[390px]:block">Diocèse de Daloa</span>

@@ -48,6 +48,7 @@ export default async function LandingPage() {
               <p className="mt-6 max-w-xl text-base leading-7 text-on-surface-variant sm:text-lg sm:leading-8">Découvrez le mouvement, retrouvez les paroisses du diocèse et prenez contact avec une équipe près de chez vous.</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/paroisses" className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 font-semibold text-on-primary transition-colors hover:bg-primary-container focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Trouver une paroisse</Link>
+                <Link href="/pre-inscription" className="inline-flex min-h-12 items-center justify-center rounded-full border border-primary/25 bg-surface-container-lowest px-6 font-semibold text-primary transition-colors hover:bg-surface-container-low focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Demander une adhésion</Link>
                 <Link href="#mouvement" className="inline-flex min-h-12 items-center justify-center rounded-full border border-primary/25 px-6 font-semibold text-primary transition-colors hover:bg-surface-container-lowest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Découvrir le mouvement</Link>
               </div>
               <div className="mt-10 grid max-w-lg grid-cols-2 gap-5 border-t border-outline-variant pt-5 sm:grid-cols-3">
@@ -57,7 +58,9 @@ export default async function LandingPage() {
               </div>
             </div>
             <figure className="relative min-h-[22rem] overflow-hidden rounded-feature bg-surface-container-low sm:min-h-[30rem] lg:min-h-[36rem]">
-              <PublicPhoto src="/assets/public/hero-cvav.webp" alt="Jeunes du mouvement CV-AV lors d’une activité" label="Ajouter la photo principale du mouvement" className="absolute inset-0" sizes="(max-width: 1024px) 100vw, 56vw" priority />
+              <div className="absolute inset-0">
+                <PublicPhoto src="/assets/public/landing/hero-bg.jpeg" alt="Visuel d’accueil du mouvement CV-AV" label="Visuel principal indisponible" className="h-full w-full" sizes="(max-width: 1024px) 100vw, 56vw" priority />
+              </div>
               <figcaption className="absolute inset-x-4 bottom-4 rounded-card bg-primary p-4 text-on-primary sm:inset-x-6 sm:bottom-6 sm:p-5">
                 <span className="text-xs font-semibold uppercase tracking-[0.15em] text-tertiary-fixed">Une présence dans le diocèse</span>
                 <span className="mt-1 block text-sm leading-6 text-primary-fixed">Un annuaire pour s’orienter, un espace privé pour chaque membre.</span>

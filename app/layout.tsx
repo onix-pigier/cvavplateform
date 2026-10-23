@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "CVAV Platform — Diocèse de Daloa",
   description:
     "Système d'information diocésain du mouvement Cœurs Vaillants – Âmes Vaillantes, diocèse de Daloa.",
-  icons: { icon: "/assets/cvav-emblem.png", apple: "/assets/cvav-emblem.png" },
+  icons: { icon: "/assets/public/logo.png", apple: "/assets/public/logo.png" },
 };
 
 export const viewport: Viewport = {

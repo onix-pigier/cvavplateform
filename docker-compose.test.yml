@@ -1,0 +1,21 @@
+services:
+  postgres-test:
+    image: postgres:16
+    container_name: cvav-app-test-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: app_test
+      POSTGRES_USER: cvav_test
+      POSTGRES_PASSWORD: cvav_test_local_only_2026
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - cvav_app_test_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cvav_test -d app_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  cvav_app_test_pgdata:

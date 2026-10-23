@@ -11,8 +11,8 @@ export function DioceseMap({ doyennes }: { doyennes: MapDoyenne[] }) {
         <p className="max-w-sm text-sm leading-6 text-on-surface-variant">Choisissez un doyenné pour consulter les paroisses qui lui sont rattachées.</p>
       </div>
       <figure className="mt-6 overflow-hidden rounded-card">
-        <PublicPhoto src="/assets/public/carte-diocese-daloa.webp" alt="Carte officielle du diocèse de Daloa" label="Ajouter la carte officielle du diocèse" className="aspect-[4/3] w-full sm:aspect-[16/9]" sizes="(max-width: 1024px) 100vw, 55vw" />
-        <figcaption className="mt-2 text-xs leading-5 text-on-surface-variant">Carte à remplacer par le document diocésain validé. Les liens territoriaux ci-dessous proviennent du référentiel.</figcaption>
+        <PublicPhoto src="/assets/cartediocese.png" alt="Carte du diocèse de Daloa" label="Carte du diocèse indisponible" className="aspect-[4/3] w-full sm:aspect-[16/9]" fit="contain" sizes="(max-width: 1024px) 100vw, 55vw" />
+        <figcaption className="mt-2 text-xs leading-5 text-on-surface-variant">Carte du diocèse de Daloa. Les liens territoriaux ci-dessous proviennent du référentiel.</figcaption>
       </figure>
       <div className="mt-6 grid gap-2 sm:grid-cols-2" aria-label="Doyennés de l’annuaire">
         {doyennes.map((doyenne) => (

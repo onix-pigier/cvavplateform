@@ -1,9 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { assertTestDatabaseUrl } from "../../scripts/test-db-guard";
 
 const integrationTest = process.env.TEST_DATABASE_URL ? test : test.skip;
 
 integrationTest("API Prisma ↔ PostgreSQL répond et expose les référentiels", async () => {
+  assertTestDatabaseUrl(process.env.TEST_DATABASE_URL);
   process.env.DATABASE_URL = process.env.TEST_DATABASE_URL;
   const { prisma } = await import("../../lib/prisma");
   try {

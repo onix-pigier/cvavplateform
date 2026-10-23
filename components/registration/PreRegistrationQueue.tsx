@@ -1,0 +1,48 @@
+"use client";
+
+import { useActionState, useState } from "react";
+import { reviewPreRegistration, type ReviewState } from "@/app/admin/pre-inscriptions/actions";
+
+type Request = {
+  id: string; referenceCode: string; kind: string; status: string; firstName: string; lastName: string; birthDate: string; sex: string;
+  phone: string; email: string | null; guardianFirstName: string | null; guardianLastName: string | null; guardianPhone: string | null;
+  guardianRelationship: string | null; originParish: string | null; originMemberNumber: string | null; requestedParishId: string;
+  requestedParish: string; doyenne: string; possibleDuplicate: boolean; createdAt: string;
+  proposalSectionId: string | null; proposalTeamId: string | null; proposalNote: string | null;
+};
+type Section = { id: string; parishId: string; name: string; teams: { id: string; name: string }[] };
+
+function DecisionForm({ request, sections, isSuperAdmin, isParishAdmin, isChef }: { request: Request; sections: Section[]; isSuperAdmin: boolean; isParishAdmin: boolean; isChef: boolean }) {
+  const [state, action, pending] = useActionState<ReviewState, FormData>(reviewPreRegistration, {});
+  const [sectionId, setSectionId] = useState(request.proposalSectionId ?? "");
+  const available = sections.filter((section) => section.parishId === request.requestedParishId);
+  const isPendingProposal = request.status === "PENDING_PROPOSAL";
+  const chefCanPropose = isChef && !isParishAdmin && !isSuperAdmin && !isPendingProposal;
+  const canDecide = isPendingProposal ? isParishAdmin || isSuperAdmin : request.status !== "ARBITRATION" || isSuperAdmin;
+  if (isPendingProposal && !isParishAdmin && !isSuperAdmin) return <p className="mt-5 rounded-xl bg-secondary-container/50 p-3 text-sm">Proposition transmise à l’administration paroissiale ; aucune appartenance ni aucun compte n’a encore été créé.</p>;
+  return <div className="mt-5 border-t border-outline-variant pt-4">
+    {state.success && <div role="status" className="mb-4 rounded-2xl border border-primary/20 bg-primary/5 p-4 text-sm">
+      {state.success.temporaryPassword ? <><strong>Compte créé · matricule : {state.success.username}</strong><p className="mt-1">Mot de passe temporaire à transmettre individuellement : <code className="select-all rounded bg-white px-2 py-1 font-mono">{state.success.temporaryPassword}</code></p><p className="mt-1 text-xs">Cette valeur ne sera plus affichée après avoir quitté ou actualisé cette page. Transmettez-la par un canal sûr.</p></> : <strong>{state.success.proposalSubmitted ? `Proposition transmise · ${state.success.reference}` : state.success.proposalRejected ? `Proposition refusée · la demande ${state.success.reference} reste à traiter.` : state.success.username ? `Mutation approuvée · compte conservé : ${state.success.username}` : `Demande ${state.success.reference} refusée.`}</strong>}
+    </div>}
+    {state.error && <p role="alert" className="mb-4 rounded-xl border border-error/30 bg-error-container/50 p-3 text-sm text-on-error-container">{state.error}</p>}
+    {canDecide ? <form action={action} className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto_auto] lg:items-end">
+      <input type="hidden" name="requestId" value={request.id} />
+      {isPendingProposal ? <><input type="hidden" name="sectionId" value={request.proposalSectionId ?? ""} /><input type="hidden" name="teamId" value={request.proposalTeamId ?? ""} /><div className="rounded-xl bg-surface-container-low p-3 text-sm"><strong>Section proposée</strong><p>{available.find((section) => section.id === request.proposalSectionId)?.name ?? "Section inconnue"}{request.proposalTeamId ? ` · ${available.find((section) => section.id === request.proposalSectionId)?.teams.find((team) => team.id === request.proposalTeamId)?.name ?? "Équipe inconnue"}` : ""}</p>{request.proposalNote && <p className="mt-1 text-xs text-on-surface-variant">Note : {request.proposalNote}</p>}</div></> : <><div><label htmlFor={`section-${request.id}`} className="text-xs font-semibold">Section réelle *</label><select id={`section-${request.id}`} name="sectionId" value={sectionId} onChange={(event) => setSectionId(event.target.value)} required className="mt-1 min-h-11 w-full rounded-xl border border-outline-variant bg-surface-container-lowest px-3 text-sm"><option value="">Choisir une section</option>{available.map((section) => <option key={section.id} value={section.id}>{section.name}</option>)}</select>{!available.length && <span className="mt-1 block text-xs text-error">Aucune section disponible</span>}</div><div><label htmlFor={`team-${request.id}`} className="text-xs font-semibold">Équipe (facultatif)</label><select id={`team-${request.id}`} name="teamId" defaultValue="" className="mt-1 min-h-11 w-full rounded-xl border border-outline-variant bg-surface-container-lowest px-3 text-sm"><option value="">Aucune / à préciser</option>{available.find((section) => section.id === sectionId)?.teams.map((team) => <option key={team.id} value={team.id}>{team.name}</option>)}</select></div></>}
+      <div><label htmlFor={`note-${request.id}`} className="text-xs font-semibold">Note de décision (facultative)</label><input id={`note-${request.id}`} name="note" maxLength={500} className="mt-1 min-h-11 w-full rounded-xl border border-outline-variant bg-surface-container-lowest px-3 text-sm" placeholder="Observation interne" /></div>
+      <button name="decision" value={chefCanPropose ? "PROPOSE" : "APPROVE"} disabled={pending || (!isPendingProposal && !available.length)} className="min-h-11 rounded-full bg-primary px-5 text-sm font-semibold text-on-primary disabled:cursor-wait disabled:opacity-60">{pending ? "Traitement…" : chefCanPropose ? "Proposer le rattachement" : isPendingProposal ? "Valider la proposition" : request.kind === "TRANSFER" ? "Valider la mutation" : "Approuver et créer"}</button>
+      {!chefCanPropose && <button name="decision" value="REJECT" disabled={pending} formNoValidate className="min-h-11 rounded-full border border-outline-variant px-5 text-sm font-semibold text-error disabled:opacity-60">{isPendingProposal ? "Refuser la proposition" : "Refuser la demande"}</button>}
+    </form> : <p className="rounded-xl bg-secondary-container/50 p-3 text-sm">Dossier en arbitrage : seul un administrateur diocésain peut décider.</p>}
+  </div>;
+}
+
+export function PreRegistrationQueue({ requests, sections, isSuperAdmin, adminParishIds, isChef }: { requests: Request[]; sections: Section[]; isSuperAdmin: boolean; adminParishIds: string[]; isChef: boolean }) {
+  if (!requests.length) return <section className="mt-8 rounded-feature border border-outline-variant bg-surface-container-lowest p-8"><h2 className="font-title-md text-title-md text-primary">Aucune demande en attente</h2><p className="mt-2 text-sm text-on-surface-variant">Les nouveaux dossiers apparaîtront ici après leur transmission.</p></section>;
+  const statusLabels: Record<string, string> = { PENDING: "À vérifier", IN_REVIEW: "En traitement", PENDING_PROPOSAL: "Proposition à valider", ARBITRATION: "Arbitrage diocésain" };
+  return <section className="mt-8 space-y-4" aria-label="Demandes à examiner">{requests.map((request) => <article key={request.id} className="rounded-feature border border-outline-variant bg-surface-container-lowest p-5 sm:p-7">
+    <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="font-mono text-xs text-on-surface-variant">{request.referenceCode}</p><h2 className="mt-1 font-title-lg text-title-lg text-primary">{request.firstName} {request.lastName}</h2></div><span className={`rounded-full px-3 py-1.5 text-xs font-semibold ${request.status === "ARBITRATION" ? "bg-error-container/60 text-on-error-container" : "bg-secondary-container/60 text-on-secondary-container"}`}>{statusLabels[request.status] ?? request.status}</span></div>
+    {request.possibleDuplicate && <p className="mt-4 rounded-xl border border-error/25 bg-error-container/40 p-3 text-sm text-on-error-container">Correspondance à vérifier : aucun nouveau compte ne sera créé sans contrôle.</p>}
+    <dl className="mt-5 grid gap-x-8 gap-y-3 text-sm sm:grid-cols-2 lg:grid-cols-3"><div><dt className="text-xs text-on-surface-variant">Parcours</dt><dd className="mt-1 font-medium">{request.kind === "TRANSFER" ? "Mutation" : "Nouvelle adhésion"}</dd></div><div><dt className="text-xs text-on-surface-variant">Destination</dt><dd className="mt-1 font-medium">{request.requestedParish} · {request.doyenne}</dd></div><div><dt className="text-xs text-on-surface-variant">Naissance · sexe</dt><dd className="mt-1">{request.birthDate} · {request.sex === "F" ? "Féminin" : "Masculin"}</dd></div><div><dt className="text-xs text-on-surface-variant">Contact</dt><dd className="mt-1">{request.phone}{request.email ? ` · ${request.email}` : ""}</dd></div>{request.kind === "TRANSFER" && <div><dt className="text-xs text-on-surface-variant">Origine et matricule</dt><dd className="mt-1">{request.originParish ?? "Origine inconnue"} · {request.originMemberNumber ?? "Matricule absent"}</dd></div>}{request.guardianFirstName && <div><dt className="text-xs text-on-surface-variant">Représentant légal</dt><dd className="mt-1">{request.guardianFirstName} {request.guardianLastName} · {request.guardianRelationship} · {request.guardianPhone}</dd></div>}</dl>
+    <p className="mt-4 text-xs text-on-surface-variant">Reçu le {new Date(request.createdAt).toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short" })}</p>
+    <DecisionForm request={request} sections={sections} isSuperAdmin={isSuperAdmin} isParishAdmin={isSuperAdmin || adminParishIds.includes(request.requestedParishId)} isChef={isChef} />
+  </article>)}</section>;
+}

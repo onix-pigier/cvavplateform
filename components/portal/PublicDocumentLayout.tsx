@@ -6,7 +6,7 @@ export function PublicDocumentLayout({ title, children }: { title: string; child
     <div className="min-h-screen bg-surface text-on-surface">
       <header className="border-b border-outline-variant bg-surface-container-lowest">
         <div className="mx-auto flex min-h-16 w-full max-w-4xl items-center justify-between gap-4 px-4 sm:px-8">
-          <Link href="/" className="flex items-center gap-3" aria-label="Retour au portail CV-AV"><Image src="/assets/cvav-emblem.png" alt="" width={40} height={40} className="h-9 w-9 object-contain" /><span className="text-sm font-semibold text-primary">CV-AV · Diocèse de Daloa</span></Link>
+          <Link href="/" className="flex items-center gap-3" aria-label="Retour au portail CV-AV"><Image src="/assets/public/logo.png" alt="" width={40} height={40} className="h-9 w-9 object-contain" /><span className="text-sm font-semibold text-primary">CV-AV · Diocèse de Daloa</span></Link>
           <Link href="/" className="inline-flex min-h-11 items-center rounded-full border border-outline-variant px-4 text-sm font-semibold text-primary hover:bg-surface-container-low">Retour au portail</Link>
         </div>
       </header>

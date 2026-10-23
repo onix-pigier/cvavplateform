@@ -10,7 +10,7 @@ export function PortalFooter() {
       <div className="mx-auto grid w-full max-w-[1600px] gap-10 md:grid-cols-2 xl:grid-cols-[1.35fr_0.8fr_0.8fr_1.15fr] xl:gap-12 xl:px-4">
         <div>
           <Link href="/" className="inline-flex items-center gap-3" aria-label="Accueil CV-AV Daloa">
-            <Image src="/assets/cvav-emblem.png" alt="Emblème CV-AV" width={64} height={64} className="h-12 w-12 object-contain" />
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white p-0.5"><Image src="/assets/public/logo.png" alt="Logo CV-AV Daloa" width={64} height={64} className="h-full w-full object-contain" /></span>
             <span>
               <strong className="block font-title-md text-title-md text-on-primary">CV-AV Daloa</strong>
               <span className="text-[11px] uppercase tracking-[0.16em] text-primary-fixed">Diocèse de Daloa</span>
