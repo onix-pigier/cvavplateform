@@ -50,6 +50,8 @@ export interface SessionPayload {
   accountId: string;
   personId: string;
   username: string;
+  sessionVersion: number;
+  passwordChangeRequired: boolean;
   roles: SessionRole[];
   mandates: SessionMandate[];
   [key: string]: unknown; // compat JWTPayload de jose
@@ -59,19 +61,20 @@ export interface SessionPayload {
 /// Appelé à la connexion (WF-21) et chaque fois qu'un rôle/mandat change en
 /// cours de session, pour forcer une réévaluation (Volume 11 §11.10).
 export async function buildSessionPayload(accountId: string): Promise<SessionPayload> {
+  const now = new Date();
   const account = await prisma.account.findUniqueOrThrow({
     where: { id: accountId },
     include: {
       person: true,
       userRoles: {
-        where: { endDate: null },
+        where: { startDate: { lte: now }, OR: [{ endDate: null }, { endDate: { gte: now } }] },
         include: { role: true },
       },
     },
   });
 
   const mandates = await prisma.mandate.findMany({
-    where: { personId: account.personId, status: "ACTIVE" },
+    where: { personId: account.personId, status: "ACTIVE", startDate: { lte: now }, OR: [{ endDate: null }, { endDate: { gte: now } }] },
     include: { fonction: true },
   });
 
@@ -79,6 +82,8 @@ export async function buildSessionPayload(accountId: string): Promise<SessionPay
     accountId: account.id,
     personId: account.personId,
     username: account.username,
+    sessionVersion: account.sessionVersion,
+    passwordChangeRequired: account.passwordChangeRequired,
     roles: account.userRoles.map((ur: (typeof account.userRoles)[number]) => ({
       roleCode: ur.role.code,
       scopeType: ur.scopeType,
@@ -112,6 +117,43 @@ export async function createSession(accountId: string): Promise<void> {
   });
 }
 
+/** Issues a short-lived, restricted session used only to replace an initial credential. */
+export async function createPasswordChangeSession(accountId: string): Promise<void> {
+  const payload = await buildSessionPayload(accountId);
+  const token = await new SignJWT({ ...payload, mustChangePassword: true })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuer(SESSION_ISSUER)
+    .setAudience(SESSION_AUDIENCE)
+    .setIssuedAt()
+    .setExpirationTime("15m")
+    .sign(getSecret());
+  const store = await cookies();
+  store.set(SESSION_COOKIE, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 15 * 60,
+  });
+}
+
+/** Normal application sessions are deliberately unavailable during first-login setup. */
+export async function getPasswordChangeSession(): Promise<{ accountId: string; sessionVersion: number } | null> {
+  const store = await cookies();
+  const token = store.get(SESSION_COOKIE)?.value;
+  if (!token) return null;
+  try {
+    const { payload } = await jwtVerify(token, getSecret(), { issuer: SESSION_ISSUER, audience: SESSION_AUDIENCE });
+    if (payload.mustChangePassword !== true) return null;
+    const accountId = String(payload.accountId ?? "");
+    const account = await prisma.account.findUnique({ where: { id: accountId }, select: { status: true, sessionVersion: true, passwordChangeRequired: true, person: { select: { status: true } } } });
+    if (!account || account.status !== "ACTIVE" || account.person.status !== "ACTIVE" || !account.passwordChangeRequired || Number(payload.sessionVersion) !== account.sessionVersion) return null;
+    return { accountId, sessionVersion: account.sessionVersion };
+  } catch {
+    return null;
+  }
+}
+
 export async function getSession(): Promise<SessionPayload | null> {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE)?.value;
@@ -119,8 +161,11 @@ export async function getSession(): Promise<SessionPayload | null> {
 
   try {
     const { payload } = await jwtVerify(token, getSecret(), { issuer: SESSION_ISSUER, audience: SESSION_AUDIENCE });
-    const account = await prisma.account.findUnique({ where: { id: String(payload.accountId ?? "") }, select: { status: true, person: { select: { status: true } } } });
+    if (payload.mustChangePassword === true) return null;
+    const account = await prisma.account.findUnique({ where: { id: String(payload.accountId ?? "") }, select: { status: true, sessionVersion: true, passwordChangeRequired: true, person: { select: { status: true } } } });
     if (!account || account.status !== "ACTIVE" || account.person.status !== "ACTIVE") return null;
+    if (account.passwordChangeRequired) return null;
+    if (Number(payload.sessionVersion ?? 0) !== account.sessionVersion) return null;
     return buildSessionPayload(String(payload.accountId));
   } catch {
     return null; // signature invalide ou expirée

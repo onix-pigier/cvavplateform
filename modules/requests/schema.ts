@@ -10,3 +10,7 @@ export type CreateCertificateRequestInput = z.infer<typeof createCertificateRequ
 export const rejectCertificateRequestSchema = z.object({
   reason: z.string().trim().min(3).max(1000),
 }).strict();
+
+export const overrideCertificateRequestSchema = z.object({
+  reason: z.string().trim().min(10).max(1000),
+}).strict();

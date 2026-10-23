@@ -41,7 +41,7 @@ export async function createActivity(raw: unknown) {
   }
   const check = await authorize({ resourceCode: "ACTIVITE", actionCode: "CREATE", targetScopeType: parsed.data.scopeType, targetScopeId: parsed.data.scopeId });
   if (!check.allowed) throw new ActivitiesForbiddenError(check.reason);
-  return repository.createActivity(parsed.data, session.personId);
+  return repository.createActivity(parsed.data, session.personId, session.accountId);
 }
 
 export async function listActivityPresences(id: string) {
@@ -51,7 +51,7 @@ export async function listActivityPresences(id: string) {
   if (!activity) throw new ActivitiesValidationError("Activité introuvable.");
   const check = await authorize({ resourceCode: "ACTIVITE", actionCode: "READ", targetScopeType: activity.scopeType, targetScopeId: activity.scopeId });
   if (!check.allowed) throw new ActivitiesForbiddenError(check.reason);
-  return repository.listPresences(id);
+  return { activity, members: await repository.listActivityRoster(activity) };
 }
 
 export async function recordPresence(id: string, raw: unknown) {

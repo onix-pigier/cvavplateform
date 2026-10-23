@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/lib/generated/prisma/client";
 import type { CreateActivityInput } from "./schema";
 
 // Module activities : Activity, Presence, CeremonySession, PilgrimageLogistics — WF-09, WF-10, WF-14, WF-15, WF-25, WF-28
@@ -80,8 +81,20 @@ export function activityTypeExists(id: string) {
   return prisma.activityType.findUnique({ where: { id }, select: { id: true } });
 }
 
-export function createActivity(input: CreateActivityInput, responsibleId: string) {
-  return prisma.activity.create({ data: { ...input, responsibleId }, select: activitySelect });
+export function createActivity(input: CreateActivityInput, responsibleId: string, actingAccountId: string) {
+  return prisma.$transaction(async (tx) => {
+    const activity = await tx.activity.create({ data: { ...input, responsibleId }, select: activitySelect });
+    await tx.auditLog.create({
+      data: {
+        accountId: actingAccountId,
+        action: "CREATE:ACTIVITE",
+        entityType: "ACTIVITE",
+        entityId: activity.id,
+        after: { name: activity.name, scopeType: activity.scopeType, scopeId: activity.scopeId, startDate: activity.startDate.toISOString() },
+      },
+    });
+    return activity;
+  });
 }
 
 export function findActiveMembership(personId: string) {
@@ -96,11 +109,78 @@ export function listPresences(activityId: string) {
   return prisma.presence.findMany({ where: { activityId }, orderBy: { person: { lastName: "asc" } }, select: { id: true, personId: true, present: true, justification: true, source: true, createdAt: true, person: { select: { firstName: true, lastName: true } } } });
 }
 
+export async function listActivityRoster(activity: { id: string; scopeType: string; scopeId: string }) {
+  const membershipScope: Prisma.MembershipWhereInput = activity.scopeType === "DIOCESE"
+    ? { paroisse: { doyenne: { dioceseId: activity.scopeId } } }
+    : activity.scopeType === "DOYENNE"
+      ? { paroisse: { doyenneId: activity.scopeId } }
+      : activity.scopeType === "PAROISSE"
+        ? { paroisseId: activity.scopeId }
+        : activity.scopeType === "SECTION"
+          ? { sectionId: activity.scopeId }
+          : { teamId: activity.scopeId };
+
+  const [memberships, presences] = await Promise.all([
+    prisma.membership.findMany({
+      where: { ...membershipScope, isActive: true, endDate: null, person: { status: "ACTIVE" } },
+      orderBy: [{ person: { lastName: "asc" } }, { person: { firstName: "asc" } }],
+      select: {
+        personId: true,
+        person: { select: {
+          firstName: true,
+          lastName: true,
+          gradeHistory: { where: { endedAt: null }, orderBy: { obtainedAt: "desc" }, take: 1, select: { grade: { select: { name: true } } } },
+        } },
+        section: { select: { name: true } },
+        team: { select: { name: true } },
+      },
+    }),
+    prisma.presence.findMany({
+      where: { activityId: activity.id },
+      select: { personId: true, present: true, source: true, createdAt: true },
+    }),
+  ]);
+
+  const attendance = new Map(presences.map((presence) => [presence.personId, presence]));
+  const seen = new Set<string>();
+  return memberships.flatMap((membership) => {
+    if (seen.has(membership.personId)) return [];
+    seen.add(membership.personId);
+    const presence = attendance.get(membership.personId);
+    return [{
+      personId: membership.personId,
+      firstName: membership.person.firstName,
+      lastName: membership.person.lastName,
+      grade: membership.person.gradeHistory[0]?.grade.name ?? null,
+      section: membership.section.name,
+      team: membership.team?.name ?? null,
+      present: presence?.present ?? null,
+      recordedAt: presence?.createdAt ?? null,
+      source: presence?.source ?? null,
+    }];
+  });
+}
+
 export function upsertPresence(activityId: string, personId: string, recordedById: string, present: boolean, justification?: string | null) {
-  return prisma.presence.upsert({
-    where: { activityId_personId: { activityId, personId } },
-    create: { activityId, personId, recordedById, present, justification, source: "MANUAL" },
-    update: { recordedById, present, justification, source: "MANUAL" },
-    select: { id: true, activityId: true, personId: true, present: true, justification: true, source: true, createdAt: true },
+  return prisma.$transaction(async (tx) => {
+    const key = { activityId_personId: { activityId, personId } };
+    const before = await tx.presence.findUnique({ where: key, select: { present: true, justification: true } });
+    const after = await tx.presence.upsert({
+      where: key,
+      create: { activityId, personId, recordedById, present, justification, source: "MANUAL" },
+      update: { recordedById, present, justification, source: "MANUAL" },
+      select: { id: true, activityId: true, personId: true, present: true, justification: true, source: true, createdAt: true },
+    });
+    await tx.auditLog.create({
+      data: {
+        accountId: recordedById,
+        action: before ? "UPDATE:PRESENCE" : "CREATE:PRESENCE",
+        entityType: "PRESENCE",
+        entityId: after.id,
+        before: before ?? undefined,
+        after: { activityId, personId, present: after.present, source: after.source },
+      },
+    });
+    return after;
   });
 }

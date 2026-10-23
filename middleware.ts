@@ -22,6 +22,7 @@ function getSecret(): Uint8Array {
 
 interface MinimalSession {
   roles?: { roleCode: string }[];
+  mustChangePassword?: boolean;
 }
 
 async function readSession(req: NextRequest): Promise<MinimalSession | null> {
@@ -46,6 +47,14 @@ export async function middleware(req: NextRequest) {
 
   const isMilitantRoute = pathname.startsWith("/militant");
   const isAdminRoute = pathname.startsWith("/admin");
+  const isPasswordChangeRoute = pathname === "/change-password";
+
+  if (session?.mustChangePassword) {
+    if (isPasswordChangeRoute) return NextResponse.next();
+    if (pathname.startsWith("/api/")) return NextResponse.json({ error: "PASSWORD_CHANGE_REQUIRED" }, { status: 403 });
+    return NextResponse.redirect(new URL("/change-password", req.url));
+  }
+  if (isPasswordChangeRoute) return NextResponse.redirect(new URL(session ? "/espace" : "/login", req.url));
 
   if ((isMilitantRoute || isAdminRoute) && !session) {
     const loginUrl = new URL("/login", req.url);
@@ -76,5 +85,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/militant/:path*", "/admin/:path*"],
+  matcher: ["/militant/:path*", "/admin/:path*", "/espace/:path*", "/api/:path*", "/change-password"],
 };

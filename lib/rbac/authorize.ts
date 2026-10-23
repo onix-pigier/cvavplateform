@@ -21,6 +21,8 @@ export interface AuthorizeInput {
   /** Scope concret de la ressource ciblée par la requête. */
   targetScopeType: string;
   targetScopeId: string;
+  /** Rôle applicatif que l'action veut attribuer, pour borner les créations de comptes. */
+  targetRoleCode?: string;
 }
 
 export interface AuthorizeResult {
@@ -71,6 +73,9 @@ async function evaluate(session: SessionPayload, input: AuthorizeInput): Promise
   }
 
   for (const permission of candidates) {
+    // maxScopeType borne la granularité maximale de cette permission : un
+    // droit de niveau PAROISSE ne peut pas être utilisé pour agir au diocèse.
+    if (scopeRank(input.targetScopeType) < scopeRank(permission.maxScopeType)) continue;
     // Étape 4 : résoudre le scope concret autorisé pour CETTE permission.
     const grantedScopes = permission.roleId
       ? session.roles.filter((r) => r.roleCode === permission.role?.code)
@@ -88,8 +93,9 @@ async function evaluate(session: SessionPayload, input: AuthorizeInput): Promise
       if (!within) continue;
 
       // Étape 6 : condition complémentaire (ex. accès SELF uniquement sur soi-même).
-      const condition = permission.condition as { selfOnly?: boolean } | null;
+      const condition = permission.condition as { selfOnly?: boolean; targetRoleCode?: string } | null;
       if (condition?.selfOnly && input.targetScopeId !== session.personId) continue;
+      if (condition?.targetRoleCode && input.targetRoleCode !== condition.targetRoleCode) continue;
 
       return { allowed: true, reason: "GRANTED" }; // étape 7
     }
@@ -154,7 +160,7 @@ async function isWithinScope(
 }
 
 const SENSITIVE_RESOURCES = new Set([
-  "UTILISATEUR", "FINANCE", "AUDIT", "FICHE_SANITAIRE", "CARTE_MEMBRE",
+  "PERSONNE", "APPARTENANCE", "MANDAT", "RESPONSABILITE_EQUIPE", "UTILISATEUR", "FINANCE", "AUDIT", "FICHE_SANITAIRE", "CARTE_MEMBRE",
   "ACTIVITE", "PRESENCE", "DEMANDE", "ATTESTATION",
 ]);
 
