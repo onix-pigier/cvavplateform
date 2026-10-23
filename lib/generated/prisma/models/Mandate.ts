@@ -36,6 +36,11 @@ export type MandateMinAggregateOutputType = {
   startDate: Date | null
   endDate: Date | null
   status: $Enums.MandateStatus | null
+  createdByAccountId: string | null
+  updatedByAccountId: string | null
+  validatedByAccountId: string | null
+  validatedAt: Date | null
+  appointmentReference: string | null
   previousMandateId: string | null
   createdAt: Date | null
 }
@@ -50,6 +55,11 @@ export type MandateMaxAggregateOutputType = {
   startDate: Date | null
   endDate: Date | null
   status: $Enums.MandateStatus | null
+  createdByAccountId: string | null
+  updatedByAccountId: string | null
+  validatedByAccountId: string | null
+  validatedAt: Date | null
+  appointmentReference: string | null
   previousMandateId: string | null
   createdAt: Date | null
 }
@@ -64,6 +74,11 @@ export type MandateCountAggregateOutputType = {
   startDate: number
   endDate: number
   status: number
+  createdByAccountId: number
+  updatedByAccountId: number
+  validatedByAccountId: number
+  validatedAt: number
+  appointmentReference: number
   previousMandateId: number
   createdAt: number
   _all: number
@@ -80,6 +95,11 @@ export type MandateMinAggregateInputType = {
   startDate?: true
   endDate?: true
   status?: true
+  createdByAccountId?: true
+  updatedByAccountId?: true
+  validatedByAccountId?: true
+  validatedAt?: true
+  appointmentReference?: true
   previousMandateId?: true
   createdAt?: true
 }
@@ -94,6 +114,11 @@ export type MandateMaxAggregateInputType = {
   startDate?: true
   endDate?: true
   status?: true
+  createdByAccountId?: true
+  updatedByAccountId?: true
+  validatedByAccountId?: true
+  validatedAt?: true
+  appointmentReference?: true
   previousMandateId?: true
   createdAt?: true
 }
@@ -108,6 +133,11 @@ export type MandateCountAggregateInputType = {
   startDate?: true
   endDate?: true
   status?: true
+  createdByAccountId?: true
+  updatedByAccountId?: true
+  validatedByAccountId?: true
+  validatedAt?: true
+  appointmentReference?: true
   previousMandateId?: true
   createdAt?: true
   _all?: true
@@ -195,6 +225,11 @@ export type MandateGroupByOutputType = {
   startDate: Date
   endDate: Date | null
   status: $Enums.MandateStatus
+  createdByAccountId: string | null
+  updatedByAccountId: string | null
+  validatedByAccountId: string | null
+  validatedAt: Date | null
+  appointmentReference: string | null
   previousMandateId: string | null
   createdAt: Date
   _count: MandateCountAggregateOutputType | null
@@ -230,11 +265,19 @@ export type MandateWhereInput = {
   startDate?: Prisma.DateTimeFilter<"Mandate"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Mandate"> | Date | string | null
   status?: Prisma.EnumMandateStatusFilter<"Mandate"> | $Enums.MandateStatus
+  createdByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  updatedByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  validatedByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  validatedAt?: Prisma.DateTimeNullableFilter<"Mandate"> | Date | string | null
+  appointmentReference?: Prisma.StringNullableFilter<"Mandate"> | string | null
   previousMandateId?: Prisma.StringNullableFilter<"Mandate"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Mandate"> | Date | string
   person?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
   fonction?: Prisma.XOR<Prisma.FonctionScalarRelationFilter, Prisma.FonctionWhereInput>
   governanceBody?: Prisma.XOR<Prisma.GovernanceBodyNullableScalarRelationFilter, Prisma.GovernanceBodyWhereInput> | null
+  createdByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
+  updatedByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
+  validatedByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
   previousMandate?: Prisma.XOR<Prisma.MandateNullableScalarRelationFilter, Prisma.MandateWhereInput> | null
   renewedBy?: Prisma.XOR<Prisma.MandateNullableScalarRelationFilter, Prisma.MandateWhereInput> | null
 }
@@ -249,11 +292,19 @@ export type MandateOrderByWithRelationInput = {
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  validatedByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  validatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  appointmentReference?: Prisma.SortOrderInput | Prisma.SortOrder
   previousMandateId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   person?: Prisma.PersonOrderByWithRelationInput
   fonction?: Prisma.FonctionOrderByWithRelationInput
   governanceBody?: Prisma.GovernanceBodyOrderByWithRelationInput
+  createdByAccount?: Prisma.AccountOrderByWithRelationInput
+  updatedByAccount?: Prisma.AccountOrderByWithRelationInput
+  validatedByAccount?: Prisma.AccountOrderByWithRelationInput
   previousMandate?: Prisma.MandateOrderByWithRelationInput
   renewedBy?: Prisma.MandateOrderByWithRelationInput
 }
@@ -272,10 +323,18 @@ export type MandateWhereUniqueInput = Prisma.AtLeast<{
   startDate?: Prisma.DateTimeFilter<"Mandate"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Mandate"> | Date | string | null
   status?: Prisma.EnumMandateStatusFilter<"Mandate"> | $Enums.MandateStatus
+  createdByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  updatedByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  validatedByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  validatedAt?: Prisma.DateTimeNullableFilter<"Mandate"> | Date | string | null
+  appointmentReference?: Prisma.StringNullableFilter<"Mandate"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Mandate"> | Date | string
   person?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
   fonction?: Prisma.XOR<Prisma.FonctionScalarRelationFilter, Prisma.FonctionWhereInput>
   governanceBody?: Prisma.XOR<Prisma.GovernanceBodyNullableScalarRelationFilter, Prisma.GovernanceBodyWhereInput> | null
+  createdByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
+  updatedByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
+  validatedByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
   previousMandate?: Prisma.XOR<Prisma.MandateNullableScalarRelationFilter, Prisma.MandateWhereInput> | null
   renewedBy?: Prisma.XOR<Prisma.MandateNullableScalarRelationFilter, Prisma.MandateWhereInput> | null
 }, "id" | "previousMandateId">
@@ -290,6 +349,11 @@ export type MandateOrderByWithAggregationInput = {
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  validatedByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  validatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  appointmentReference?: Prisma.SortOrderInput | Prisma.SortOrder
   previousMandateId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MandateCountOrderByAggregateInput
@@ -310,6 +374,11 @@ export type MandateScalarWhereWithAggregatesInput = {
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Mandate"> | Date | string
   endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Mandate"> | Date | string | null
   status?: Prisma.EnumMandateStatusWithAggregatesFilter<"Mandate"> | $Enums.MandateStatus
+  createdByAccountId?: Prisma.StringNullableWithAggregatesFilter<"Mandate"> | string | null
+  updatedByAccountId?: Prisma.StringNullableWithAggregatesFilter<"Mandate"> | string | null
+  validatedByAccountId?: Prisma.StringNullableWithAggregatesFilter<"Mandate"> | string | null
+  validatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Mandate"> | Date | string | null
+  appointmentReference?: Prisma.StringNullableWithAggregatesFilter<"Mandate"> | string | null
   previousMandateId?: Prisma.StringNullableWithAggregatesFilter<"Mandate"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Mandate"> | Date | string
 }
@@ -321,10 +390,15 @@ export type MandateCreateInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutMandatesHeldInput
   fonction: Prisma.FonctionCreateNestedOneWithoutMandatesInput
   governanceBody?: Prisma.GovernanceBodyCreateNestedOneWithoutMandatesInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesUpdatedInput
+  validatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesValidatedInput
   previousMandate?: Prisma.MandateCreateNestedOneWithoutRenewedByInput
   renewedBy?: Prisma.MandateCreateNestedOneWithoutPreviousMandateInput
 }
@@ -339,6 +413,11 @@ export type MandateUncheckedCreateInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
   renewedBy?: Prisma.MandateUncheckedCreateNestedOneWithoutPreviousMandateInput
@@ -351,10 +430,15 @@ export type MandateUpdateInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutMandatesHeldNestedInput
   fonction?: Prisma.FonctionUpdateOneRequiredWithoutMandatesNestedInput
   governanceBody?: Prisma.GovernanceBodyUpdateOneWithoutMandatesNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutMandatesCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesUpdatedNestedInput
+  validatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesValidatedNestedInput
   previousMandate?: Prisma.MandateUpdateOneWithoutRenewedByNestedInput
   renewedBy?: Prisma.MandateUpdateOneWithoutPreviousMandateNestedInput
 }
@@ -369,6 +453,11 @@ export type MandateUncheckedUpdateInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   renewedBy?: Prisma.MandateUncheckedUpdateOneWithoutPreviousMandateNestedInput
@@ -384,6 +473,11 @@ export type MandateCreateManyInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
 }
@@ -395,6 +489,8 @@ export type MandateUpdateManyMutationInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -408,6 +504,11 @@ export type MandateUncheckedUpdateManyInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -437,6 +538,11 @@ export type MandateCountOrderByAggregateInput = {
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrder
+  validatedByAccountId?: Prisma.SortOrder
+  validatedAt?: Prisma.SortOrder
+  appointmentReference?: Prisma.SortOrder
   previousMandateId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -451,6 +557,11 @@ export type MandateMaxOrderByAggregateInput = {
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrder
+  validatedByAccountId?: Prisma.SortOrder
+  validatedAt?: Prisma.SortOrder
+  appointmentReference?: Prisma.SortOrder
   previousMandateId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -465,6 +576,11 @@ export type MandateMinOrderByAggregateInput = {
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrder
+  validatedByAccountId?: Prisma.SortOrder
+  validatedAt?: Prisma.SortOrder
+  appointmentReference?: Prisma.SortOrder
   previousMandateId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -508,6 +624,132 @@ export type MandateUncheckedUpdateManyWithoutPersonNestedInput = {
   connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
   update?: Prisma.MandateUpdateWithWhereUniqueWithoutPersonInput | Prisma.MandateUpdateWithWhereUniqueWithoutPersonInput[]
   updateMany?: Prisma.MandateUpdateManyWithWhereWithoutPersonInput | Prisma.MandateUpdateManyWithWhereWithoutPersonInput[]
+  deleteMany?: Prisma.MandateScalarWhereInput | Prisma.MandateScalarWhereInput[]
+}
+
+export type MandateCreateNestedManyWithoutCreatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutCreatedByAccountInput, Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput> | Prisma.MandateCreateWithoutCreatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutCreatedByAccountInput | Prisma.MandateCreateOrConnectWithoutCreatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyCreatedByAccountInputEnvelope
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+}
+
+export type MandateCreateNestedManyWithoutUpdatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutUpdatedByAccountInput, Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput> | Prisma.MandateCreateWithoutUpdatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutUpdatedByAccountInput | Prisma.MandateCreateOrConnectWithoutUpdatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyUpdatedByAccountInputEnvelope
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+}
+
+export type MandateCreateNestedManyWithoutValidatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutValidatedByAccountInput, Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput> | Prisma.MandateCreateWithoutValidatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutValidatedByAccountInput | Prisma.MandateCreateOrConnectWithoutValidatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyValidatedByAccountInputEnvelope
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+}
+
+export type MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutCreatedByAccountInput, Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput> | Prisma.MandateCreateWithoutCreatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutCreatedByAccountInput | Prisma.MandateCreateOrConnectWithoutCreatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyCreatedByAccountInputEnvelope
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+}
+
+export type MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutUpdatedByAccountInput, Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput> | Prisma.MandateCreateWithoutUpdatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutUpdatedByAccountInput | Prisma.MandateCreateOrConnectWithoutUpdatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyUpdatedByAccountInputEnvelope
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+}
+
+export type MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutValidatedByAccountInput, Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput> | Prisma.MandateCreateWithoutValidatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutValidatedByAccountInput | Prisma.MandateCreateOrConnectWithoutValidatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyValidatedByAccountInputEnvelope
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+}
+
+export type MandateUpdateManyWithoutCreatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutCreatedByAccountInput, Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput> | Prisma.MandateCreateWithoutCreatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutCreatedByAccountInput | Prisma.MandateCreateOrConnectWithoutCreatedByAccountInput[]
+  upsert?: Prisma.MandateUpsertWithWhereUniqueWithoutCreatedByAccountInput | Prisma.MandateUpsertWithWhereUniqueWithoutCreatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyCreatedByAccountInputEnvelope
+  set?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  disconnect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  delete?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  update?: Prisma.MandateUpdateWithWhereUniqueWithoutCreatedByAccountInput | Prisma.MandateUpdateWithWhereUniqueWithoutCreatedByAccountInput[]
+  updateMany?: Prisma.MandateUpdateManyWithWhereWithoutCreatedByAccountInput | Prisma.MandateUpdateManyWithWhereWithoutCreatedByAccountInput[]
+  deleteMany?: Prisma.MandateScalarWhereInput | Prisma.MandateScalarWhereInput[]
+}
+
+export type MandateUpdateManyWithoutUpdatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutUpdatedByAccountInput, Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput> | Prisma.MandateCreateWithoutUpdatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutUpdatedByAccountInput | Prisma.MandateCreateOrConnectWithoutUpdatedByAccountInput[]
+  upsert?: Prisma.MandateUpsertWithWhereUniqueWithoutUpdatedByAccountInput | Prisma.MandateUpsertWithWhereUniqueWithoutUpdatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyUpdatedByAccountInputEnvelope
+  set?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  disconnect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  delete?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  update?: Prisma.MandateUpdateWithWhereUniqueWithoutUpdatedByAccountInput | Prisma.MandateUpdateWithWhereUniqueWithoutUpdatedByAccountInput[]
+  updateMany?: Prisma.MandateUpdateManyWithWhereWithoutUpdatedByAccountInput | Prisma.MandateUpdateManyWithWhereWithoutUpdatedByAccountInput[]
+  deleteMany?: Prisma.MandateScalarWhereInput | Prisma.MandateScalarWhereInput[]
+}
+
+export type MandateUpdateManyWithoutValidatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutValidatedByAccountInput, Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput> | Prisma.MandateCreateWithoutValidatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutValidatedByAccountInput | Prisma.MandateCreateOrConnectWithoutValidatedByAccountInput[]
+  upsert?: Prisma.MandateUpsertWithWhereUniqueWithoutValidatedByAccountInput | Prisma.MandateUpsertWithWhereUniqueWithoutValidatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyValidatedByAccountInputEnvelope
+  set?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  disconnect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  delete?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  update?: Prisma.MandateUpdateWithWhereUniqueWithoutValidatedByAccountInput | Prisma.MandateUpdateWithWhereUniqueWithoutValidatedByAccountInput[]
+  updateMany?: Prisma.MandateUpdateManyWithWhereWithoutValidatedByAccountInput | Prisma.MandateUpdateManyWithWhereWithoutValidatedByAccountInput[]
+  deleteMany?: Prisma.MandateScalarWhereInput | Prisma.MandateScalarWhereInput[]
+}
+
+export type MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutCreatedByAccountInput, Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput> | Prisma.MandateCreateWithoutCreatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutCreatedByAccountInput | Prisma.MandateCreateOrConnectWithoutCreatedByAccountInput[]
+  upsert?: Prisma.MandateUpsertWithWhereUniqueWithoutCreatedByAccountInput | Prisma.MandateUpsertWithWhereUniqueWithoutCreatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyCreatedByAccountInputEnvelope
+  set?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  disconnect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  delete?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  update?: Prisma.MandateUpdateWithWhereUniqueWithoutCreatedByAccountInput | Prisma.MandateUpdateWithWhereUniqueWithoutCreatedByAccountInput[]
+  updateMany?: Prisma.MandateUpdateManyWithWhereWithoutCreatedByAccountInput | Prisma.MandateUpdateManyWithWhereWithoutCreatedByAccountInput[]
+  deleteMany?: Prisma.MandateScalarWhereInput | Prisma.MandateScalarWhereInput[]
+}
+
+export type MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutUpdatedByAccountInput, Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput> | Prisma.MandateCreateWithoutUpdatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutUpdatedByAccountInput | Prisma.MandateCreateOrConnectWithoutUpdatedByAccountInput[]
+  upsert?: Prisma.MandateUpsertWithWhereUniqueWithoutUpdatedByAccountInput | Prisma.MandateUpsertWithWhereUniqueWithoutUpdatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyUpdatedByAccountInputEnvelope
+  set?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  disconnect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  delete?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  update?: Prisma.MandateUpdateWithWhereUniqueWithoutUpdatedByAccountInput | Prisma.MandateUpdateWithWhereUniqueWithoutUpdatedByAccountInput[]
+  updateMany?: Prisma.MandateUpdateManyWithWhereWithoutUpdatedByAccountInput | Prisma.MandateUpdateManyWithWhereWithoutUpdatedByAccountInput[]
+  deleteMany?: Prisma.MandateScalarWhereInput | Prisma.MandateScalarWhereInput[]
+}
+
+export type MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.MandateCreateWithoutValidatedByAccountInput, Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput> | Prisma.MandateCreateWithoutValidatedByAccountInput[] | Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput[]
+  connectOrCreate?: Prisma.MandateCreateOrConnectWithoutValidatedByAccountInput | Prisma.MandateCreateOrConnectWithoutValidatedByAccountInput[]
+  upsert?: Prisma.MandateUpsertWithWhereUniqueWithoutValidatedByAccountInput | Prisma.MandateUpsertWithWhereUniqueWithoutValidatedByAccountInput[]
+  createMany?: Prisma.MandateCreateManyValidatedByAccountInputEnvelope
+  set?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  disconnect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  delete?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  connect?: Prisma.MandateWhereUniqueInput | Prisma.MandateWhereUniqueInput[]
+  update?: Prisma.MandateUpdateWithWhereUniqueWithoutValidatedByAccountInput | Prisma.MandateUpdateWithWhereUniqueWithoutValidatedByAccountInput[]
+  updateMany?: Prisma.MandateUpdateManyWithWhereWithoutValidatedByAccountInput | Prisma.MandateUpdateManyWithWhereWithoutValidatedByAccountInput[]
   deleteMany?: Prisma.MandateScalarWhereInput | Prisma.MandateScalarWhereInput[]
 }
 
@@ -654,9 +896,14 @@ export type MandateCreateWithoutPersonInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   createdAt?: Date | string
   fonction: Prisma.FonctionCreateNestedOneWithoutMandatesInput
   governanceBody?: Prisma.GovernanceBodyCreateNestedOneWithoutMandatesInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesUpdatedInput
+  validatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesValidatedInput
   previousMandate?: Prisma.MandateCreateNestedOneWithoutRenewedByInput
   renewedBy?: Prisma.MandateCreateNestedOneWithoutPreviousMandateInput
 }
@@ -670,6 +917,11 @@ export type MandateUncheckedCreateWithoutPersonInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
   renewedBy?: Prisma.MandateUncheckedCreateNestedOneWithoutPreviousMandateInput
@@ -714,8 +966,205 @@ export type MandateScalarWhereInput = {
   startDate?: Prisma.DateTimeFilter<"Mandate"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Mandate"> | Date | string | null
   status?: Prisma.EnumMandateStatusFilter<"Mandate"> | $Enums.MandateStatus
+  createdByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  updatedByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  validatedByAccountId?: Prisma.StringNullableFilter<"Mandate"> | string | null
+  validatedAt?: Prisma.DateTimeNullableFilter<"Mandate"> | Date | string | null
+  appointmentReference?: Prisma.StringNullableFilter<"Mandate"> | string | null
   previousMandateId?: Prisma.StringNullableFilter<"Mandate"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Mandate"> | Date | string
+}
+
+export type MandateCreateWithoutCreatedByAccountInput = {
+  id?: string
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutMandatesHeldInput
+  fonction: Prisma.FonctionCreateNestedOneWithoutMandatesInput
+  governanceBody?: Prisma.GovernanceBodyCreateNestedOneWithoutMandatesInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesUpdatedInput
+  validatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesValidatedInput
+  previousMandate?: Prisma.MandateCreateNestedOneWithoutRenewedByInput
+  renewedBy?: Prisma.MandateCreateNestedOneWithoutPreviousMandateInput
+}
+
+export type MandateUncheckedCreateWithoutCreatedByAccountInput = {
+  id?: string
+  personId: string
+  fonctionId: string
+  governanceBodyId?: string | null
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  previousMandateId?: string | null
+  createdAt?: Date | string
+  renewedBy?: Prisma.MandateUncheckedCreateNestedOneWithoutPreviousMandateInput
+}
+
+export type MandateCreateOrConnectWithoutCreatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  create: Prisma.XOR<Prisma.MandateCreateWithoutCreatedByAccountInput, Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput>
+}
+
+export type MandateCreateManyCreatedByAccountInputEnvelope = {
+  data: Prisma.MandateCreateManyCreatedByAccountInput | Prisma.MandateCreateManyCreatedByAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type MandateCreateWithoutUpdatedByAccountInput = {
+  id?: string
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutMandatesHeldInput
+  fonction: Prisma.FonctionCreateNestedOneWithoutMandatesInput
+  governanceBody?: Prisma.GovernanceBodyCreateNestedOneWithoutMandatesInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesCreatedInput
+  validatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesValidatedInput
+  previousMandate?: Prisma.MandateCreateNestedOneWithoutRenewedByInput
+  renewedBy?: Prisma.MandateCreateNestedOneWithoutPreviousMandateInput
+}
+
+export type MandateUncheckedCreateWithoutUpdatedByAccountInput = {
+  id?: string
+  personId: string
+  fonctionId: string
+  governanceBodyId?: string | null
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  previousMandateId?: string | null
+  createdAt?: Date | string
+  renewedBy?: Prisma.MandateUncheckedCreateNestedOneWithoutPreviousMandateInput
+}
+
+export type MandateCreateOrConnectWithoutUpdatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  create: Prisma.XOR<Prisma.MandateCreateWithoutUpdatedByAccountInput, Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput>
+}
+
+export type MandateCreateManyUpdatedByAccountInputEnvelope = {
+  data: Prisma.MandateCreateManyUpdatedByAccountInput | Prisma.MandateCreateManyUpdatedByAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type MandateCreateWithoutValidatedByAccountInput = {
+  id?: string
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutMandatesHeldInput
+  fonction: Prisma.FonctionCreateNestedOneWithoutMandatesInput
+  governanceBody?: Prisma.GovernanceBodyCreateNestedOneWithoutMandatesInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesUpdatedInput
+  previousMandate?: Prisma.MandateCreateNestedOneWithoutRenewedByInput
+  renewedBy?: Prisma.MandateCreateNestedOneWithoutPreviousMandateInput
+}
+
+export type MandateUncheckedCreateWithoutValidatedByAccountInput = {
+  id?: string
+  personId: string
+  fonctionId: string
+  governanceBodyId?: string | null
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  previousMandateId?: string | null
+  createdAt?: Date | string
+  renewedBy?: Prisma.MandateUncheckedCreateNestedOneWithoutPreviousMandateInput
+}
+
+export type MandateCreateOrConnectWithoutValidatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  create: Prisma.XOR<Prisma.MandateCreateWithoutValidatedByAccountInput, Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput>
+}
+
+export type MandateCreateManyValidatedByAccountInputEnvelope = {
+  data: Prisma.MandateCreateManyValidatedByAccountInput | Prisma.MandateCreateManyValidatedByAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type MandateUpsertWithWhereUniqueWithoutCreatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  update: Prisma.XOR<Prisma.MandateUpdateWithoutCreatedByAccountInput, Prisma.MandateUncheckedUpdateWithoutCreatedByAccountInput>
+  create: Prisma.XOR<Prisma.MandateCreateWithoutCreatedByAccountInput, Prisma.MandateUncheckedCreateWithoutCreatedByAccountInput>
+}
+
+export type MandateUpdateWithWhereUniqueWithoutCreatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  data: Prisma.XOR<Prisma.MandateUpdateWithoutCreatedByAccountInput, Prisma.MandateUncheckedUpdateWithoutCreatedByAccountInput>
+}
+
+export type MandateUpdateManyWithWhereWithoutCreatedByAccountInput = {
+  where: Prisma.MandateScalarWhereInput
+  data: Prisma.XOR<Prisma.MandateUpdateManyMutationInput, Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountInput>
+}
+
+export type MandateUpsertWithWhereUniqueWithoutUpdatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  update: Prisma.XOR<Prisma.MandateUpdateWithoutUpdatedByAccountInput, Prisma.MandateUncheckedUpdateWithoutUpdatedByAccountInput>
+  create: Prisma.XOR<Prisma.MandateCreateWithoutUpdatedByAccountInput, Prisma.MandateUncheckedCreateWithoutUpdatedByAccountInput>
+}
+
+export type MandateUpdateWithWhereUniqueWithoutUpdatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  data: Prisma.XOR<Prisma.MandateUpdateWithoutUpdatedByAccountInput, Prisma.MandateUncheckedUpdateWithoutUpdatedByAccountInput>
+}
+
+export type MandateUpdateManyWithWhereWithoutUpdatedByAccountInput = {
+  where: Prisma.MandateScalarWhereInput
+  data: Prisma.XOR<Prisma.MandateUpdateManyMutationInput, Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountInput>
+}
+
+export type MandateUpsertWithWhereUniqueWithoutValidatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  update: Prisma.XOR<Prisma.MandateUpdateWithoutValidatedByAccountInput, Prisma.MandateUncheckedUpdateWithoutValidatedByAccountInput>
+  create: Prisma.XOR<Prisma.MandateCreateWithoutValidatedByAccountInput, Prisma.MandateUncheckedCreateWithoutValidatedByAccountInput>
+}
+
+export type MandateUpdateWithWhereUniqueWithoutValidatedByAccountInput = {
+  where: Prisma.MandateWhereUniqueInput
+  data: Prisma.XOR<Prisma.MandateUpdateWithoutValidatedByAccountInput, Prisma.MandateUncheckedUpdateWithoutValidatedByAccountInput>
+}
+
+export type MandateUpdateManyWithWhereWithoutValidatedByAccountInput = {
+  where: Prisma.MandateScalarWhereInput
+  data: Prisma.XOR<Prisma.MandateUpdateManyMutationInput, Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountInput>
 }
 
 export type MandateCreateWithoutFonctionInput = {
@@ -725,9 +1174,14 @@ export type MandateCreateWithoutFonctionInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutMandatesHeldInput
   governanceBody?: Prisma.GovernanceBodyCreateNestedOneWithoutMandatesInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesUpdatedInput
+  validatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesValidatedInput
   previousMandate?: Prisma.MandateCreateNestedOneWithoutRenewedByInput
   renewedBy?: Prisma.MandateCreateNestedOneWithoutPreviousMandateInput
 }
@@ -741,6 +1195,11 @@ export type MandateUncheckedCreateWithoutFonctionInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
   renewedBy?: Prisma.MandateUncheckedCreateNestedOneWithoutPreviousMandateInput
@@ -779,9 +1238,14 @@ export type MandateCreateWithoutGovernanceBodyInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutMandatesHeldInput
   fonction: Prisma.FonctionCreateNestedOneWithoutMandatesInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesUpdatedInput
+  validatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesValidatedInput
   previousMandate?: Prisma.MandateCreateNestedOneWithoutRenewedByInput
   renewedBy?: Prisma.MandateCreateNestedOneWithoutPreviousMandateInput
 }
@@ -795,6 +1259,11 @@ export type MandateUncheckedCreateWithoutGovernanceBodyInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
   renewedBy?: Prisma.MandateUncheckedCreateNestedOneWithoutPreviousMandateInput
@@ -833,10 +1302,15 @@ export type MandateCreateWithoutRenewedByInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutMandatesHeldInput
   fonction: Prisma.FonctionCreateNestedOneWithoutMandatesInput
   governanceBody?: Prisma.GovernanceBodyCreateNestedOneWithoutMandatesInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesUpdatedInput
+  validatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesValidatedInput
   previousMandate?: Prisma.MandateCreateNestedOneWithoutRenewedByInput
 }
 
@@ -850,6 +1324,11 @@ export type MandateUncheckedCreateWithoutRenewedByInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
 }
@@ -866,10 +1345,15 @@ export type MandateCreateWithoutPreviousMandateInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutMandatesHeldInput
   fonction: Prisma.FonctionCreateNestedOneWithoutMandatesInput
   governanceBody?: Prisma.GovernanceBodyCreateNestedOneWithoutMandatesInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesUpdatedInput
+  validatedByAccount?: Prisma.AccountCreateNestedOneWithoutMandatesValidatedInput
   renewedBy?: Prisma.MandateCreateNestedOneWithoutPreviousMandateInput
 }
 
@@ -883,6 +1367,11 @@ export type MandateUncheckedCreateWithoutPreviousMandateInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   createdAt?: Date | string
   renewedBy?: Prisma.MandateUncheckedCreateNestedOneWithoutPreviousMandateInput
 }
@@ -910,10 +1399,15 @@ export type MandateUpdateWithoutRenewedByInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutMandatesHeldNestedInput
   fonction?: Prisma.FonctionUpdateOneRequiredWithoutMandatesNestedInput
   governanceBody?: Prisma.GovernanceBodyUpdateOneWithoutMandatesNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutMandatesCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesUpdatedNestedInput
+  validatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesValidatedNestedInput
   previousMandate?: Prisma.MandateUpdateOneWithoutRenewedByNestedInput
 }
 
@@ -927,6 +1421,11 @@ export type MandateUncheckedUpdateWithoutRenewedByInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -949,10 +1448,15 @@ export type MandateUpdateWithoutPreviousMandateInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutMandatesHeldNestedInput
   fonction?: Prisma.FonctionUpdateOneRequiredWithoutMandatesNestedInput
   governanceBody?: Prisma.GovernanceBodyUpdateOneWithoutMandatesNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutMandatesCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesUpdatedNestedInput
+  validatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesValidatedNestedInput
   renewedBy?: Prisma.MandateUpdateOneWithoutPreviousMandateNestedInput
 }
 
@@ -966,6 +1470,11 @@ export type MandateUncheckedUpdateWithoutPreviousMandateInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   renewedBy?: Prisma.MandateUncheckedUpdateOneWithoutPreviousMandateNestedInput
 }
@@ -979,6 +1488,11 @@ export type MandateCreateManyPersonInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
 }
@@ -990,9 +1504,14 @@ export type MandateUpdateWithoutPersonInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fonction?: Prisma.FonctionUpdateOneRequiredWithoutMandatesNestedInput
   governanceBody?: Prisma.GovernanceBodyUpdateOneWithoutMandatesNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutMandatesCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesUpdatedNestedInput
+  validatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesValidatedNestedInput
   previousMandate?: Prisma.MandateUpdateOneWithoutRenewedByNestedInput
   renewedBy?: Prisma.MandateUpdateOneWithoutPreviousMandateNestedInput
 }
@@ -1006,6 +1525,11 @@ export type MandateUncheckedUpdateWithoutPersonInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   renewedBy?: Prisma.MandateUncheckedUpdateOneWithoutPreviousMandateNestedInput
@@ -1020,6 +1544,233 @@ export type MandateUncheckedUpdateManyWithoutPersonInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MandateCreateManyCreatedByAccountInput = {
+  id?: string
+  personId: string
+  fonctionId: string
+  governanceBodyId?: string | null
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  previousMandateId?: string | null
+  createdAt?: Date | string
+}
+
+export type MandateCreateManyUpdatedByAccountInput = {
+  id?: string
+  personId: string
+  fonctionId: string
+  governanceBodyId?: string | null
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  previousMandateId?: string | null
+  createdAt?: Date | string
+}
+
+export type MandateCreateManyValidatedByAccountInput = {
+  id?: string
+  personId: string
+  fonctionId: string
+  governanceBodyId?: string | null
+  scopeType: $Enums.ScopeType
+  scopeId?: string | null
+  startDate: Date | string
+  endDate?: Date | string | null
+  status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
+  previousMandateId?: string | null
+  createdAt?: Date | string
+}
+
+export type MandateUpdateWithoutCreatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutMandatesHeldNestedInput
+  fonction?: Prisma.FonctionUpdateOneRequiredWithoutMandatesNestedInput
+  governanceBody?: Prisma.GovernanceBodyUpdateOneWithoutMandatesNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesUpdatedNestedInput
+  validatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesValidatedNestedInput
+  previousMandate?: Prisma.MandateUpdateOneWithoutRenewedByNestedInput
+  renewedBy?: Prisma.MandateUpdateOneWithoutPreviousMandateNestedInput
+}
+
+export type MandateUncheckedUpdateWithoutCreatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  fonctionId?: Prisma.StringFieldUpdateOperationsInput | string
+  governanceBodyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renewedBy?: Prisma.MandateUncheckedUpdateOneWithoutPreviousMandateNestedInput
+}
+
+export type MandateUncheckedUpdateManyWithoutCreatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  fonctionId?: Prisma.StringFieldUpdateOperationsInput | string
+  governanceBodyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MandateUpdateWithoutUpdatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutMandatesHeldNestedInput
+  fonction?: Prisma.FonctionUpdateOneRequiredWithoutMandatesNestedInput
+  governanceBody?: Prisma.GovernanceBodyUpdateOneWithoutMandatesNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutMandatesCreatedNestedInput
+  validatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesValidatedNestedInput
+  previousMandate?: Prisma.MandateUpdateOneWithoutRenewedByNestedInput
+  renewedBy?: Prisma.MandateUpdateOneWithoutPreviousMandateNestedInput
+}
+
+export type MandateUncheckedUpdateWithoutUpdatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  fonctionId?: Prisma.StringFieldUpdateOperationsInput | string
+  governanceBodyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renewedBy?: Prisma.MandateUncheckedUpdateOneWithoutPreviousMandateNestedInput
+}
+
+export type MandateUncheckedUpdateManyWithoutUpdatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  fonctionId?: Prisma.StringFieldUpdateOperationsInput | string
+  governanceBodyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MandateUpdateWithoutValidatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutMandatesHeldNestedInput
+  fonction?: Prisma.FonctionUpdateOneRequiredWithoutMandatesNestedInput
+  governanceBody?: Prisma.GovernanceBodyUpdateOneWithoutMandatesNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutMandatesCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesUpdatedNestedInput
+  previousMandate?: Prisma.MandateUpdateOneWithoutRenewedByNestedInput
+  renewedBy?: Prisma.MandateUpdateOneWithoutPreviousMandateNestedInput
+}
+
+export type MandateUncheckedUpdateWithoutValidatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  fonctionId?: Prisma.StringFieldUpdateOperationsInput | string
+  governanceBodyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renewedBy?: Prisma.MandateUncheckedUpdateOneWithoutPreviousMandateNestedInput
+}
+
+export type MandateUncheckedUpdateManyWithoutValidatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  fonctionId?: Prisma.StringFieldUpdateOperationsInput | string
+  governanceBodyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scopeType?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  scopeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1033,6 +1784,11 @@ export type MandateCreateManyFonctionInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
 }
@@ -1044,9 +1800,14 @@ export type MandateUpdateWithoutFonctionInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutMandatesHeldNestedInput
   governanceBody?: Prisma.GovernanceBodyUpdateOneWithoutMandatesNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutMandatesCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesUpdatedNestedInput
+  validatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesValidatedNestedInput
   previousMandate?: Prisma.MandateUpdateOneWithoutRenewedByNestedInput
   renewedBy?: Prisma.MandateUpdateOneWithoutPreviousMandateNestedInput
 }
@@ -1060,6 +1821,11 @@ export type MandateUncheckedUpdateWithoutFonctionInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   renewedBy?: Prisma.MandateUncheckedUpdateOneWithoutPreviousMandateNestedInput
@@ -1074,6 +1840,11 @@ export type MandateUncheckedUpdateManyWithoutFonctionInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1087,6 +1858,11 @@ export type MandateCreateManyGovernanceBodyInput = {
   startDate: Date | string
   endDate?: Date | string | null
   status?: $Enums.MandateStatus
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  validatedByAccountId?: string | null
+  validatedAt?: Date | string | null
+  appointmentReference?: string | null
   previousMandateId?: string | null
   createdAt?: Date | string
 }
@@ -1098,9 +1874,14 @@ export type MandateUpdateWithoutGovernanceBodyInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutMandatesHeldNestedInput
   fonction?: Prisma.FonctionUpdateOneRequiredWithoutMandatesNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutMandatesCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesUpdatedNestedInput
+  validatedByAccount?: Prisma.AccountUpdateOneWithoutMandatesValidatedNestedInput
   previousMandate?: Prisma.MandateUpdateOneWithoutRenewedByNestedInput
   renewedBy?: Prisma.MandateUpdateOneWithoutPreviousMandateNestedInput
 }
@@ -1114,6 +1895,11 @@ export type MandateUncheckedUpdateWithoutGovernanceBodyInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   renewedBy?: Prisma.MandateUncheckedUpdateOneWithoutPreviousMandateNestedInput
@@ -1128,6 +1914,11 @@ export type MandateUncheckedUpdateManyWithoutGovernanceBodyInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumMandateStatusFieldUpdateOperationsInput | $Enums.MandateStatus
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  appointmentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previousMandateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1144,11 +1935,19 @@ export type MandateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   startDate?: boolean
   endDate?: boolean
   status?: boolean
+  createdByAccountId?: boolean
+  updatedByAccountId?: boolean
+  validatedByAccountId?: boolean
+  validatedAt?: boolean
+  appointmentReference?: boolean
   previousMandateId?: boolean
   createdAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   fonction?: boolean | Prisma.FonctionDefaultArgs<ExtArgs>
   governanceBody?: boolean | Prisma.Mandate$governanceBodyArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.Mandate$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.Mandate$updatedByAccountArgs<ExtArgs>
+  validatedByAccount?: boolean | Prisma.Mandate$validatedByAccountArgs<ExtArgs>
   previousMandate?: boolean | Prisma.Mandate$previousMandateArgs<ExtArgs>
   renewedBy?: boolean | Prisma.Mandate$renewedByArgs<ExtArgs>
 }, ExtArgs["result"]["mandate"]>
@@ -1163,11 +1962,19 @@ export type MandateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   startDate?: boolean
   endDate?: boolean
   status?: boolean
+  createdByAccountId?: boolean
+  updatedByAccountId?: boolean
+  validatedByAccountId?: boolean
+  validatedAt?: boolean
+  appointmentReference?: boolean
   previousMandateId?: boolean
   createdAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   fonction?: boolean | Prisma.FonctionDefaultArgs<ExtArgs>
   governanceBody?: boolean | Prisma.Mandate$governanceBodyArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.Mandate$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.Mandate$updatedByAccountArgs<ExtArgs>
+  validatedByAccount?: boolean | Prisma.Mandate$validatedByAccountArgs<ExtArgs>
   previousMandate?: boolean | Prisma.Mandate$previousMandateArgs<ExtArgs>
 }, ExtArgs["result"]["mandate"]>
 
@@ -1181,11 +1988,19 @@ export type MandateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   startDate?: boolean
   endDate?: boolean
   status?: boolean
+  createdByAccountId?: boolean
+  updatedByAccountId?: boolean
+  validatedByAccountId?: boolean
+  validatedAt?: boolean
+  appointmentReference?: boolean
   previousMandateId?: boolean
   createdAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   fonction?: boolean | Prisma.FonctionDefaultArgs<ExtArgs>
   governanceBody?: boolean | Prisma.Mandate$governanceBodyArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.Mandate$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.Mandate$updatedByAccountArgs<ExtArgs>
+  validatedByAccount?: boolean | Prisma.Mandate$validatedByAccountArgs<ExtArgs>
   previousMandate?: boolean | Prisma.Mandate$previousMandateArgs<ExtArgs>
 }, ExtArgs["result"]["mandate"]>
 
@@ -1199,15 +2014,23 @@ export type MandateSelectScalar = {
   startDate?: boolean
   endDate?: boolean
   status?: boolean
+  createdByAccountId?: boolean
+  updatedByAccountId?: boolean
+  validatedByAccountId?: boolean
+  validatedAt?: boolean
+  appointmentReference?: boolean
   previousMandateId?: boolean
   createdAt?: boolean
 }
 
-export type MandateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "personId" | "fonctionId" | "governanceBodyId" | "scopeType" | "scopeId" | "startDate" | "endDate" | "status" | "previousMandateId" | "createdAt", ExtArgs["result"]["mandate"]>
+export type MandateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "personId" | "fonctionId" | "governanceBodyId" | "scopeType" | "scopeId" | "startDate" | "endDate" | "status" | "createdByAccountId" | "updatedByAccountId" | "validatedByAccountId" | "validatedAt" | "appointmentReference" | "previousMandateId" | "createdAt", ExtArgs["result"]["mandate"]>
 export type MandateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   fonction?: boolean | Prisma.FonctionDefaultArgs<ExtArgs>
   governanceBody?: boolean | Prisma.Mandate$governanceBodyArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.Mandate$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.Mandate$updatedByAccountArgs<ExtArgs>
+  validatedByAccount?: boolean | Prisma.Mandate$validatedByAccountArgs<ExtArgs>
   previousMandate?: boolean | Prisma.Mandate$previousMandateArgs<ExtArgs>
   renewedBy?: boolean | Prisma.Mandate$renewedByArgs<ExtArgs>
 }
@@ -1215,12 +2038,18 @@ export type MandateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   fonction?: boolean | Prisma.FonctionDefaultArgs<ExtArgs>
   governanceBody?: boolean | Prisma.Mandate$governanceBodyArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.Mandate$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.Mandate$updatedByAccountArgs<ExtArgs>
+  validatedByAccount?: boolean | Prisma.Mandate$validatedByAccountArgs<ExtArgs>
   previousMandate?: boolean | Prisma.Mandate$previousMandateArgs<ExtArgs>
 }
 export type MandateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   fonction?: boolean | Prisma.FonctionDefaultArgs<ExtArgs>
   governanceBody?: boolean | Prisma.Mandate$governanceBodyArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.Mandate$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.Mandate$updatedByAccountArgs<ExtArgs>
+  validatedByAccount?: boolean | Prisma.Mandate$validatedByAccountArgs<ExtArgs>
   previousMandate?: boolean | Prisma.Mandate$previousMandateArgs<ExtArgs>
 }
 
@@ -1230,6 +2059,9 @@ export type $MandatePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     person: Prisma.$PersonPayload<ExtArgs>
     fonction: Prisma.$FonctionPayload<ExtArgs>
     governanceBody: Prisma.$GovernanceBodyPayload<ExtArgs> | null
+    createdByAccount: Prisma.$AccountPayload<ExtArgs> | null
+    updatedByAccount: Prisma.$AccountPayload<ExtArgs> | null
+    validatedByAccount: Prisma.$AccountPayload<ExtArgs> | null
     previousMandate: Prisma.$MandatePayload<ExtArgs> | null
     renewedBy: Prisma.$MandatePayload<ExtArgs> | null
   }
@@ -1243,6 +2075,11 @@ export type $MandatePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     startDate: Date
     endDate: Date | null
     status: $Enums.MandateStatus
+    createdByAccountId: string | null
+    updatedByAccountId: string | null
+    validatedByAccountId: string | null
+    validatedAt: Date | null
+    appointmentReference: string | null
     previousMandateId: string | null
     createdAt: Date
   }, ExtArgs["result"]["mandate"]>
@@ -1642,6 +2479,9 @@ export interface Prisma__MandateClient<T, Null = never, ExtArgs extends runtime.
   person<T extends Prisma.PersonDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PersonDefaultArgs<ExtArgs>>): Prisma.Prisma__PersonClient<runtime.Types.Result.GetResult<Prisma.$PersonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   fonction<T extends Prisma.FonctionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FonctionDefaultArgs<ExtArgs>>): Prisma.Prisma__FonctionClient<runtime.Types.Result.GetResult<Prisma.$FonctionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   governanceBody<T extends Prisma.Mandate$governanceBodyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Mandate$governanceBodyArgs<ExtArgs>>): Prisma.Prisma__GovernanceBodyClient<runtime.Types.Result.GetResult<Prisma.$GovernanceBodyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  createdByAccount<T extends Prisma.Mandate$createdByAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Mandate$createdByAccountArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  updatedByAccount<T extends Prisma.Mandate$updatedByAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Mandate$updatedByAccountArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  validatedByAccount<T extends Prisma.Mandate$validatedByAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Mandate$validatedByAccountArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   previousMandate<T extends Prisma.Mandate$previousMandateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Mandate$previousMandateArgs<ExtArgs>>): Prisma.Prisma__MandateClient<runtime.Types.Result.GetResult<Prisma.$MandatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   renewedBy<T extends Prisma.Mandate$renewedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Mandate$renewedByArgs<ExtArgs>>): Prisma.Prisma__MandateClient<runtime.Types.Result.GetResult<Prisma.$MandatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1682,6 +2522,11 @@ export interface MandateFieldRefs {
   readonly startDate: Prisma.FieldRef<"Mandate", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Mandate", 'DateTime'>
   readonly status: Prisma.FieldRef<"Mandate", 'MandateStatus'>
+  readonly createdByAccountId: Prisma.FieldRef<"Mandate", 'String'>
+  readonly updatedByAccountId: Prisma.FieldRef<"Mandate", 'String'>
+  readonly validatedByAccountId: Prisma.FieldRef<"Mandate", 'String'>
+  readonly validatedAt: Prisma.FieldRef<"Mandate", 'DateTime'>
+  readonly appointmentReference: Prisma.FieldRef<"Mandate", 'String'>
   readonly previousMandateId: Prisma.FieldRef<"Mandate", 'String'>
   readonly createdAt: Prisma.FieldRef<"Mandate", 'DateTime'>
 }
@@ -2101,6 +2946,63 @@ export type Mandate$governanceBodyArgs<ExtArgs extends runtime.Types.Extensions.
    */
   include?: Prisma.GovernanceBodyInclude<ExtArgs> | null
   where?: Prisma.GovernanceBodyWhereInput
+}
+
+/**
+ * Mandate.createdByAccount
+ */
+export type Mandate$createdByAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Account
+   */
+  select?: Prisma.AccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Account
+   */
+  omit?: Prisma.AccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AccountInclude<ExtArgs> | null
+  where?: Prisma.AccountWhereInput
+}
+
+/**
+ * Mandate.updatedByAccount
+ */
+export type Mandate$updatedByAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Account
+   */
+  select?: Prisma.AccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Account
+   */
+  omit?: Prisma.AccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AccountInclude<ExtArgs> | null
+  where?: Prisma.AccountWhereInput
+}
+
+/**
+ * Mandate.validatedByAccount
+ */
+export type Mandate$validatedByAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Account
+   */
+  select?: Prisma.AccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Account
+   */
+  omit?: Prisma.AccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AccountInclude<ExtArgs> | null
+  where?: Prisma.AccountWhereInput
 }
 
 /**

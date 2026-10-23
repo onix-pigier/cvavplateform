@@ -27,14 +27,14 @@ export type AggregateRequestType = {
 export type RequestTypeMinAggregateOutputType = {
   id: string | null
   name: string | null
-  requiredValidationLevel: $Enums.ScopeType | null
+  requiredValidationLevel: $Enums.ValidationLevel | null
   generatesCertificate: boolean | null
 }
 
 export type RequestTypeMaxAggregateOutputType = {
   id: string | null
   name: string | null
-  requiredValidationLevel: $Enums.ScopeType | null
+  requiredValidationLevel: $Enums.ValidationLevel | null
   generatesCertificate: boolean | null
 }
 
@@ -144,7 +144,7 @@ export type RequestTypeGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type RequestTypeGroupByOutputType = {
   id: string
   name: string
-  requiredValidationLevel: $Enums.ScopeType
+  requiredValidationLevel: $Enums.ValidationLevel
   generatesCertificate: boolean
   _count: RequestTypeCountAggregateOutputType | null
   _min: RequestTypeMinAggregateOutputType | null
@@ -172,7 +172,7 @@ export type RequestTypeWhereInput = {
   NOT?: Prisma.RequestTypeWhereInput | Prisma.RequestTypeWhereInput[]
   id?: Prisma.StringFilter<"RequestType"> | string
   name?: Prisma.StringFilter<"RequestType"> | string
-  requiredValidationLevel?: Prisma.EnumScopeTypeFilter<"RequestType"> | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelFilter<"RequestType"> | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolFilter<"RequestType"> | boolean
   requests?: Prisma.CertificateRequestListRelationFilter
 }
@@ -191,7 +191,7 @@ export type RequestTypeWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RequestTypeWhereInput | Prisma.RequestTypeWhereInput[]
   OR?: Prisma.RequestTypeWhereInput[]
   NOT?: Prisma.RequestTypeWhereInput | Prisma.RequestTypeWhereInput[]
-  requiredValidationLevel?: Prisma.EnumScopeTypeFilter<"RequestType"> | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelFilter<"RequestType"> | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolFilter<"RequestType"> | boolean
   requests?: Prisma.CertificateRequestListRelationFilter
 }, "id" | "name">
@@ -212,14 +212,14 @@ export type RequestTypeScalarWhereWithAggregatesInput = {
   NOT?: Prisma.RequestTypeScalarWhereWithAggregatesInput | Prisma.RequestTypeScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"RequestType"> | string
   name?: Prisma.StringWithAggregatesFilter<"RequestType"> | string
-  requiredValidationLevel?: Prisma.EnumScopeTypeWithAggregatesFilter<"RequestType"> | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelWithAggregatesFilter<"RequestType"> | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolWithAggregatesFilter<"RequestType"> | boolean
 }
 
 export type RequestTypeCreateInput = {
   id?: string
   name: string
-  requiredValidationLevel: $Enums.ScopeType
+  requiredValidationLevel: $Enums.ValidationLevel
   generatesCertificate?: boolean
   requests?: Prisma.CertificateRequestCreateNestedManyWithoutRequestTypeInput
 }
@@ -227,7 +227,7 @@ export type RequestTypeCreateInput = {
 export type RequestTypeUncheckedCreateInput = {
   id?: string
   name: string
-  requiredValidationLevel: $Enums.ScopeType
+  requiredValidationLevel: $Enums.ValidationLevel
   generatesCertificate?: boolean
   requests?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutRequestTypeInput
 }
@@ -235,7 +235,7 @@ export type RequestTypeUncheckedCreateInput = {
 export type RequestTypeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  requiredValidationLevel?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requests?: Prisma.CertificateRequestUpdateManyWithoutRequestTypeNestedInput
 }
@@ -243,7 +243,7 @@ export type RequestTypeUpdateInput = {
 export type RequestTypeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  requiredValidationLevel?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requests?: Prisma.CertificateRequestUncheckedUpdateManyWithoutRequestTypeNestedInput
 }
@@ -251,21 +251,21 @@ export type RequestTypeUncheckedUpdateInput = {
 export type RequestTypeCreateManyInput = {
   id?: string
   name: string
-  requiredValidationLevel: $Enums.ScopeType
+  requiredValidationLevel: $Enums.ValidationLevel
   generatesCertificate?: boolean
 }
 
 export type RequestTypeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  requiredValidationLevel?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type RequestTypeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  requiredValidationLevel?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -295,6 +295,10 @@ export type RequestTypeScalarRelationFilter = {
   isNot?: Prisma.RequestTypeWhereInput
 }
 
+export type EnumValidationLevelFieldUpdateOperationsInput = {
+  set?: $Enums.ValidationLevel
+}
+
 export type RequestTypeCreateNestedOneWithoutRequestsInput = {
   create?: Prisma.XOR<Prisma.RequestTypeCreateWithoutRequestsInput, Prisma.RequestTypeUncheckedCreateWithoutRequestsInput>
   connectOrCreate?: Prisma.RequestTypeCreateOrConnectWithoutRequestsInput
@@ -312,14 +316,14 @@ export type RequestTypeUpdateOneRequiredWithoutRequestsNestedInput = {
 export type RequestTypeCreateWithoutRequestsInput = {
   id?: string
   name: string
-  requiredValidationLevel: $Enums.ScopeType
+  requiredValidationLevel: $Enums.ValidationLevel
   generatesCertificate?: boolean
 }
 
 export type RequestTypeUncheckedCreateWithoutRequestsInput = {
   id?: string
   name: string
-  requiredValidationLevel: $Enums.ScopeType
+  requiredValidationLevel: $Enums.ValidationLevel
   generatesCertificate?: boolean
 }
 
@@ -342,14 +346,14 @@ export type RequestTypeUpdateToOneWithWhereWithoutRequestsInput = {
 export type RequestTypeUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  requiredValidationLevel?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type RequestTypeUncheckedUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  requiredValidationLevel?: Prisma.EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   generatesCertificate?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -430,7 +434,7 @@ export type $RequestTypePayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
-    requiredValidationLevel: $Enums.ScopeType
+    requiredValidationLevel: $Enums.ValidationLevel
     generatesCertificate: boolean
   }, ExtArgs["result"]["requestType"]>
   composites: {}
@@ -858,7 +862,7 @@ export interface Prisma__RequestTypeClient<T, Null = never, ExtArgs extends runt
 export interface RequestTypeFieldRefs {
   readonly id: Prisma.FieldRef<"RequestType", 'String'>
   readonly name: Prisma.FieldRef<"RequestType", 'String'>
-  readonly requiredValidationLevel: Prisma.FieldRef<"RequestType", 'ScopeType'>
+  readonly requiredValidationLevel: Prisma.FieldRef<"RequestType", 'ValidationLevel'>
   readonly generatesCertificate: Prisma.FieldRef<"RequestType", 'Boolean'>
 }
     

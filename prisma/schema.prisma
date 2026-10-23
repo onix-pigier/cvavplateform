@@ -61,6 +61,20 @@ enum AccountStatus {
   BLOCKED
 }
 
+enum PreRegistrationKind {
+  NEW_MEMBER
+  TRANSFER
+}
+
+enum PreRegistrationStatus {
+  PENDING
+  IN_REVIEW
+  PENDING_PROPOSAL
+  ARBITRATION
+  REJECTED
+  ACCOUNT_CREATED
+}
+
 /// Hiérarchie de scope (Volume 11 §11.4) : DIOCESE > DOYENNE > PAROISSE >
 /// SECTION > EQUIPE > SELF. ACTIVITY est un scope transversal additionnel pour
 /// les mandats bornés à une activité précise (REFERENT_SECURITE, D-072).
@@ -172,9 +186,28 @@ enum TransactionType {
 enum CertificateRequestStatus {
   PENDING
   SECTION_APPROVED
+  DOYENNE_APPROVED
   APPROVED
   REJECTED
   ISSUED
+}
+
+enum ValidationLevel {
+  PAROISSE
+  DOYENNE
+  DIOCESE
+}
+
+enum ValidationStepStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum GradeProposalStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum CertificateStatus {
@@ -289,9 +322,11 @@ model Paroisse {
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
 
-  sections    Section[]
-  memberships Membership[]
-  documents   DocumentRecord[]
+  sections                  Section[]
+  memberships               Membership[]
+  documents                 DocumentRecord[]
+  preRegistrationsRequested PreRegistration[] @relation("PreRegistrationDestination")
+  preRegistrationsOrigin    PreRegistration[] @relation("PreRegistrationOrigin")
 
   @@index([doyenneId])
   @@index([villeId])
@@ -344,16 +379,23 @@ model Team {
 /// D-053 : un Leader principal + N Assistants. Le chef n'est pas listé dans
 /// Membership de sa propre équipe (il n'est pas un militant de l'équipe).
 model TeamLeadership {
-  id           String             @id @default(uuid())
-  teamId       String
-  team         Team               @relation(fields: [teamId], references: [id])
-  personId     String
-  person       Person             @relation(fields: [personId], references: [id])
-  role         TeamLeadershipRole
-  pastoralYear String
+  id                 String             @id @default(uuid())
+  teamId             String
+  team               Team               @relation(fields: [teamId], references: [id])
+  personId           String
+  person             Person             @relation(fields: [personId], references: [id])
+  role               TeamLeadershipRole
+  pastoralYear       String
+  endedAt            DateTime?
+  createdByAccountId String?
+  createdByAccount   Account?           @relation("TeamLeadershipCreator", fields: [createdByAccountId], references: [id], onDelete: Restrict)
+  updatedByAccountId String?
+  updatedByAccount   Account?           @relation("TeamLeadershipUpdater", fields: [updatedByAccountId], references: [id], onDelete: Restrict)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 
-  @@unique([teamId, personId, pastoralYear])
-  @@index([teamId, pastoralYear])
+  @@index([teamId, pastoralYear, endedAt])
+  @@index([personId, pastoralYear, endedAt])
   @@map("team_leaderships")
 }
 
@@ -364,38 +406,45 @@ model TeamLeadership {
 /// Identité civile unique. Peut exister sans Compte (D-065 corrections ;
 /// Volume 00 : parrain référencé, enfant trop jeune pour un accès).
 model Person {
-  id        String       @id @default(uuid())
-  firstName String
-  lastName  String
-  birthDate DateTime
-  sex       Sex
-  phone     String?
-  email     String?
-  status    PersonStatus @default(ACTIVE)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id                String       @id @default(uuid())
+  firstName         String
+  lastName          String
+  birthDate         DateTime
+  sex               Sex
+  phone             String?
+  email             String?
+  addressLine       String?      @db.VarChar(180)
+  addressCity       String?      @db.VarChar(100)
+  addressPostalCode String?      @db.VarChar(20)
+  status            PersonStatus @default(ACTIVE)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 
-  account                         Account?
-  memberships                     Membership[]
-  teamLeaderships                 TeamLeadership[]
-  mandatesHeld                    Mandate[]                @relation("MandateHolder")
-  gradeHistory                    GradeHistory[]           @relation("GradeHolder")
-  gradesAwarded                   GradeHistory[]           @relation("GradeAwarder")
-  chefQualifications              ChefQualification[]      @relation("ChefQualificationHolder")
-  chefQualificationsAwarded       ChefQualification[]      @relation("ChefQualificationAwarder")
-  contributions                   Contribution[]
-  presences                       Presence[]
-  responsibleActivities           Activity[]
-  ceremonyCandidacies             CeremonyCandidate[]
-  spiritualOpinionsGiven          SpiritualOpinionRecord[]
-  certificateRequestsMade         CertificateRequest[]     @relation("RequestRequester")
-  certificateRequestsCreated      CertificateRequest[]     @relation("RequestCreator")
-  certificateRequestsValidatedL1  CertificateRequest[]     @relation("RequestLevel1Validator")
-  certificateRequestsValidatedL2  CertificateRequest[]     @relation("RequestLevel2Validator")
-  broadcastsAuthored              Broadcast[]
-  tutorsAsMinor                   Tutor[]                  @relation("TutorOfMinor")
-  healthProfile                   HealthProfile?
-  mediaAssets                     MediaAsset[]
+  account                        Account?
+  memberships                    Membership[]
+  teamLeaderships                TeamLeadership[]
+  mandatesHeld                   Mandate[]                   @relation("MandateHolder")
+  gradeHistory                   GradeHistory[]              @relation("GradeHolder")
+  gradesAwarded                  GradeHistory[]              @relation("GradeAwarder")
+  gradeProposals                 GradeProposal[]             @relation("GradeProposalPerson")
+  chefQualifications             ChefQualification[]         @relation("ChefQualificationHolder")
+  chefQualificationsAwarded      ChefQualification[]         @relation("ChefQualificationAwarder")
+  contributions                  Contribution[]
+  presences                      Presence[]
+  responsibleActivities          Activity[]
+  ceremonyCandidacies            CeremonyCandidate[]
+  spiritualOpinionsGiven         SpiritualOpinionRecord[]
+  certificateRequestsMade        CertificateRequest[]        @relation("RequestRequester")
+  certificateRequestsCreated     CertificateRequest[]        @relation("RequestCreator")
+  certificateRequestsValidatedL1 CertificateRequest[]        @relation("RequestLevel1Validator")
+  certificateRequestsValidatedL2 CertificateRequest[]        @relation("RequestLevel2Validator")
+  certificateRequestsValidatedL3 CertificateRequest[]        @relation("RequestLevel3Validator")
+  certificateValidationSteps     CertificateValidationStep[] @relation("CertificateValidationStepValidator")
+  broadcastsAuthored             Broadcast[]
+  tutorsAsMinor                  Tutor[]                     @relation("TutorOfMinor")
+  healthProfile                  HealthProfile?
+  mediaAssets                    MediaAsset[]
+  registryEntries                PersonRegistryEntry[]
 
   @@map("persons")
 }
@@ -404,25 +453,55 @@ model Person {
 /// l'identité civile (Volume 00, correction §1). Jamais créé en doublon pour
 /// une même Personne (D-014).
 model Account {
-  id           String        @id @default(uuid())
-  personId     String        @unique
-  person       Person        @relation(fields: [personId], references: [id])
-  username     String        @unique
-  passwordHash String
-  status       AccountStatus @default(ACTIVE)
-  createdAt    DateTime      @default(now())
+  id                     String        @id @default(uuid())
+  personId               String        @unique
+  person                 Person        @relation(fields: [personId], references: [id])
+  username               String        @unique
+  passwordHash           String
+  status                 AccountStatus @default(ACTIVE)
+  sessionVersion         Int           @default(0)
+  /// Temporary credentials are consumed at first login; a new secret must be set before using the application.
+  passwordChangeRequired Boolean       @default(false)
+  createdAt              DateTime      @default(now())
 
-  userRoles            UserRole[]
-  membershipCards      MembershipCard[]
-  auditLogs            AuditLog[]
-  notifications        Notification[]
-  presencesRecorded    Presence[]
-  paymentsRecorded     Payment[]
-  transactionsRecorded FinancialTransaction[]
-  documentsAdded       DocumentRecord[]
-  uploadedMedia        MediaAsset[]       @relation("MediaUploader")
+  userRoles                    UserRole[]
+  membershipCards              MembershipCard[]
+  auditLogs                    AuditLog[]
+  notifications                Notification[]
+  presencesRecorded            Presence[]
+  paymentsRecorded             Payment[]
+  transactionsRecorded         FinancialTransaction[]
+  documentsAdded               DocumentRecord[]
+  uploadedMedia                MediaAsset[]           @relation("MediaUploader")
+  preRegistrationReviews       PreRegistration[]      @relation("PreRegistrationReviewer")
+  preRegistrationCreated       PreRegistration[]      @relation("PreRegistrationAccount")
+  personRegistryEntriesCreated PersonRegistryEntry[]  @relation("PersonRegistryCreator")
+  mandatesCreated              Mandate[]              @relation("MandateCreator")
+  mandatesUpdated              Mandate[]              @relation("MandateUpdater")
+  mandatesValidated            Mandate[]              @relation("MandateValidator")
+  teamLeadershipsCreated       TeamLeadership[]       @relation("TeamLeadershipCreator")
+  teamLeadershipsUpdated       TeamLeadership[]       @relation("TeamLeadershipUpdater")
+  gradeProposalsSubmitted      GradeProposal[]        @relation("GradeProposalCreator")
+  gradeProposalsReviewed       GradeProposal[]        @relation("GradeProposalReviewer")
 
   @@map("accounts")
+}
+
+/// Ancrage territorial d'une fiche Personne, indépendant d'une appartenance,
+/// d'un mandat et de tout compte applicatif. Permet une fiche sans adhésion.
+model PersonRegistryEntry {
+  id                 String    @id @default(uuid())
+  personId           String
+  person             Person    @relation(fields: [personId], references: [id])
+  scopeType          ScopeType
+  scopeId            String
+  createdByAccountId String
+  createdBy          Account   @relation("PersonRegistryCreator", fields: [createdByAccountId], references: [id])
+  createdAt          DateTime  @default(now())
+
+  @@unique([personId, scopeType, scopeId])
+  @@index([scopeType, scopeId, createdAt])
+  @@map("person_registry_entries")
 }
 
 /// Référentiel des niveaux d'accès : SUPER_ADMIN, ADMIN_DOYENNE,
@@ -494,22 +573,30 @@ model GovernanceBody {
 /// périmètre donné — dates libres (D-060), défaut = année pastorale ou durée
 /// réglementaire proposée par l'IHM (D-078), jamais bloquant en base.
 model Mandate {
-  id                String          @id @default(uuid())
-  personId          String
-  person            Person          @relation("MandateHolder", fields: [personId], references: [id])
-  fonctionId        String
-  fonction          Fonction        @relation(fields: [fonctionId], references: [id])
-  governanceBodyId  String?
-  governanceBody    GovernanceBody? @relation(fields: [governanceBodyId], references: [id])
-  scopeType         ScopeType
-  scopeId           String? // paroisseId / doyenneId / teamId / activityId (REFERENT_SECURITE) selon scopeType
-  startDate         DateTime
-  endDate           DateTime?
-  status            MandateStatus   @default(ACTIVE)
-  previousMandateId String?         @unique
-  previousMandate   Mandate?        @relation("MandateRenewal", fields: [previousMandateId], references: [id])
-  renewedBy         Mandate?        @relation("MandateRenewal")
-  createdAt         DateTime        @default(now())
+  id                   String          @id @default(uuid())
+  personId             String
+  person               Person          @relation("MandateHolder", fields: [personId], references: [id])
+  fonctionId           String
+  fonction             Fonction        @relation(fields: [fonctionId], references: [id])
+  governanceBodyId     String?
+  governanceBody       GovernanceBody? @relation(fields: [governanceBodyId], references: [id])
+  scopeType            ScopeType
+  scopeId              String? // paroisseId / doyenneId / teamId / activityId (REFERENT_SECURITE) selon scopeType
+  startDate            DateTime
+  endDate              DateTime?
+  status               MandateStatus   @default(ACTIVE)
+  createdByAccountId   String?
+  createdByAccount     Account?        @relation("MandateCreator", fields: [createdByAccountId], references: [id], onDelete: Restrict)
+  updatedByAccountId   String?
+  updatedByAccount     Account?        @relation("MandateUpdater", fields: [updatedByAccountId], references: [id], onDelete: Restrict)
+  validatedByAccountId String?
+  validatedByAccount   Account?        @relation("MandateValidator", fields: [validatedByAccountId], references: [id], onDelete: Restrict)
+  validatedAt          DateTime?
+  appointmentReference String?         @db.VarChar(160)
+  previousMandateId    String?         @unique
+  previousMandate      Mandate?        @relation("MandateRenewal", fields: [previousMandateId], references: [id])
+  renewedBy            Mandate?        @relation("MandateRenewal")
+  createdAt            DateTime        @default(now())
 
   @@index([personId])
   @@index([fonctionId, scopeType, scopeId])
@@ -529,12 +616,14 @@ model Grade {
   isActive   Boolean       @default(true)
 
   gradeHistories GradeHistory[]
+  proposals      GradeProposal[]
 
   @@map("grades")
 }
 
 /// Parcours militant : Benjamin → Cadet → Aîné → Meneur. Le grade courant est
-/// la ligne sans endedAt. Figé (lastMilitantGrade) au passage Chef, jamais
+/// la ligne sans endedAt (un seul grade courant par personne, index partiel
+/// PostgreSQL en migration). Figé (lastMilitantGrade) au passage Chef, jamais
 /// écrasé (D-054).
 model GradeHistory {
   id            String    @id @default(uuid())
@@ -550,6 +639,28 @@ model GradeHistory {
 
   @@index([personId])
   @@map("grade_histories")
+}
+
+/// A chef may recommend a militant grade, but the parish administrator
+/// records the official grade history only after approval.
+model GradeProposal {
+  id                  String              @id @default(uuid())
+  personId            String
+  person              Person              @relation("GradeProposalPerson", fields: [personId], references: [id])
+  gradeId             String
+  grade               Grade               @relation(fields: [gradeId], references: [id])
+  proposedByAccountId String
+  proposedBy          Account             @relation("GradeProposalCreator", fields: [proposedByAccountId], references: [id])
+  status              GradeProposalStatus @default(PENDING)
+  decisionNote        String?
+  decidedByAccountId  String?
+  decidedBy           Account?            @relation("GradeProposalReviewer", fields: [decidedByAccountId], references: [id])
+  createdAt           DateTime            @default(now())
+  decidedAt           DateTime?
+
+  @@index([status, createdAt])
+  @@index([personId, status])
+  @@map("grade_proposals")
 }
 
 /// Parcours chef, totalement distinct de GradeHistory (D-054), séquence
@@ -569,8 +680,7 @@ model ChefQualification {
 }
 
 /// Rattachement organisationnel actif. Un seul actif par Personne à un
-/// instant T (D-005) et un seul par Équipe/année pastorale (D-052) — voir
-/// note d'en-tête sur les contraintes partielles.
+/// instant T (D-005), garanti par un index partiel PostgreSQL en migration.
 model Membership {
   id           String    @id @default(uuid())
   personId     String
@@ -587,9 +697,60 @@ model Membership {
   endDate      DateTime?
 
   @@index([paroisseId])
+  @@index([paroisseId, isActive, startDate])
+  @@index([sectionId, startDate])
   @@index([teamId, pastoralYear])
+  @@index([teamId, isActive, startDate])
   @@index([personId, isActive])
   @@map("memberships")
+}
+
+/// Demande publique conservée en attente : aucune identité militante, adhésion
+/// ni session n'est créée avant la décision d'un responsable autorisé.
+model PreRegistration {
+  id                   String                @id @default(uuid())
+  referenceCode        String                @unique
+  kind                 PreRegistrationKind
+  status               PreRegistrationStatus @default(PENDING)
+  firstName            String
+  lastName             String
+  birthDate            DateTime              @db.Date
+  sex                  Sex
+  phone                String
+  email                String?
+  guardianFirstName    String?
+  guardianLastName     String?
+  guardianPhone        String?
+  guardianEmail        String?
+  guardianRelationship String?
+  originParishId       String?
+  originParish         Paroisse?             @relation("PreRegistrationOrigin", fields: [originParishId], references: [id])
+  originMemberNumber   String?
+  requestedParishId    String
+  requestedParish      Paroisse              @relation("PreRegistrationDestination", fields: [requestedParishId], references: [id])
+  consentedAt          DateTime
+  possibleDuplicate    Boolean               @default(false)
+  decisionNote         String?
+  proposalSectionId    String?
+  proposalTeamId       String?
+  proposalById         String?
+  proposalSubmittedAt  DateTime?
+  proposalDecisionNote String?
+  proposalReviewedById String?
+  proposalReviewedAt   DateTime?
+  reviewedById         String?
+  reviewedBy           Account?              @relation("PreRegistrationReviewer", fields: [reviewedById], references: [id])
+  reviewedAt           DateTime?
+  createdAccountId     String?
+  createdAccount       Account?              @relation("PreRegistrationAccount", fields: [createdAccountId], references: [id])
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+
+  @@index([requestedParishId, status, createdAt])
+  @@index([status, createdAt])
+  @@index([originParishId])
+  @@index([status, possibleDuplicate])
+  @@map("pre_registrations")
 }
 
 /// Représentant légal d'une Personne mineure (D-070) — simple fiche de
@@ -664,6 +825,7 @@ model Activity {
   ceremonySession     CeremonySession?
 
   @@index([scopeType, scopeId])
+  @@index([scopeType, scopeId, startDate])
   @@index([activityTypeId])
   @@map("activities")
 }
@@ -698,6 +860,7 @@ model Presence {
 
   @@unique([activityId, personId])
   @@index([personId])
+  @@index([activityId, present])
   @@map("presences")
 }
 
@@ -756,10 +919,10 @@ model SpiritualOpinionRecord {
 /// gradeOrQualificationCode référence librement Grade.code ou
 /// ChefQualificationCode — barème 100% configurable, un tarif par grade réel.
 model FeeGrid {
-  id                       String  @id @default(uuid())
+  id                       String    @id @default(uuid())
   pastoralYear             String
   gradeOrQualificationCode String
-  amount                   Decimal @db.Decimal(10, 2)
+  amount                   Decimal   @db.Decimal(10, 2)
   scopeType                ScopeType
   scopeId                  String
 
@@ -824,42 +987,67 @@ model FinancialTransaction {
 // ============================================================================
 
 model RequestType {
-  id                      String    @id @default(uuid())
-  name                    String    @unique
-  requiredValidationLevel ScopeType
-  generatesCertificate    Boolean   @default(true)
+  id                      String          @id @default(uuid())
+  name                    String          @unique
+  requiredValidationLevel ValidationLevel
+  generatesCertificate    Boolean         @default(true)
 
   requests CertificateRequest[]
 
   @@map("request_types")
 }
 
-/// Circuit à 2 niveaux (D-056). `escalated` = true quand le niveau N1 a été
-/// court-circuité parce que le demandeur en était lui-même le validateur
-/// théorique (D-062, anti-auto-validation).
+/// Le niveau requis est figé à la soumission : modifier le référentiel ne
+/// change pas rétroactivement le parcours d'une demande déjà ouverte.
 model CertificateRequest {
-  id                String                   @id @default(uuid())
-  requestTypeId     String
-  requestType       RequestType              @relation(fields: [requestTypeId], references: [id])
-  requesterId       String
-  requester         Person                   @relation("RequestRequester", fields: [requesterId], references: [id])
-  createdById       String
-  createdBy         Person                   @relation("RequestCreator", fields: [createdById], references: [id])
-  status            CertificateRequestStatus @default(PENDING)
-  level1ValidatorId String?
-  level1Validator   Person?                  @relation("RequestLevel1Validator", fields: [level1ValidatorId], references: [id])
-  level2ValidatorId String?
-  level2Validator   Person?                  @relation("RequestLevel2Validator", fields: [level2ValidatorId], references: [id])
-  escalated         Boolean                  @default(false)
-  decisionNote      String?
-  createdAt         DateTime                 @default(now())
-  closedAt          DateTime?
+  id                      String                   @id @default(uuid())
+  requestTypeId           String
+  requestType             RequestType              @relation(fields: [requestTypeId], references: [id])
+  /// Snapshot of the configured route at submission time; later config edits
+  /// must not silently change an already-running request.
+  requiredValidationLevel ValidationLevel
+  requesterId             String
+  requester               Person                   @relation("RequestRequester", fields: [requesterId], references: [id])
+  createdById             String
+  createdBy               Person                   @relation("RequestCreator", fields: [createdById], references: [id])
+  status                  CertificateRequestStatus @default(PENDING)
+  level1ValidatorId       String?
+  level1Validator         Person?                  @relation("RequestLevel1Validator", fields: [level1ValidatorId], references: [id])
+  level2ValidatorId       String?
+  level2Validator         Person?                  @relation("RequestLevel2Validator", fields: [level2ValidatorId], references: [id])
+  level3ValidatorId       String?
+  level3Validator         Person?                  @relation("RequestLevel3Validator", fields: [level3ValidatorId], references: [id])
+  escalated               Boolean                  @default(false)
+  decisionNote            String?
+  createdAt               DateTime                 @default(now())
+  closedAt                DateTime?
 
-  certificate Certificate?
+  certificate     Certificate?
+  validationSteps CertificateValidationStep[]
 
   @@index([requesterId])
   @@index([status])
   @@map("certificate_requests")
+}
+
+/// Historique explicite des validations. Les anciennes demandes sont
+/// conservées même si leur horodatage exact n'était pas stocké auparavant.
+model CertificateValidationStep {
+  id                  String               @id @default(uuid())
+  requestId           String
+  request             CertificateRequest   @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  level               ValidationLevel
+  status              ValidationStepStatus @default(PENDING)
+  validatedByPersonId String?
+  validatedBy         Person?              @relation("CertificateValidationStepValidator", fields: [validatedByPersonId], references: [id], onDelete: SetNull)
+  comment             String?
+  overridden          Boolean              @default(false)
+  validatedAt         DateTime?
+  createdAt           DateTime             @default(now())
+
+  @@unique([requestId, level])
+  @@index([level, status, createdAt])
+  @@map("certificate_validation_steps")
 }
 
 /// Jamais créée manuellement — résulte uniquement de la validation d'une
@@ -877,6 +1065,8 @@ model Certificate {
   templateUsed         String?
   pdfUrl               String
   status               CertificateStatus  @default(VALID)
+  /// Versioned rendering data so later profile edits cannot alter issued PDFs.
+  contentSnapshot      Json?
 
   @@map("certificates")
 }
@@ -916,23 +1106,23 @@ model LibraryDocument {
 /// Les octets restent dans un stockage objet. Cette table ne conserve que la
 /// métadonnée nécessaire à l'accès, au contrôle de scope et à la traçabilité.
 model MediaAsset {
-  id             String          @id @default(uuid())
-  ownerPersonId  String?
-  ownerPerson    Person?         @relation(fields: [ownerPersonId], references: [id])
-  uploadedById   String
-  uploadedBy     Account         @relation("MediaUploader", fields: [uploadedById], references: [id])
-  kind           MediaKind
-  visibility     MediaVisibility @default(PRIVATE)
+  id              String          @id @default(uuid())
+  ownerPersonId   String?
+  ownerPerson     Person?         @relation(fields: [ownerPersonId], references: [id])
+  uploadedById    String
+  uploadedBy      Account         @relation("MediaUploader", fields: [uploadedById], references: [id])
+  kind            MediaKind
+  visibility      MediaVisibility @default(PRIVATE)
   storageProvider String
-  objectKey      String          @unique
-  mimeType       String
-  byteSize       BigInt
-  checksum       String?
-  width          Int?
-  height         Int?
+  objectKey       String          @unique
+  mimeType        String
+  byteSize        BigInt
+  checksum        String?
+  width           Int?
+  height          Int?
   durationSeconds Int?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 
   @@index([ownerPersonId])
   @@index([uploadedById])
@@ -957,6 +1147,19 @@ model Notification {
 
   @@index([accountId, read])
   @@map("notifications")
+}
+
+/// Demande de réinitialisation traitée manuellement par un administrateur.
+/// Aucun jeton ni mot de passe n'est généré automatiquement.
+model AccountAccessRequest {
+  id                  String   @id @default(uuid())
+  submittedIdentifier String
+  status              String   @default("NEW")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@map("account_access_requests")
 }
 
 /// D-059 : diffusion unidirectionnelle uniquement, jamais de conversation
@@ -1052,11 +1255,11 @@ model PublicContactRequest {
 
 /// Abonnements newsletter publics, sans création de compte membre.
 model NewsletterSubscription {
-  id          String    @id @default(uuid())
-  email       String    @unique
-  status      String    @default("ACTIVE")
-  consentedAt DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id          String   @id @default(uuid())
+  email       String   @unique
+  status      String   @default("ACTIVE")
+  consentedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("newsletter_subscriptions")
 }

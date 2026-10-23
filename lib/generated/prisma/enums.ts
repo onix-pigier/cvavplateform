@@ -35,6 +35,26 @@ export const AccountStatus = {
 export type AccountStatus = (typeof AccountStatus)[keyof typeof AccountStatus]
 
 
+export const PreRegistrationKind = {
+  NEW_MEMBER: 'NEW_MEMBER',
+  TRANSFER: 'TRANSFER'
+} as const
+
+export type PreRegistrationKind = (typeof PreRegistrationKind)[keyof typeof PreRegistrationKind]
+
+
+export const PreRegistrationStatus = {
+  PENDING: 'PENDING',
+  IN_REVIEW: 'IN_REVIEW',
+  PENDING_PROPOSAL: 'PENDING_PROPOSAL',
+  ARBITRATION: 'ARBITRATION',
+  REJECTED: 'REJECTED',
+  ACCOUNT_CREATED: 'ACCOUNT_CREATED'
+} as const
+
+export type PreRegistrationStatus = (typeof PreRegistrationStatus)[keyof typeof PreRegistrationStatus]
+
+
 export const ScopeType = {
   DIOCESE: 'DIOCESE',
   DOYENNE: 'DOYENNE',
@@ -177,12 +197,40 @@ export type TransactionType = (typeof TransactionType)[keyof typeof TransactionT
 export const CertificateRequestStatus = {
   PENDING: 'PENDING',
   SECTION_APPROVED: 'SECTION_APPROVED',
+  DOYENNE_APPROVED: 'DOYENNE_APPROVED',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
   ISSUED: 'ISSUED'
 } as const
 
 export type CertificateRequestStatus = (typeof CertificateRequestStatus)[keyof typeof CertificateRequestStatus]
+
+
+export const ValidationLevel = {
+  PAROISSE: 'PAROISSE',
+  DOYENNE: 'DOYENNE',
+  DIOCESE: 'DIOCESE'
+} as const
+
+export type ValidationLevel = (typeof ValidationLevel)[keyof typeof ValidationLevel]
+
+
+export const ValidationStepStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ValidationStepStatus = (typeof ValidationStepStatus)[keyof typeof ValidationStepStatus]
+
+
+export const GradeProposalStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type GradeProposalStatus = (typeof GradeProposalStatus)[keyof typeof GradeProposalStatus]
 
 
 export const CertificateStatus = {

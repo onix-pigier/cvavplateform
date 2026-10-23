@@ -22,8 +22,18 @@ export type AccountModel = runtime.Types.Result.DefaultSelection<Prisma.$Account
 
 export type AggregateAccount = {
   _count: AccountCountAggregateOutputType | null
+  _avg: AccountAvgAggregateOutputType | null
+  _sum: AccountSumAggregateOutputType | null
   _min: AccountMinAggregateOutputType | null
   _max: AccountMaxAggregateOutputType | null
+}
+
+export type AccountAvgAggregateOutputType = {
+  sessionVersion: number | null
+}
+
+export type AccountSumAggregateOutputType = {
+  sessionVersion: number | null
 }
 
 export type AccountMinAggregateOutputType = {
@@ -32,6 +42,8 @@ export type AccountMinAggregateOutputType = {
   username: string | null
   passwordHash: string | null
   status: $Enums.AccountStatus | null
+  sessionVersion: number | null
+  passwordChangeRequired: boolean | null
   createdAt: Date | null
 }
 
@@ -41,6 +53,8 @@ export type AccountMaxAggregateOutputType = {
   username: string | null
   passwordHash: string | null
   status: $Enums.AccountStatus | null
+  sessionVersion: number | null
+  passwordChangeRequired: boolean | null
   createdAt: Date | null
 }
 
@@ -50,10 +64,20 @@ export type AccountCountAggregateOutputType = {
   username: number
   passwordHash: number
   status: number
+  sessionVersion: number
+  passwordChangeRequired: number
   createdAt: number
   _all: number
 }
 
+
+export type AccountAvgAggregateInputType = {
+  sessionVersion?: true
+}
+
+export type AccountSumAggregateInputType = {
+  sessionVersion?: true
+}
 
 export type AccountMinAggregateInputType = {
   id?: true
@@ -61,6 +85,8 @@ export type AccountMinAggregateInputType = {
   username?: true
   passwordHash?: true
   status?: true
+  sessionVersion?: true
+  passwordChangeRequired?: true
   createdAt?: true
 }
 
@@ -70,6 +96,8 @@ export type AccountMaxAggregateInputType = {
   username?: true
   passwordHash?: true
   status?: true
+  sessionVersion?: true
+  passwordChangeRequired?: true
   createdAt?: true
 }
 
@@ -79,6 +107,8 @@ export type AccountCountAggregateInputType = {
   username?: true
   passwordHash?: true
   status?: true
+  sessionVersion?: true
+  passwordChangeRequired?: true
   createdAt?: true
   _all?: true
 }
@@ -121,6 +151,18 @@ export type AccountAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: AccountAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: AccountSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: AccountMinAggregateInputType
@@ -151,6 +193,8 @@ export type AccountGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: AccountCountAggregateInputType | true
+  _avg?: AccountAvgAggregateInputType
+  _sum?: AccountSumAggregateInputType
   _min?: AccountMinAggregateInputType
   _max?: AccountMaxAggregateInputType
 }
@@ -161,8 +205,12 @@ export type AccountGroupByOutputType = {
   username: string
   passwordHash: string
   status: $Enums.AccountStatus
+  sessionVersion: number
+  passwordChangeRequired: boolean
   createdAt: Date
   _count: AccountCountAggregateOutputType | null
+  _avg: AccountAvgAggregateOutputType | null
+  _sum: AccountSumAggregateOutputType | null
   _min: AccountMinAggregateOutputType | null
   _max: AccountMaxAggregateOutputType | null
 }
@@ -191,6 +239,8 @@ export type AccountWhereInput = {
   username?: Prisma.StringFilter<"Account"> | string
   passwordHash?: Prisma.StringFilter<"Account"> | string
   status?: Prisma.EnumAccountStatusFilter<"Account"> | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFilter<"Account"> | number
+  passwordChangeRequired?: Prisma.BoolFilter<"Account"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Account"> | Date | string
   person?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
   userRoles?: Prisma.UserRoleListRelationFilter
@@ -202,6 +252,16 @@ export type AccountWhereInput = {
   transactionsRecorded?: Prisma.FinancialTransactionListRelationFilter
   documentsAdded?: Prisma.DocumentRecordListRelationFilter
   uploadedMedia?: Prisma.MediaAssetListRelationFilter
+  preRegistrationReviews?: Prisma.PreRegistrationListRelationFilter
+  preRegistrationCreated?: Prisma.PreRegistrationListRelationFilter
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryListRelationFilter
+  mandatesCreated?: Prisma.MandateListRelationFilter
+  mandatesUpdated?: Prisma.MandateListRelationFilter
+  mandatesValidated?: Prisma.MandateListRelationFilter
+  teamLeadershipsCreated?: Prisma.TeamLeadershipListRelationFilter
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipListRelationFilter
+  gradeProposalsSubmitted?: Prisma.GradeProposalListRelationFilter
+  gradeProposalsReviewed?: Prisma.GradeProposalListRelationFilter
 }
 
 export type AccountOrderByWithRelationInput = {
@@ -210,6 +270,8 @@ export type AccountOrderByWithRelationInput = {
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  passwordChangeRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   person?: Prisma.PersonOrderByWithRelationInput
   userRoles?: Prisma.UserRoleOrderByRelationAggregateInput
@@ -221,6 +283,16 @@ export type AccountOrderByWithRelationInput = {
   transactionsRecorded?: Prisma.FinancialTransactionOrderByRelationAggregateInput
   documentsAdded?: Prisma.DocumentRecordOrderByRelationAggregateInput
   uploadedMedia?: Prisma.MediaAssetOrderByRelationAggregateInput
+  preRegistrationReviews?: Prisma.PreRegistrationOrderByRelationAggregateInput
+  preRegistrationCreated?: Prisma.PreRegistrationOrderByRelationAggregateInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryOrderByRelationAggregateInput
+  mandatesCreated?: Prisma.MandateOrderByRelationAggregateInput
+  mandatesUpdated?: Prisma.MandateOrderByRelationAggregateInput
+  mandatesValidated?: Prisma.MandateOrderByRelationAggregateInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipOrderByRelationAggregateInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipOrderByRelationAggregateInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalOrderByRelationAggregateInput
+  gradeProposalsReviewed?: Prisma.GradeProposalOrderByRelationAggregateInput
 }
 
 export type AccountWhereUniqueInput = Prisma.AtLeast<{
@@ -232,6 +304,8 @@ export type AccountWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
   passwordHash?: Prisma.StringFilter<"Account"> | string
   status?: Prisma.EnumAccountStatusFilter<"Account"> | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFilter<"Account"> | number
+  passwordChangeRequired?: Prisma.BoolFilter<"Account"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Account"> | Date | string
   person?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
   userRoles?: Prisma.UserRoleListRelationFilter
@@ -243,6 +317,16 @@ export type AccountWhereUniqueInput = Prisma.AtLeast<{
   transactionsRecorded?: Prisma.FinancialTransactionListRelationFilter
   documentsAdded?: Prisma.DocumentRecordListRelationFilter
   uploadedMedia?: Prisma.MediaAssetListRelationFilter
+  preRegistrationReviews?: Prisma.PreRegistrationListRelationFilter
+  preRegistrationCreated?: Prisma.PreRegistrationListRelationFilter
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryListRelationFilter
+  mandatesCreated?: Prisma.MandateListRelationFilter
+  mandatesUpdated?: Prisma.MandateListRelationFilter
+  mandatesValidated?: Prisma.MandateListRelationFilter
+  teamLeadershipsCreated?: Prisma.TeamLeadershipListRelationFilter
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipListRelationFilter
+  gradeProposalsSubmitted?: Prisma.GradeProposalListRelationFilter
+  gradeProposalsReviewed?: Prisma.GradeProposalListRelationFilter
 }, "id" | "personId" | "username">
 
 export type AccountOrderByWithAggregationInput = {
@@ -251,10 +335,14 @@ export type AccountOrderByWithAggregationInput = {
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  passwordChangeRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.AccountCountOrderByAggregateInput
+  _avg?: Prisma.AccountAvgOrderByAggregateInput
   _max?: Prisma.AccountMaxOrderByAggregateInput
   _min?: Prisma.AccountMinOrderByAggregateInput
+  _sum?: Prisma.AccountSumOrderByAggregateInput
 }
 
 export type AccountScalarWhereWithAggregatesInput = {
@@ -266,6 +354,8 @@ export type AccountScalarWhereWithAggregatesInput = {
   username?: Prisma.StringWithAggregatesFilter<"Account"> | string
   passwordHash?: Prisma.StringWithAggregatesFilter<"Account"> | string
   status?: Prisma.EnumAccountStatusWithAggregatesFilter<"Account"> | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntWithAggregatesFilter<"Account"> | number
+  passwordChangeRequired?: Prisma.BoolWithAggregatesFilter<"Account"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Account"> | Date | string
 }
 
@@ -274,6 +364,8 @@ export type AccountCreateInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -285,6 +377,16 @@ export type AccountCreateInput = {
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateInput = {
@@ -293,6 +395,8 @@ export type AccountUncheckedCreateInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -303,6 +407,16 @@ export type AccountUncheckedCreateInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUpdateInput = {
@@ -310,6 +424,8 @@ export type AccountUpdateInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -321,6 +437,16 @@ export type AccountUpdateInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateInput = {
@@ -329,6 +455,8 @@ export type AccountUncheckedUpdateInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -339,6 +467,16 @@ export type AccountUncheckedUpdateInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateManyInput = {
@@ -347,6 +485,8 @@ export type AccountCreateManyInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
 }
 
@@ -355,6 +495,8 @@ export type AccountUpdateManyMutationInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -364,6 +506,8 @@ export type AccountUncheckedUpdateManyInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -378,7 +522,13 @@ export type AccountCountOrderByAggregateInput = {
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  passwordChangeRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type AccountAvgOrderByAggregateInput = {
+  sessionVersion?: Prisma.SortOrder
 }
 
 export type AccountMaxOrderByAggregateInput = {
@@ -387,6 +537,8 @@ export type AccountMaxOrderByAggregateInput = {
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  passwordChangeRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -396,12 +548,50 @@ export type AccountMinOrderByAggregateInput = {
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  passwordChangeRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type AccountSumOrderByAggregateInput = {
+  sessionVersion?: Prisma.SortOrder
 }
 
 export type AccountScalarRelationFilter = {
   is?: Prisma.AccountWhereInput
   isNot?: Prisma.AccountWhereInput
+}
+
+export type AccountCreateNestedOneWithoutTeamLeadershipsCreatedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutTeamLeadershipsCreatedInput, Prisma.AccountUncheckedCreateWithoutTeamLeadershipsCreatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutTeamLeadershipsCreatedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountCreateNestedOneWithoutTeamLeadershipsUpdatedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutTeamLeadershipsUpdatedInput, Prisma.AccountUncheckedCreateWithoutTeamLeadershipsUpdatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutTeamLeadershipsUpdatedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountUpdateOneWithoutTeamLeadershipsCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutTeamLeadershipsCreatedInput, Prisma.AccountUncheckedCreateWithoutTeamLeadershipsCreatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutTeamLeadershipsCreatedInput
+  upsert?: Prisma.AccountUpsertWithoutTeamLeadershipsCreatedInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutTeamLeadershipsCreatedInput, Prisma.AccountUpdateWithoutTeamLeadershipsCreatedInput>, Prisma.AccountUncheckedUpdateWithoutTeamLeadershipsCreatedInput>
+}
+
+export type AccountUpdateOneWithoutTeamLeadershipsUpdatedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutTeamLeadershipsUpdatedInput, Prisma.AccountUncheckedCreateWithoutTeamLeadershipsUpdatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutTeamLeadershipsUpdatedInput
+  upsert?: Prisma.AccountUpsertWithoutTeamLeadershipsUpdatedInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutTeamLeadershipsUpdatedInput, Prisma.AccountUpdateWithoutTeamLeadershipsUpdatedInput>, Prisma.AccountUncheckedUpdateWithoutTeamLeadershipsUpdatedInput>
 }
 
 export type AccountCreateNestedOneWithoutPersonInput = {
@@ -440,6 +630,28 @@ export type EnumAccountStatusFieldUpdateOperationsInput = {
   set?: $Enums.AccountStatus
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type AccountCreateNestedOneWithoutPersonRegistryEntriesCreatedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutPersonRegistryEntriesCreatedInput, Prisma.AccountUncheckedCreateWithoutPersonRegistryEntriesCreatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutPersonRegistryEntriesCreatedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountUpdateOneRequiredWithoutPersonRegistryEntriesCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutPersonRegistryEntriesCreatedInput, Prisma.AccountUncheckedCreateWithoutPersonRegistryEntriesCreatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutPersonRegistryEntriesCreatedInput
+  upsert?: Prisma.AccountUpsertWithoutPersonRegistryEntriesCreatedInput
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutPersonRegistryEntriesCreatedInput, Prisma.AccountUpdateWithoutPersonRegistryEntriesCreatedInput>, Prisma.AccountUncheckedUpdateWithoutPersonRegistryEntriesCreatedInput>
+}
+
 export type AccountCreateNestedOneWithoutUserRolesInput = {
   create?: Prisma.XOR<Prisma.AccountCreateWithoutUserRolesInput, Prisma.AccountUncheckedCreateWithoutUserRolesInput>
   connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserRolesInput
@@ -452,6 +664,116 @@ export type AccountUpdateOneRequiredWithoutUserRolesNestedInput = {
   upsert?: Prisma.AccountUpsertWithoutUserRolesInput
   connect?: Prisma.AccountWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutUserRolesInput, Prisma.AccountUpdateWithoutUserRolesInput>, Prisma.AccountUncheckedUpdateWithoutUserRolesInput>
+}
+
+export type AccountCreateNestedOneWithoutMandatesCreatedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutMandatesCreatedInput, Prisma.AccountUncheckedCreateWithoutMandatesCreatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutMandatesCreatedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountCreateNestedOneWithoutMandatesUpdatedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutMandatesUpdatedInput, Prisma.AccountUncheckedCreateWithoutMandatesUpdatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutMandatesUpdatedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountCreateNestedOneWithoutMandatesValidatedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutMandatesValidatedInput, Prisma.AccountUncheckedCreateWithoutMandatesValidatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutMandatesValidatedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountUpdateOneWithoutMandatesCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutMandatesCreatedInput, Prisma.AccountUncheckedCreateWithoutMandatesCreatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutMandatesCreatedInput
+  upsert?: Prisma.AccountUpsertWithoutMandatesCreatedInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutMandatesCreatedInput, Prisma.AccountUpdateWithoutMandatesCreatedInput>, Prisma.AccountUncheckedUpdateWithoutMandatesCreatedInput>
+}
+
+export type AccountUpdateOneWithoutMandatesUpdatedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutMandatesUpdatedInput, Prisma.AccountUncheckedCreateWithoutMandatesUpdatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutMandatesUpdatedInput
+  upsert?: Prisma.AccountUpsertWithoutMandatesUpdatedInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutMandatesUpdatedInput, Prisma.AccountUpdateWithoutMandatesUpdatedInput>, Prisma.AccountUncheckedUpdateWithoutMandatesUpdatedInput>
+}
+
+export type AccountUpdateOneWithoutMandatesValidatedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutMandatesValidatedInput, Prisma.AccountUncheckedCreateWithoutMandatesValidatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutMandatesValidatedInput
+  upsert?: Prisma.AccountUpsertWithoutMandatesValidatedInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutMandatesValidatedInput, Prisma.AccountUpdateWithoutMandatesValidatedInput>, Prisma.AccountUncheckedUpdateWithoutMandatesValidatedInput>
+}
+
+export type AccountCreateNestedOneWithoutGradeProposalsSubmittedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutGradeProposalsSubmittedInput, Prisma.AccountUncheckedCreateWithoutGradeProposalsSubmittedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutGradeProposalsSubmittedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountCreateNestedOneWithoutGradeProposalsReviewedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutGradeProposalsReviewedInput, Prisma.AccountUncheckedCreateWithoutGradeProposalsReviewedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutGradeProposalsReviewedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountUpdateOneRequiredWithoutGradeProposalsSubmittedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutGradeProposalsSubmittedInput, Prisma.AccountUncheckedCreateWithoutGradeProposalsSubmittedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutGradeProposalsSubmittedInput
+  upsert?: Prisma.AccountUpsertWithoutGradeProposalsSubmittedInput
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutGradeProposalsSubmittedInput, Prisma.AccountUpdateWithoutGradeProposalsSubmittedInput>, Prisma.AccountUncheckedUpdateWithoutGradeProposalsSubmittedInput>
+}
+
+export type AccountUpdateOneWithoutGradeProposalsReviewedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutGradeProposalsReviewedInput, Prisma.AccountUncheckedCreateWithoutGradeProposalsReviewedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutGradeProposalsReviewedInput
+  upsert?: Prisma.AccountUpsertWithoutGradeProposalsReviewedInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutGradeProposalsReviewedInput, Prisma.AccountUpdateWithoutGradeProposalsReviewedInput>, Prisma.AccountUncheckedUpdateWithoutGradeProposalsReviewedInput>
+}
+
+export type AccountCreateNestedOneWithoutPreRegistrationReviewsInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutPreRegistrationReviewsInput, Prisma.AccountUncheckedCreateWithoutPreRegistrationReviewsInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutPreRegistrationReviewsInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountCreateNestedOneWithoutPreRegistrationCreatedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutPreRegistrationCreatedInput, Prisma.AccountUncheckedCreateWithoutPreRegistrationCreatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutPreRegistrationCreatedInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountUpdateOneWithoutPreRegistrationReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutPreRegistrationReviewsInput, Prisma.AccountUncheckedCreateWithoutPreRegistrationReviewsInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutPreRegistrationReviewsInput
+  upsert?: Prisma.AccountUpsertWithoutPreRegistrationReviewsInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutPreRegistrationReviewsInput, Prisma.AccountUpdateWithoutPreRegistrationReviewsInput>, Prisma.AccountUncheckedUpdateWithoutPreRegistrationReviewsInput>
+}
+
+export type AccountUpdateOneWithoutPreRegistrationCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutPreRegistrationCreatedInput, Prisma.AccountUncheckedCreateWithoutPreRegistrationCreatedInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutPreRegistrationCreatedInput
+  upsert?: Prisma.AccountUpsertWithoutPreRegistrationCreatedInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutPreRegistrationCreatedInput, Prisma.AccountUpdateWithoutPreRegistrationCreatedInput>, Prisma.AccountUncheckedUpdateWithoutPreRegistrationCreatedInput>
 }
 
 export type AccountCreateNestedOneWithoutMembershipCardsInput = {
@@ -570,12 +892,15 @@ export type AccountUpdateOneWithoutAuditLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.AccountUpdateWithoutAuditLogsInput>, Prisma.AccountUncheckedUpdateWithoutAuditLogsInput>
 }
 
-export type AccountCreateWithoutPersonInput = {
+export type AccountCreateWithoutTeamLeadershipsCreatedInput = {
   id?: string
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
@@ -585,13 +910,25 @@ export type AccountCreateWithoutPersonInput = {
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
-export type AccountUncheckedCreateWithoutPersonInput = {
+export type AccountUncheckedCreateWithoutTeamLeadershipsCreatedInput = {
   id?: string
+  personId: string
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -602,6 +939,279 @@ export type AccountUncheckedCreateWithoutPersonInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutTeamLeadershipsCreatedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutTeamLeadershipsCreatedInput, Prisma.AccountUncheckedCreateWithoutTeamLeadershipsCreatedInput>
+}
+
+export type AccountCreateWithoutTeamLeadershipsUpdatedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutTeamLeadershipsUpdatedInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutTeamLeadershipsUpdatedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutTeamLeadershipsUpdatedInput, Prisma.AccountUncheckedCreateWithoutTeamLeadershipsUpdatedInput>
+}
+
+export type AccountUpsertWithoutTeamLeadershipsCreatedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutTeamLeadershipsCreatedInput, Prisma.AccountUncheckedUpdateWithoutTeamLeadershipsCreatedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutTeamLeadershipsCreatedInput, Prisma.AccountUncheckedCreateWithoutTeamLeadershipsCreatedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutTeamLeadershipsCreatedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutTeamLeadershipsCreatedInput, Prisma.AccountUncheckedUpdateWithoutTeamLeadershipsCreatedInput>
+}
+
+export type AccountUpdateWithoutTeamLeadershipsCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutTeamLeadershipsCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUpsertWithoutTeamLeadershipsUpdatedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutTeamLeadershipsUpdatedInput, Prisma.AccountUncheckedUpdateWithoutTeamLeadershipsUpdatedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutTeamLeadershipsUpdatedInput, Prisma.AccountUncheckedCreateWithoutTeamLeadershipsUpdatedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutTeamLeadershipsUpdatedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutTeamLeadershipsUpdatedInput, Prisma.AccountUncheckedUpdateWithoutTeamLeadershipsUpdatedInput>
+}
+
+export type AccountUpdateWithoutTeamLeadershipsUpdatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutTeamLeadershipsUpdatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountCreateWithoutPersonInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutPersonInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutPersonInput = {
@@ -625,6 +1235,8 @@ export type AccountUpdateWithoutPersonInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
@@ -635,6 +1247,16 @@ export type AccountUpdateWithoutPersonInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutPersonInput = {
@@ -642,6 +1264,8 @@ export type AccountUncheckedUpdateWithoutPersonInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -652,6 +1276,148 @@ export type AccountUncheckedUpdateWithoutPersonInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountCreateWithoutPersonRegistryEntriesCreatedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutPersonRegistryEntriesCreatedInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutPersonRegistryEntriesCreatedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutPersonRegistryEntriesCreatedInput, Prisma.AccountUncheckedCreateWithoutPersonRegistryEntriesCreatedInput>
+}
+
+export type AccountUpsertWithoutPersonRegistryEntriesCreatedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutPersonRegistryEntriesCreatedInput, Prisma.AccountUncheckedUpdateWithoutPersonRegistryEntriesCreatedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutPersonRegistryEntriesCreatedInput, Prisma.AccountUncheckedCreateWithoutPersonRegistryEntriesCreatedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutPersonRegistryEntriesCreatedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutPersonRegistryEntriesCreatedInput, Prisma.AccountUncheckedUpdateWithoutPersonRegistryEntriesCreatedInput>
+}
+
+export type AccountUpdateWithoutPersonRegistryEntriesCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutPersonRegistryEntriesCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutUserRolesInput = {
@@ -659,6 +1425,8 @@ export type AccountCreateWithoutUserRolesInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
@@ -669,6 +1437,16 @@ export type AccountCreateWithoutUserRolesInput = {
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutUserRolesInput = {
@@ -677,6 +1455,8 @@ export type AccountUncheckedCreateWithoutUserRolesInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
@@ -686,6 +1466,16 @@ export type AccountUncheckedCreateWithoutUserRolesInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutUserRolesInput = {
@@ -709,6 +1499,8 @@ export type AccountUpdateWithoutUserRolesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
@@ -719,6 +1511,16 @@ export type AccountUpdateWithoutUserRolesInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutUserRolesInput = {
@@ -727,6 +1529,8 @@ export type AccountUncheckedUpdateWithoutUserRolesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
@@ -736,6 +1540,940 @@ export type AccountUncheckedUpdateWithoutUserRolesInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountCreateWithoutMandatesCreatedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutMandatesCreatedInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutMandatesCreatedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutMandatesCreatedInput, Prisma.AccountUncheckedCreateWithoutMandatesCreatedInput>
+}
+
+export type AccountCreateWithoutMandatesUpdatedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutMandatesUpdatedInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutMandatesUpdatedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutMandatesUpdatedInput, Prisma.AccountUncheckedCreateWithoutMandatesUpdatedInput>
+}
+
+export type AccountCreateWithoutMandatesValidatedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutMandatesValidatedInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutMandatesValidatedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutMandatesValidatedInput, Prisma.AccountUncheckedCreateWithoutMandatesValidatedInput>
+}
+
+export type AccountUpsertWithoutMandatesCreatedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutMandatesCreatedInput, Prisma.AccountUncheckedUpdateWithoutMandatesCreatedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutMandatesCreatedInput, Prisma.AccountUncheckedCreateWithoutMandatesCreatedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutMandatesCreatedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutMandatesCreatedInput, Prisma.AccountUncheckedUpdateWithoutMandatesCreatedInput>
+}
+
+export type AccountUpdateWithoutMandatesCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutMandatesCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUpsertWithoutMandatesUpdatedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutMandatesUpdatedInput, Prisma.AccountUncheckedUpdateWithoutMandatesUpdatedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutMandatesUpdatedInput, Prisma.AccountUncheckedCreateWithoutMandatesUpdatedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutMandatesUpdatedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutMandatesUpdatedInput, Prisma.AccountUncheckedUpdateWithoutMandatesUpdatedInput>
+}
+
+export type AccountUpdateWithoutMandatesUpdatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutMandatesUpdatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUpsertWithoutMandatesValidatedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutMandatesValidatedInput, Prisma.AccountUncheckedUpdateWithoutMandatesValidatedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutMandatesValidatedInput, Prisma.AccountUncheckedCreateWithoutMandatesValidatedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutMandatesValidatedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutMandatesValidatedInput, Prisma.AccountUncheckedUpdateWithoutMandatesValidatedInput>
+}
+
+export type AccountUpdateWithoutMandatesValidatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutMandatesValidatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountCreateWithoutGradeProposalsSubmittedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutGradeProposalsSubmittedInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutGradeProposalsSubmittedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutGradeProposalsSubmittedInput, Prisma.AccountUncheckedCreateWithoutGradeProposalsSubmittedInput>
+}
+
+export type AccountCreateWithoutGradeProposalsReviewedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+}
+
+export type AccountUncheckedCreateWithoutGradeProposalsReviewedInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+}
+
+export type AccountCreateOrConnectWithoutGradeProposalsReviewedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutGradeProposalsReviewedInput, Prisma.AccountUncheckedCreateWithoutGradeProposalsReviewedInput>
+}
+
+export type AccountUpsertWithoutGradeProposalsSubmittedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutGradeProposalsSubmittedInput, Prisma.AccountUncheckedUpdateWithoutGradeProposalsSubmittedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutGradeProposalsSubmittedInput, Prisma.AccountUncheckedCreateWithoutGradeProposalsSubmittedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutGradeProposalsSubmittedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutGradeProposalsSubmittedInput, Prisma.AccountUncheckedUpdateWithoutGradeProposalsSubmittedInput>
+}
+
+export type AccountUpdateWithoutGradeProposalsSubmittedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutGradeProposalsSubmittedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUpsertWithoutGradeProposalsReviewedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutGradeProposalsReviewedInput, Prisma.AccountUncheckedUpdateWithoutGradeProposalsReviewedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutGradeProposalsReviewedInput, Prisma.AccountUncheckedCreateWithoutGradeProposalsReviewedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutGradeProposalsReviewedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutGradeProposalsReviewedInput, Prisma.AccountUncheckedUpdateWithoutGradeProposalsReviewedInput>
+}
+
+export type AccountUpdateWithoutGradeProposalsReviewedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutGradeProposalsReviewedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+}
+
+export type AccountCreateWithoutPreRegistrationReviewsInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutPreRegistrationReviewsInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutPreRegistrationReviewsInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutPreRegistrationReviewsInput, Prisma.AccountUncheckedCreateWithoutPreRegistrationReviewsInput>
+}
+
+export type AccountCreateWithoutPreRegistrationCreatedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  person: Prisma.PersonCreateNestedOneWithoutAccountInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountUncheckedCreateWithoutPreRegistrationCreatedInput = {
+  id?: string
+  personId: string
+  username: string
+  passwordHash: string
+  status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
+  createdAt?: Date | string
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
+  membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountInput
+  presencesRecorded?: Prisma.PresenceUncheckedCreateNestedManyWithoutRecordedByInput
+  paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
+}
+
+export type AccountCreateOrConnectWithoutPreRegistrationCreatedInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutPreRegistrationCreatedInput, Prisma.AccountUncheckedCreateWithoutPreRegistrationCreatedInput>
+}
+
+export type AccountUpsertWithoutPreRegistrationReviewsInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutPreRegistrationReviewsInput, Prisma.AccountUncheckedUpdateWithoutPreRegistrationReviewsInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutPreRegistrationReviewsInput, Prisma.AccountUncheckedCreateWithoutPreRegistrationReviewsInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutPreRegistrationReviewsInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutPreRegistrationReviewsInput, Prisma.AccountUncheckedUpdateWithoutPreRegistrationReviewsInput>
+}
+
+export type AccountUpdateWithoutPreRegistrationReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutPreRegistrationReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUpsertWithoutPreRegistrationCreatedInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutPreRegistrationCreatedInput, Prisma.AccountUncheckedUpdateWithoutPreRegistrationCreatedInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutPreRegistrationCreatedInput, Prisma.AccountUncheckedCreateWithoutPreRegistrationCreatedInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutPreRegistrationCreatedInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutPreRegistrationCreatedInput, Prisma.AccountUncheckedUpdateWithoutPreRegistrationCreatedInput>
+}
+
+export type AccountUpdateWithoutPreRegistrationCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutPreRegistrationCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
+  membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountNestedInput
+  presencesRecorded?: Prisma.PresenceUncheckedUpdateManyWithoutRecordedByNestedInput
+  paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
+  documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutMembershipCardsInput = {
@@ -743,6 +2481,8 @@ export type AccountCreateWithoutMembershipCardsInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -753,6 +2493,16 @@ export type AccountCreateWithoutMembershipCardsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutMembershipCardsInput = {
@@ -761,6 +2511,8 @@ export type AccountUncheckedCreateWithoutMembershipCardsInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutAccountInput
@@ -770,6 +2522,16 @@ export type AccountUncheckedCreateWithoutMembershipCardsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutMembershipCardsInput = {
@@ -793,6 +2555,8 @@ export type AccountUpdateWithoutMembershipCardsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -803,6 +2567,16 @@ export type AccountUpdateWithoutMembershipCardsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutMembershipCardsInput = {
@@ -811,6 +2585,8 @@ export type AccountUncheckedUpdateWithoutMembershipCardsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutAccountNestedInput
@@ -820,6 +2596,16 @@ export type AccountUncheckedUpdateWithoutMembershipCardsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutPresencesRecordedInput = {
@@ -827,6 +2613,8 @@ export type AccountCreateWithoutPresencesRecordedInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -837,6 +2625,16 @@ export type AccountCreateWithoutPresencesRecordedInput = {
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutPresencesRecordedInput = {
@@ -845,6 +2643,8 @@ export type AccountUncheckedCreateWithoutPresencesRecordedInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -854,6 +2654,16 @@ export type AccountUncheckedCreateWithoutPresencesRecordedInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutPresencesRecordedInput = {
@@ -877,6 +2687,8 @@ export type AccountUpdateWithoutPresencesRecordedInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -887,6 +2699,16 @@ export type AccountUpdateWithoutPresencesRecordedInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutPresencesRecordedInput = {
@@ -895,6 +2717,8 @@ export type AccountUncheckedUpdateWithoutPresencesRecordedInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -904,6 +2728,16 @@ export type AccountUncheckedUpdateWithoutPresencesRecordedInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutPaymentsRecordedInput = {
@@ -911,6 +2745,8 @@ export type AccountCreateWithoutPaymentsRecordedInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -921,6 +2757,16 @@ export type AccountCreateWithoutPaymentsRecordedInput = {
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutPaymentsRecordedInput = {
@@ -929,6 +2775,8 @@ export type AccountUncheckedCreateWithoutPaymentsRecordedInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -938,6 +2786,16 @@ export type AccountUncheckedCreateWithoutPaymentsRecordedInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutPaymentsRecordedInput = {
@@ -961,6 +2819,8 @@ export type AccountUpdateWithoutPaymentsRecordedInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -971,6 +2831,16 @@ export type AccountUpdateWithoutPaymentsRecordedInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutPaymentsRecordedInput = {
@@ -979,6 +2849,8 @@ export type AccountUncheckedUpdateWithoutPaymentsRecordedInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -988,6 +2860,16 @@ export type AccountUncheckedUpdateWithoutPaymentsRecordedInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutTransactionsRecordedInput = {
@@ -995,6 +2877,8 @@ export type AccountCreateWithoutTransactionsRecordedInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -1005,6 +2889,16 @@ export type AccountCreateWithoutTransactionsRecordedInput = {
   paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutTransactionsRecordedInput = {
@@ -1013,6 +2907,8 @@ export type AccountUncheckedCreateWithoutTransactionsRecordedInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -1022,6 +2918,16 @@ export type AccountUncheckedCreateWithoutTransactionsRecordedInput = {
   paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutTransactionsRecordedInput = {
@@ -1045,6 +2951,8 @@ export type AccountUpdateWithoutTransactionsRecordedInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -1055,6 +2963,16 @@ export type AccountUpdateWithoutTransactionsRecordedInput = {
   paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutTransactionsRecordedInput = {
@@ -1063,6 +2981,8 @@ export type AccountUncheckedUpdateWithoutTransactionsRecordedInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -1072,6 +2992,16 @@ export type AccountUncheckedUpdateWithoutTransactionsRecordedInput = {
   paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutDocumentsAddedInput = {
@@ -1079,6 +3009,8 @@ export type AccountCreateWithoutDocumentsAddedInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -1089,6 +3021,16 @@ export type AccountCreateWithoutDocumentsAddedInput = {
   paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutDocumentsAddedInput = {
@@ -1097,6 +3039,8 @@ export type AccountUncheckedCreateWithoutDocumentsAddedInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -1106,6 +3050,16 @@ export type AccountUncheckedCreateWithoutDocumentsAddedInput = {
   paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutDocumentsAddedInput = {
@@ -1129,6 +3083,8 @@ export type AccountUpdateWithoutDocumentsAddedInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -1139,6 +3095,16 @@ export type AccountUpdateWithoutDocumentsAddedInput = {
   paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutDocumentsAddedInput = {
@@ -1147,6 +3113,8 @@ export type AccountUncheckedUpdateWithoutDocumentsAddedInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -1156,6 +3124,16 @@ export type AccountUncheckedUpdateWithoutDocumentsAddedInput = {
   paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutUploadedMediaInput = {
@@ -1163,6 +3141,8 @@ export type AccountCreateWithoutUploadedMediaInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -1173,6 +3153,16 @@ export type AccountCreateWithoutUploadedMediaInput = {
   paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutUploadedMediaInput = {
@@ -1181,6 +3171,8 @@ export type AccountUncheckedCreateWithoutUploadedMediaInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -1190,6 +3182,16 @@ export type AccountUncheckedCreateWithoutUploadedMediaInput = {
   paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutUploadedMediaInput = {
@@ -1213,6 +3215,8 @@ export type AccountUpdateWithoutUploadedMediaInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -1223,6 +3227,16 @@ export type AccountUpdateWithoutUploadedMediaInput = {
   paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutUploadedMediaInput = {
@@ -1231,6 +3245,8 @@ export type AccountUncheckedUpdateWithoutUploadedMediaInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -1240,6 +3256,16 @@ export type AccountUncheckedUpdateWithoutUploadedMediaInput = {
   paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutNotificationsInput = {
@@ -1247,6 +3273,8 @@ export type AccountCreateWithoutNotificationsInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -1257,6 +3285,16 @@ export type AccountCreateWithoutNotificationsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutNotificationsInput = {
@@ -1265,6 +3303,8 @@ export type AccountUncheckedCreateWithoutNotificationsInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -1274,6 +3314,16 @@ export type AccountUncheckedCreateWithoutNotificationsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutNotificationsInput = {
@@ -1297,6 +3347,8 @@ export type AccountUpdateWithoutNotificationsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -1307,6 +3359,16 @@ export type AccountUpdateWithoutNotificationsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutNotificationsInput = {
@@ -1315,6 +3377,8 @@ export type AccountUncheckedUpdateWithoutNotificationsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -1324,6 +3388,16 @@ export type AccountUncheckedUpdateWithoutNotificationsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountCreateWithoutAuditLogsInput = {
@@ -1331,6 +3405,8 @@ export type AccountCreateWithoutAuditLogsInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutAccountInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutAccountInput
@@ -1341,6 +3417,16 @@ export type AccountCreateWithoutAuditLogsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountUncheckedCreateWithoutAuditLogsInput = {
@@ -1349,6 +3435,8 @@ export type AccountUncheckedCreateWithoutAuditLogsInput = {
   username: string
   passwordHash: string
   status?: $Enums.AccountStatus
+  sessionVersion?: number
+  passwordChangeRequired?: boolean
   createdAt?: Date | string
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutAccountInput
   membershipCards?: Prisma.MembershipCardUncheckedCreateNestedManyWithoutAccountInput
@@ -1358,6 +3446,16 @@ export type AccountUncheckedCreateWithoutAuditLogsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedCreateNestedManyWithoutRecordedByInput
   documentsAdded?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutAddedByInput
   uploadedMedia?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutUploadedByInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutReviewedByInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutCreatedAccountInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+  mandatesCreated?: Prisma.MandateUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  mandatesUpdated?: Prisma.MandateUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  mandatesValidated?: Prisma.MandateUncheckedCreateNestedManyWithoutValidatedByAccountInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutProposedByInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutDecidedByInput
 }
 
 export type AccountCreateOrConnectWithoutAuditLogsInput = {
@@ -1381,6 +3479,8 @@ export type AccountUpdateWithoutAuditLogsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutAccountNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutAccountNestedInput
@@ -1391,6 +3491,16 @@ export type AccountUpdateWithoutAuditLogsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUpdateManyWithoutDecidedByNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutAuditLogsInput = {
@@ -1399,6 +3509,8 @@ export type AccountUncheckedUpdateWithoutAuditLogsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  passwordChangeRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutAccountNestedInput
   membershipCards?: Prisma.MembershipCardUncheckedUpdateManyWithoutAccountNestedInput
@@ -1408,6 +3520,16 @@ export type AccountUncheckedUpdateWithoutAuditLogsInput = {
   transactionsRecorded?: Prisma.FinancialTransactionUncheckedUpdateManyWithoutRecordedByNestedInput
   documentsAdded?: Prisma.DocumentRecordUncheckedUpdateManyWithoutAddedByNestedInput
   uploadedMedia?: Prisma.MediaAssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  preRegistrationReviews?: Prisma.PreRegistrationUncheckedUpdateManyWithoutReviewedByNestedInput
+  preRegistrationCreated?: Prisma.PreRegistrationUncheckedUpdateManyWithoutCreatedAccountNestedInput
+  personRegistryEntriesCreated?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+  mandatesCreated?: Prisma.MandateUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  mandatesUpdated?: Prisma.MandateUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  mandatesValidated?: Prisma.MandateUncheckedUpdateManyWithoutValidatedByAccountNestedInput
+  teamLeadershipsCreated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput
+  teamLeadershipsUpdated?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput
+  gradeProposalsSubmitted?: Prisma.GradeProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  gradeProposalsReviewed?: Prisma.GradeProposalUncheckedUpdateManyWithoutDecidedByNestedInput
 }
 
 
@@ -1425,6 +3547,16 @@ export type AccountCountOutputType = {
   transactionsRecorded: number
   documentsAdded: number
   uploadedMedia: number
+  preRegistrationReviews: number
+  preRegistrationCreated: number
+  personRegistryEntriesCreated: number
+  mandatesCreated: number
+  mandatesUpdated: number
+  mandatesValidated: number
+  teamLeadershipsCreated: number
+  teamLeadershipsUpdated: number
+  gradeProposalsSubmitted: number
+  gradeProposalsReviewed: number
 }
 
 export type AccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1437,6 +3569,16 @@ export type AccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   transactionsRecorded?: boolean | AccountCountOutputTypeCountTransactionsRecordedArgs
   documentsAdded?: boolean | AccountCountOutputTypeCountDocumentsAddedArgs
   uploadedMedia?: boolean | AccountCountOutputTypeCountUploadedMediaArgs
+  preRegistrationReviews?: boolean | AccountCountOutputTypeCountPreRegistrationReviewsArgs
+  preRegistrationCreated?: boolean | AccountCountOutputTypeCountPreRegistrationCreatedArgs
+  personRegistryEntriesCreated?: boolean | AccountCountOutputTypeCountPersonRegistryEntriesCreatedArgs
+  mandatesCreated?: boolean | AccountCountOutputTypeCountMandatesCreatedArgs
+  mandatesUpdated?: boolean | AccountCountOutputTypeCountMandatesUpdatedArgs
+  mandatesValidated?: boolean | AccountCountOutputTypeCountMandatesValidatedArgs
+  teamLeadershipsCreated?: boolean | AccountCountOutputTypeCountTeamLeadershipsCreatedArgs
+  teamLeadershipsUpdated?: boolean | AccountCountOutputTypeCountTeamLeadershipsUpdatedArgs
+  gradeProposalsSubmitted?: boolean | AccountCountOutputTypeCountGradeProposalsSubmittedArgs
+  gradeProposalsReviewed?: boolean | AccountCountOutputTypeCountGradeProposalsReviewedArgs
 }
 
 /**
@@ -1512,6 +3654,76 @@ export type AccountCountOutputTypeCountUploadedMediaArgs<ExtArgs extends runtime
   where?: Prisma.MediaAssetWhereInput
 }
 
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountPreRegistrationReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PreRegistrationWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountPreRegistrationCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PreRegistrationWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountPersonRegistryEntriesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PersonRegistryEntryWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountMandatesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MandateWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountMandatesUpdatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MandateWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountMandatesValidatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MandateWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountTeamLeadershipsCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeamLeadershipWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountTeamLeadershipsUpdatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeamLeadershipWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountGradeProposalsSubmittedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GradeProposalWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountGradeProposalsReviewedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GradeProposalWhereInput
+}
+
 
 export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1519,6 +3731,8 @@ export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   username?: boolean
   passwordHash?: boolean
   status?: boolean
+  sessionVersion?: boolean
+  passwordChangeRequired?: boolean
   createdAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   userRoles?: boolean | Prisma.Account$userRolesArgs<ExtArgs>
@@ -1530,6 +3744,16 @@ export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   transactionsRecorded?: boolean | Prisma.Account$transactionsRecordedArgs<ExtArgs>
   documentsAdded?: boolean | Prisma.Account$documentsAddedArgs<ExtArgs>
   uploadedMedia?: boolean | Prisma.Account$uploadedMediaArgs<ExtArgs>
+  preRegistrationReviews?: boolean | Prisma.Account$preRegistrationReviewsArgs<ExtArgs>
+  preRegistrationCreated?: boolean | Prisma.Account$preRegistrationCreatedArgs<ExtArgs>
+  personRegistryEntriesCreated?: boolean | Prisma.Account$personRegistryEntriesCreatedArgs<ExtArgs>
+  mandatesCreated?: boolean | Prisma.Account$mandatesCreatedArgs<ExtArgs>
+  mandatesUpdated?: boolean | Prisma.Account$mandatesUpdatedArgs<ExtArgs>
+  mandatesValidated?: boolean | Prisma.Account$mandatesValidatedArgs<ExtArgs>
+  teamLeadershipsCreated?: boolean | Prisma.Account$teamLeadershipsCreatedArgs<ExtArgs>
+  teamLeadershipsUpdated?: boolean | Prisma.Account$teamLeadershipsUpdatedArgs<ExtArgs>
+  gradeProposalsSubmitted?: boolean | Prisma.Account$gradeProposalsSubmittedArgs<ExtArgs>
+  gradeProposalsReviewed?: boolean | Prisma.Account$gradeProposalsReviewedArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["account"]>
 
@@ -1539,6 +3763,8 @@ export type AccountSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   username?: boolean
   passwordHash?: boolean
   status?: boolean
+  sessionVersion?: boolean
+  passwordChangeRequired?: boolean
   createdAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["account"]>
@@ -1549,6 +3775,8 @@ export type AccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   username?: boolean
   passwordHash?: boolean
   status?: boolean
+  sessionVersion?: boolean
+  passwordChangeRequired?: boolean
   createdAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["account"]>
@@ -1559,10 +3787,12 @@ export type AccountSelectScalar = {
   username?: boolean
   passwordHash?: boolean
   status?: boolean
+  sessionVersion?: boolean
+  passwordChangeRequired?: boolean
   createdAt?: boolean
 }
 
-export type AccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "personId" | "username" | "passwordHash" | "status" | "createdAt", ExtArgs["result"]["account"]>
+export type AccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "personId" | "username" | "passwordHash" | "status" | "sessionVersion" | "passwordChangeRequired" | "createdAt", ExtArgs["result"]["account"]>
 export type AccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   userRoles?: boolean | Prisma.Account$userRolesArgs<ExtArgs>
@@ -1574,6 +3804,16 @@ export type AccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   transactionsRecorded?: boolean | Prisma.Account$transactionsRecordedArgs<ExtArgs>
   documentsAdded?: boolean | Prisma.Account$documentsAddedArgs<ExtArgs>
   uploadedMedia?: boolean | Prisma.Account$uploadedMediaArgs<ExtArgs>
+  preRegistrationReviews?: boolean | Prisma.Account$preRegistrationReviewsArgs<ExtArgs>
+  preRegistrationCreated?: boolean | Prisma.Account$preRegistrationCreatedArgs<ExtArgs>
+  personRegistryEntriesCreated?: boolean | Prisma.Account$personRegistryEntriesCreatedArgs<ExtArgs>
+  mandatesCreated?: boolean | Prisma.Account$mandatesCreatedArgs<ExtArgs>
+  mandatesUpdated?: boolean | Prisma.Account$mandatesUpdatedArgs<ExtArgs>
+  mandatesValidated?: boolean | Prisma.Account$mandatesValidatedArgs<ExtArgs>
+  teamLeadershipsCreated?: boolean | Prisma.Account$teamLeadershipsCreatedArgs<ExtArgs>
+  teamLeadershipsUpdated?: boolean | Prisma.Account$teamLeadershipsUpdatedArgs<ExtArgs>
+  gradeProposalsSubmitted?: boolean | Prisma.Account$gradeProposalsSubmittedArgs<ExtArgs>
+  gradeProposalsReviewed?: boolean | Prisma.Account$gradeProposalsReviewedArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1596,6 +3836,16 @@ export type $AccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     transactionsRecorded: Prisma.$FinancialTransactionPayload<ExtArgs>[]
     documentsAdded: Prisma.$DocumentRecordPayload<ExtArgs>[]
     uploadedMedia: Prisma.$MediaAssetPayload<ExtArgs>[]
+    preRegistrationReviews: Prisma.$PreRegistrationPayload<ExtArgs>[]
+    preRegistrationCreated: Prisma.$PreRegistrationPayload<ExtArgs>[]
+    personRegistryEntriesCreated: Prisma.$PersonRegistryEntryPayload<ExtArgs>[]
+    mandatesCreated: Prisma.$MandatePayload<ExtArgs>[]
+    mandatesUpdated: Prisma.$MandatePayload<ExtArgs>[]
+    mandatesValidated: Prisma.$MandatePayload<ExtArgs>[]
+    teamLeadershipsCreated: Prisma.$TeamLeadershipPayload<ExtArgs>[]
+    teamLeadershipsUpdated: Prisma.$TeamLeadershipPayload<ExtArgs>[]
+    gradeProposalsSubmitted: Prisma.$GradeProposalPayload<ExtArgs>[]
+    gradeProposalsReviewed: Prisma.$GradeProposalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1603,6 +3853,11 @@ export type $AccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     username: string
     passwordHash: string
     status: $Enums.AccountStatus
+    sessionVersion: number
+    /**
+     * Temporary credentials are consumed at first login; a new secret must be set before using the application.
+     */
+    passwordChangeRequired: boolean
     createdAt: Date
   }, ExtArgs["result"]["account"]>
   composites: {}
@@ -2008,6 +4263,16 @@ export interface Prisma__AccountClient<T, Null = never, ExtArgs extends runtime.
   transactionsRecorded<T extends Prisma.Account$transactionsRecordedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$transactionsRecordedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FinancialTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documentsAdded<T extends Prisma.Account$documentsAddedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$documentsAddedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   uploadedMedia<T extends Prisma.Account$uploadedMediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$uploadedMediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  preRegistrationReviews<T extends Prisma.Account$preRegistrationReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$preRegistrationReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PreRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  preRegistrationCreated<T extends Prisma.Account$preRegistrationCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$preRegistrationCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PreRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  personRegistryEntriesCreated<T extends Prisma.Account$personRegistryEntriesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$personRegistryEntriesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PersonRegistryEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mandatesCreated<T extends Prisma.Account$mandatesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$mandatesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MandatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mandatesUpdated<T extends Prisma.Account$mandatesUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$mandatesUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MandatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mandatesValidated<T extends Prisma.Account$mandatesValidatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$mandatesValidatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MandatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  teamLeadershipsCreated<T extends Prisma.Account$teamLeadershipsCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$teamLeadershipsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamLeadershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  teamLeadershipsUpdated<T extends Prisma.Account$teamLeadershipsUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$teamLeadershipsUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamLeadershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  gradeProposalsSubmitted<T extends Prisma.Account$gradeProposalsSubmittedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$gradeProposalsSubmittedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  gradeProposalsReviewed<T extends Prisma.Account$gradeProposalsReviewedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$gradeProposalsReviewedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2042,6 +4307,8 @@ export interface AccountFieldRefs {
   readonly username: Prisma.FieldRef<"Account", 'String'>
   readonly passwordHash: Prisma.FieldRef<"Account", 'String'>
   readonly status: Prisma.FieldRef<"Account", 'AccountStatus'>
+  readonly sessionVersion: Prisma.FieldRef<"Account", 'Int'>
+  readonly passwordChangeRequired: Prisma.FieldRef<"Account", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Account", 'DateTime'>
 }
     
@@ -2657,6 +4924,246 @@ export type Account$uploadedMediaArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.MediaAssetScalarFieldEnum | Prisma.MediaAssetScalarFieldEnum[]
+}
+
+/**
+ * Account.preRegistrationReviews
+ */
+export type Account$preRegistrationReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PreRegistration
+   */
+  select?: Prisma.PreRegistrationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PreRegistration
+   */
+  omit?: Prisma.PreRegistrationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PreRegistrationInclude<ExtArgs> | null
+  where?: Prisma.PreRegistrationWhereInput
+  orderBy?: Prisma.PreRegistrationOrderByWithRelationInput | Prisma.PreRegistrationOrderByWithRelationInput[]
+  cursor?: Prisma.PreRegistrationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PreRegistrationScalarFieldEnum | Prisma.PreRegistrationScalarFieldEnum[]
+}
+
+/**
+ * Account.preRegistrationCreated
+ */
+export type Account$preRegistrationCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PreRegistration
+   */
+  select?: Prisma.PreRegistrationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PreRegistration
+   */
+  omit?: Prisma.PreRegistrationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PreRegistrationInclude<ExtArgs> | null
+  where?: Prisma.PreRegistrationWhereInput
+  orderBy?: Prisma.PreRegistrationOrderByWithRelationInput | Prisma.PreRegistrationOrderByWithRelationInput[]
+  cursor?: Prisma.PreRegistrationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PreRegistrationScalarFieldEnum | Prisma.PreRegistrationScalarFieldEnum[]
+}
+
+/**
+ * Account.personRegistryEntriesCreated
+ */
+export type Account$personRegistryEntriesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PersonRegistryEntry
+   */
+  select?: Prisma.PersonRegistryEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PersonRegistryEntry
+   */
+  omit?: Prisma.PersonRegistryEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PersonRegistryEntryInclude<ExtArgs> | null
+  where?: Prisma.PersonRegistryEntryWhereInput
+  orderBy?: Prisma.PersonRegistryEntryOrderByWithRelationInput | Prisma.PersonRegistryEntryOrderByWithRelationInput[]
+  cursor?: Prisma.PersonRegistryEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PersonRegistryEntryScalarFieldEnum | Prisma.PersonRegistryEntryScalarFieldEnum[]
+}
+
+/**
+ * Account.mandatesCreated
+ */
+export type Account$mandatesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Mandate
+   */
+  select?: Prisma.MandateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Mandate
+   */
+  omit?: Prisma.MandateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MandateInclude<ExtArgs> | null
+  where?: Prisma.MandateWhereInput
+  orderBy?: Prisma.MandateOrderByWithRelationInput | Prisma.MandateOrderByWithRelationInput[]
+  cursor?: Prisma.MandateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MandateScalarFieldEnum | Prisma.MandateScalarFieldEnum[]
+}
+
+/**
+ * Account.mandatesUpdated
+ */
+export type Account$mandatesUpdatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Mandate
+   */
+  select?: Prisma.MandateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Mandate
+   */
+  omit?: Prisma.MandateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MandateInclude<ExtArgs> | null
+  where?: Prisma.MandateWhereInput
+  orderBy?: Prisma.MandateOrderByWithRelationInput | Prisma.MandateOrderByWithRelationInput[]
+  cursor?: Prisma.MandateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MandateScalarFieldEnum | Prisma.MandateScalarFieldEnum[]
+}
+
+/**
+ * Account.mandatesValidated
+ */
+export type Account$mandatesValidatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Mandate
+   */
+  select?: Prisma.MandateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Mandate
+   */
+  omit?: Prisma.MandateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MandateInclude<ExtArgs> | null
+  where?: Prisma.MandateWhereInput
+  orderBy?: Prisma.MandateOrderByWithRelationInput | Prisma.MandateOrderByWithRelationInput[]
+  cursor?: Prisma.MandateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MandateScalarFieldEnum | Prisma.MandateScalarFieldEnum[]
+}
+
+/**
+ * Account.teamLeadershipsCreated
+ */
+export type Account$teamLeadershipsCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TeamLeadership
+   */
+  select?: Prisma.TeamLeadershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TeamLeadership
+   */
+  omit?: Prisma.TeamLeadershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamLeadershipInclude<ExtArgs> | null
+  where?: Prisma.TeamLeadershipWhereInput
+  orderBy?: Prisma.TeamLeadershipOrderByWithRelationInput | Prisma.TeamLeadershipOrderByWithRelationInput[]
+  cursor?: Prisma.TeamLeadershipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeamLeadershipScalarFieldEnum | Prisma.TeamLeadershipScalarFieldEnum[]
+}
+
+/**
+ * Account.teamLeadershipsUpdated
+ */
+export type Account$teamLeadershipsUpdatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TeamLeadership
+   */
+  select?: Prisma.TeamLeadershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TeamLeadership
+   */
+  omit?: Prisma.TeamLeadershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamLeadershipInclude<ExtArgs> | null
+  where?: Prisma.TeamLeadershipWhereInput
+  orderBy?: Prisma.TeamLeadershipOrderByWithRelationInput | Prisma.TeamLeadershipOrderByWithRelationInput[]
+  cursor?: Prisma.TeamLeadershipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeamLeadershipScalarFieldEnum | Prisma.TeamLeadershipScalarFieldEnum[]
+}
+
+/**
+ * Account.gradeProposalsSubmitted
+ */
+export type Account$gradeProposalsSubmittedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GradeProposal
+   */
+  select?: Prisma.GradeProposalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GradeProposal
+   */
+  omit?: Prisma.GradeProposalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GradeProposalInclude<ExtArgs> | null
+  where?: Prisma.GradeProposalWhereInput
+  orderBy?: Prisma.GradeProposalOrderByWithRelationInput | Prisma.GradeProposalOrderByWithRelationInput[]
+  cursor?: Prisma.GradeProposalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GradeProposalScalarFieldEnum | Prisma.GradeProposalScalarFieldEnum[]
+}
+
+/**
+ * Account.gradeProposalsReviewed
+ */
+export type Account$gradeProposalsReviewedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GradeProposal
+   */
+  select?: Prisma.GradeProposalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GradeProposal
+   */
+  omit?: Prisma.GradeProposalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GradeProposalInclude<ExtArgs> | null
+  where?: Prisma.GradeProposalWhereInput
+  orderBy?: Prisma.GradeProposalOrderByWithRelationInput | Prisma.GradeProposalOrderByWithRelationInput[]
+  cursor?: Prisma.GradeProposalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GradeProposalScalarFieldEnum | Prisma.GradeProposalScalarFieldEnum[]
 }
 
 /**

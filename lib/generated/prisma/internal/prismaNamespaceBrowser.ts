@@ -60,6 +60,7 @@ export const ModelName = {
   TeamLeadership: 'TeamLeadership',
   Person: 'Person',
   Account: 'Account',
+  PersonRegistryEntry: 'PersonRegistryEntry',
   Role: 'Role',
   UserRole: 'UserRole',
   Fonction: 'Fonction',
@@ -67,8 +68,10 @@ export const ModelName = {
   Mandate: 'Mandate',
   Grade: 'Grade',
   GradeHistory: 'GradeHistory',
+  GradeProposal: 'GradeProposal',
   ChefQualification: 'ChefQualification',
   Membership: 'Membership',
+  PreRegistration: 'PreRegistration',
   Tutor: 'Tutor',
   MembershipCard: 'MembershipCard',
   ActivityType: 'ActivityType',
@@ -84,11 +87,13 @@ export const ModelName = {
   FinancialTransaction: 'FinancialTransaction',
   RequestType: 'RequestType',
   CertificateRequest: 'CertificateRequest',
+  CertificateValidationStep: 'CertificateValidationStep',
   Certificate: 'Certificate',
   DocumentRecord: 'DocumentRecord',
   LibraryDocument: 'LibraryDocument',
   MediaAsset: 'MediaAsset',
   Notification: 'Notification',
+  AccountAccessRequest: 'AccountAccessRequest',
   Broadcast: 'Broadcast',
   HealthProfile: 'HealthProfile',
   HealthProfileConsent: 'HealthProfileConsent',
@@ -200,7 +205,12 @@ export const TeamLeadershipScalarFieldEnum = {
   teamId: 'teamId',
   personId: 'personId',
   role: 'role',
-  pastoralYear: 'pastoralYear'
+  pastoralYear: 'pastoralYear',
+  endedAt: 'endedAt',
+  createdByAccountId: 'createdByAccountId',
+  updatedByAccountId: 'updatedByAccountId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type TeamLeadershipScalarFieldEnum = (typeof TeamLeadershipScalarFieldEnum)[keyof typeof TeamLeadershipScalarFieldEnum]
@@ -214,6 +224,9 @@ export const PersonScalarFieldEnum = {
   sex: 'sex',
   phone: 'phone',
   email: 'email',
+  addressLine: 'addressLine',
+  addressCity: 'addressCity',
+  addressPostalCode: 'addressPostalCode',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -228,10 +241,24 @@ export const AccountScalarFieldEnum = {
   username: 'username',
   passwordHash: 'passwordHash',
   status: 'status',
+  sessionVersion: 'sessionVersion',
+  passwordChangeRequired: 'passwordChangeRequired',
   createdAt: 'createdAt'
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+export const PersonRegistryEntryScalarFieldEnum = {
+  id: 'id',
+  personId: 'personId',
+  scopeType: 'scopeType',
+  scopeId: 'scopeId',
+  createdByAccountId: 'createdByAccountId',
+  createdAt: 'createdAt'
+} as const
+
+export type PersonRegistryEntryScalarFieldEnum = (typeof PersonRegistryEntryScalarFieldEnum)[keyof typeof PersonRegistryEntryScalarFieldEnum]
 
 
 export const RoleScalarFieldEnum = {
@@ -287,6 +314,11 @@ export const MandateScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',
+  createdByAccountId: 'createdByAccountId',
+  updatedByAccountId: 'updatedByAccountId',
+  validatedByAccountId: 'validatedByAccountId',
+  validatedAt: 'validatedAt',
+  appointmentReference: 'appointmentReference',
   previousMandateId: 'previousMandateId',
   createdAt: 'createdAt'
 } as const
@@ -320,6 +352,21 @@ export const GradeHistoryScalarFieldEnum = {
 export type GradeHistoryScalarFieldEnum = (typeof GradeHistoryScalarFieldEnum)[keyof typeof GradeHistoryScalarFieldEnum]
 
 
+export const GradeProposalScalarFieldEnum = {
+  id: 'id',
+  personId: 'personId',
+  gradeId: 'gradeId',
+  proposedByAccountId: 'proposedByAccountId',
+  status: 'status',
+  decisionNote: 'decisionNote',
+  decidedByAccountId: 'decidedByAccountId',
+  createdAt: 'createdAt',
+  decidedAt: 'decidedAt'
+} as const
+
+export type GradeProposalScalarFieldEnum = (typeof GradeProposalScalarFieldEnum)[keyof typeof GradeProposalScalarFieldEnum]
+
+
 export const ChefQualificationScalarFieldEnum = {
   id: 'id',
   personId: 'personId',
@@ -345,6 +392,45 @@ export const MembershipScalarFieldEnum = {
 } as const
 
 export type MembershipScalarFieldEnum = (typeof MembershipScalarFieldEnum)[keyof typeof MembershipScalarFieldEnum]
+
+
+export const PreRegistrationScalarFieldEnum = {
+  id: 'id',
+  referenceCode: 'referenceCode',
+  kind: 'kind',
+  status: 'status',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  birthDate: 'birthDate',
+  sex: 'sex',
+  phone: 'phone',
+  email: 'email',
+  guardianFirstName: 'guardianFirstName',
+  guardianLastName: 'guardianLastName',
+  guardianPhone: 'guardianPhone',
+  guardianEmail: 'guardianEmail',
+  guardianRelationship: 'guardianRelationship',
+  originParishId: 'originParishId',
+  originMemberNumber: 'originMemberNumber',
+  requestedParishId: 'requestedParishId',
+  consentedAt: 'consentedAt',
+  possibleDuplicate: 'possibleDuplicate',
+  decisionNote: 'decisionNote',
+  proposalSectionId: 'proposalSectionId',
+  proposalTeamId: 'proposalTeamId',
+  proposalById: 'proposalById',
+  proposalSubmittedAt: 'proposalSubmittedAt',
+  proposalDecisionNote: 'proposalDecisionNote',
+  proposalReviewedById: 'proposalReviewedById',
+  proposalReviewedAt: 'proposalReviewedAt',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
+  createdAccountId: 'createdAccountId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PreRegistrationScalarFieldEnum = (typeof PreRegistrationScalarFieldEnum)[keyof typeof PreRegistrationScalarFieldEnum]
 
 
 export const TutorScalarFieldEnum = {
@@ -532,11 +618,13 @@ export type RequestTypeScalarFieldEnum = (typeof RequestTypeScalarFieldEnum)[key
 export const CertificateRequestScalarFieldEnum = {
   id: 'id',
   requestTypeId: 'requestTypeId',
+  requiredValidationLevel: 'requiredValidationLevel',
   requesterId: 'requesterId',
   createdById: 'createdById',
   status: 'status',
   level1ValidatorId: 'level1ValidatorId',
   level2ValidatorId: 'level2ValidatorId',
+  level3ValidatorId: 'level3ValidatorId',
   escalated: 'escalated',
   decisionNote: 'decisionNote',
   createdAt: 'createdAt',
@@ -544,6 +632,20 @@ export const CertificateRequestScalarFieldEnum = {
 } as const
 
 export type CertificateRequestScalarFieldEnum = (typeof CertificateRequestScalarFieldEnum)[keyof typeof CertificateRequestScalarFieldEnum]
+
+
+export const CertificateValidationStepScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  level: 'level',
+  status: 'status',
+  validatedByPersonId: 'validatedByPersonId',
+  comment: 'comment',
+  validatedAt: 'validatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type CertificateValidationStepScalarFieldEnum = (typeof CertificateValidationStepScalarFieldEnum)[keyof typeof CertificateValidationStepScalarFieldEnum]
 
 
 export const CertificateScalarFieldEnum = {
@@ -556,7 +658,8 @@ export const CertificateScalarFieldEnum = {
   generatedAt: 'generatedAt',
   templateUsed: 'templateUsed',
   pdfUrl: 'pdfUrl',
-  status: 'status'
+  status: 'status',
+  contentSnapshot: 'contentSnapshot'
 } as const
 
 export type CertificateScalarFieldEnum = (typeof CertificateScalarFieldEnum)[keyof typeof CertificateScalarFieldEnum]
@@ -622,6 +725,17 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const AccountAccessRequestScalarFieldEnum = {
+  id: 'id',
+  submittedIdentifier: 'submittedIdentifier',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AccountAccessRequestScalarFieldEnum = (typeof AccountAccessRequestScalarFieldEnum)[keyof typeof AccountAccessRequestScalarFieldEnum]
 
 
 export const BroadcastScalarFieldEnum = {

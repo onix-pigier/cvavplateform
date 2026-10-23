@@ -14,9 +14,8 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model CertificateRequest
- * Circuit à 2 niveaux (D-056). `escalated` = true quand le niveau N1 a été
- * court-circuité parce que le demandeur en était lui-même le validateur
- * théorique (D-062, anti-auto-validation).
+ * Le niveau requis est figé à la soumission : modifier le référentiel ne
+ * change pas rétroactivement le parcours d'une demande déjà ouverte.
  */
 export type CertificateRequestModel = runtime.Types.Result.DefaultSelection<Prisma.$CertificateRequestPayload>
 
@@ -29,11 +28,13 @@ export type AggregateCertificateRequest = {
 export type CertificateRequestMinAggregateOutputType = {
   id: string | null
   requestTypeId: string | null
+  requiredValidationLevel: $Enums.ValidationLevel | null
   requesterId: string | null
   createdById: string | null
   status: $Enums.CertificateRequestStatus | null
   level1ValidatorId: string | null
   level2ValidatorId: string | null
+  level3ValidatorId: string | null
   escalated: boolean | null
   decisionNote: string | null
   createdAt: Date | null
@@ -43,11 +44,13 @@ export type CertificateRequestMinAggregateOutputType = {
 export type CertificateRequestMaxAggregateOutputType = {
   id: string | null
   requestTypeId: string | null
+  requiredValidationLevel: $Enums.ValidationLevel | null
   requesterId: string | null
   createdById: string | null
   status: $Enums.CertificateRequestStatus | null
   level1ValidatorId: string | null
   level2ValidatorId: string | null
+  level3ValidatorId: string | null
   escalated: boolean | null
   decisionNote: string | null
   createdAt: Date | null
@@ -57,11 +60,13 @@ export type CertificateRequestMaxAggregateOutputType = {
 export type CertificateRequestCountAggregateOutputType = {
   id: number
   requestTypeId: number
+  requiredValidationLevel: number
   requesterId: number
   createdById: number
   status: number
   level1ValidatorId: number
   level2ValidatorId: number
+  level3ValidatorId: number
   escalated: number
   decisionNote: number
   createdAt: number
@@ -73,11 +78,13 @@ export type CertificateRequestCountAggregateOutputType = {
 export type CertificateRequestMinAggregateInputType = {
   id?: true
   requestTypeId?: true
+  requiredValidationLevel?: true
   requesterId?: true
   createdById?: true
   status?: true
   level1ValidatorId?: true
   level2ValidatorId?: true
+  level3ValidatorId?: true
   escalated?: true
   decisionNote?: true
   createdAt?: true
@@ -87,11 +94,13 @@ export type CertificateRequestMinAggregateInputType = {
 export type CertificateRequestMaxAggregateInputType = {
   id?: true
   requestTypeId?: true
+  requiredValidationLevel?: true
   requesterId?: true
   createdById?: true
   status?: true
   level1ValidatorId?: true
   level2ValidatorId?: true
+  level3ValidatorId?: true
   escalated?: true
   decisionNote?: true
   createdAt?: true
@@ -101,11 +110,13 @@ export type CertificateRequestMaxAggregateInputType = {
 export type CertificateRequestCountAggregateInputType = {
   id?: true
   requestTypeId?: true
+  requiredValidationLevel?: true
   requesterId?: true
   createdById?: true
   status?: true
   level1ValidatorId?: true
   level2ValidatorId?: true
+  level3ValidatorId?: true
   escalated?: true
   decisionNote?: true
   createdAt?: true
@@ -188,11 +199,13 @@ export type CertificateRequestGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type CertificateRequestGroupByOutputType = {
   id: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status: $Enums.CertificateRequestStatus
   level1ValidatorId: string | null
   level2ValidatorId: string | null
+  level3ValidatorId: string | null
   escalated: boolean
   decisionNote: string | null
   createdAt: Date
@@ -223,11 +236,13 @@ export type CertificateRequestWhereInput = {
   NOT?: Prisma.CertificateRequestWhereInput | Prisma.CertificateRequestWhereInput[]
   id?: Prisma.StringFilter<"CertificateRequest"> | string
   requestTypeId?: Prisma.StringFilter<"CertificateRequest"> | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFilter<"CertificateRequest"> | $Enums.ValidationLevel
   requesterId?: Prisma.StringFilter<"CertificateRequest"> | string
   createdById?: Prisma.StringFilter<"CertificateRequest"> | string
   status?: Prisma.EnumCertificateRequestStatusFilter<"CertificateRequest"> | $Enums.CertificateRequestStatus
   level1ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   level2ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
+  level3ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   escalated?: Prisma.BoolFilter<"CertificateRequest"> | boolean
   decisionNote?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CertificateRequest"> | Date | string
@@ -237,17 +252,21 @@ export type CertificateRequestWhereInput = {
   createdBy?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
   level1Validator?: Prisma.XOR<Prisma.PersonNullableScalarRelationFilter, Prisma.PersonWhereInput> | null
   level2Validator?: Prisma.XOR<Prisma.PersonNullableScalarRelationFilter, Prisma.PersonWhereInput> | null
+  level3Validator?: Prisma.XOR<Prisma.PersonNullableScalarRelationFilter, Prisma.PersonWhereInput> | null
   certificate?: Prisma.XOR<Prisma.CertificateNullableScalarRelationFilter, Prisma.CertificateWhereInput> | null
+  validationSteps?: Prisma.CertificateValidationStepListRelationFilter
 }
 
 export type CertificateRequestOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   requestTypeId?: Prisma.SortOrder
+  requiredValidationLevel?: Prisma.SortOrder
   requesterId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   status?: Prisma.SortOrder
   level1ValidatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   level2ValidatorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  level3ValidatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   escalated?: Prisma.SortOrder
   decisionNote?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -257,7 +276,9 @@ export type CertificateRequestOrderByWithRelationInput = {
   createdBy?: Prisma.PersonOrderByWithRelationInput
   level1Validator?: Prisma.PersonOrderByWithRelationInput
   level2Validator?: Prisma.PersonOrderByWithRelationInput
+  level3Validator?: Prisma.PersonOrderByWithRelationInput
   certificate?: Prisma.CertificateOrderByWithRelationInput
+  validationSteps?: Prisma.CertificateValidationStepOrderByRelationAggregateInput
 }
 
 export type CertificateRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -266,11 +287,13 @@ export type CertificateRequestWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CertificateRequestWhereInput[]
   NOT?: Prisma.CertificateRequestWhereInput | Prisma.CertificateRequestWhereInput[]
   requestTypeId?: Prisma.StringFilter<"CertificateRequest"> | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFilter<"CertificateRequest"> | $Enums.ValidationLevel
   requesterId?: Prisma.StringFilter<"CertificateRequest"> | string
   createdById?: Prisma.StringFilter<"CertificateRequest"> | string
   status?: Prisma.EnumCertificateRequestStatusFilter<"CertificateRequest"> | $Enums.CertificateRequestStatus
   level1ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   level2ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
+  level3ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   escalated?: Prisma.BoolFilter<"CertificateRequest"> | boolean
   decisionNote?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CertificateRequest"> | Date | string
@@ -280,17 +303,21 @@ export type CertificateRequestWhereUniqueInput = Prisma.AtLeast<{
   createdBy?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
   level1Validator?: Prisma.XOR<Prisma.PersonNullableScalarRelationFilter, Prisma.PersonWhereInput> | null
   level2Validator?: Prisma.XOR<Prisma.PersonNullableScalarRelationFilter, Prisma.PersonWhereInput> | null
+  level3Validator?: Prisma.XOR<Prisma.PersonNullableScalarRelationFilter, Prisma.PersonWhereInput> | null
   certificate?: Prisma.XOR<Prisma.CertificateNullableScalarRelationFilter, Prisma.CertificateWhereInput> | null
+  validationSteps?: Prisma.CertificateValidationStepListRelationFilter
 }, "id">
 
 export type CertificateRequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   requestTypeId?: Prisma.SortOrder
+  requiredValidationLevel?: Prisma.SortOrder
   requesterId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   status?: Prisma.SortOrder
   level1ValidatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   level2ValidatorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  level3ValidatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   escalated?: Prisma.SortOrder
   decisionNote?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -306,11 +333,13 @@ export type CertificateRequestScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CertificateRequestScalarWhereWithAggregatesInput | Prisma.CertificateRequestScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"CertificateRequest"> | string
   requestTypeId?: Prisma.StringWithAggregatesFilter<"CertificateRequest"> | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelWithAggregatesFilter<"CertificateRequest"> | $Enums.ValidationLevel
   requesterId?: Prisma.StringWithAggregatesFilter<"CertificateRequest"> | string
   createdById?: Prisma.StringWithAggregatesFilter<"CertificateRequest"> | string
   status?: Prisma.EnumCertificateRequestStatusWithAggregatesFilter<"CertificateRequest"> | $Enums.CertificateRequestStatus
   level1ValidatorId?: Prisma.StringNullableWithAggregatesFilter<"CertificateRequest"> | string | null
   level2ValidatorId?: Prisma.StringNullableWithAggregatesFilter<"CertificateRequest"> | string | null
+  level3ValidatorId?: Prisma.StringNullableWithAggregatesFilter<"CertificateRequest"> | string | null
   escalated?: Prisma.BoolWithAggregatesFilter<"CertificateRequest"> | boolean
   decisionNote?: Prisma.StringNullableWithAggregatesFilter<"CertificateRequest"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CertificateRequest"> | Date | string
@@ -319,6 +348,7 @@ export type CertificateRequestScalarWhereWithAggregatesInput = {
 
 export type CertificateRequestCreateInput = {
   id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
   status?: $Enums.CertificateRequestStatus
   escalated?: boolean
   decisionNote?: string | null
@@ -329,26 +359,32 @@ export type CertificateRequestCreateInput = {
   createdBy: Prisma.PersonCreateNestedOneWithoutCertificateRequestsCreatedInput
   level1Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL1Input
   level2Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input
+  level3Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input
   certificate?: Prisma.CertificateCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestUncheckedCreateInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
   closedAt?: Date | string | null
   certificate?: Prisma.CertificateUncheckedCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
   escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -359,32 +395,39 @@ export type CertificateRequestUpdateInput = {
   createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
   level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
   level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
+  level3Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput
   certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutRequestNestedInput
 }
 
 export type CertificateRequestUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   requesterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
   level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutRequestNestedInput
 }
 
 export type CertificateRequestCreateManyInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
@@ -393,6 +436,7 @@ export type CertificateRequestCreateManyInput = {
 
 export type CertificateRequestUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
   escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -403,11 +447,13 @@ export type CertificateRequestUpdateManyMutationInput = {
 export type CertificateRequestUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   requesterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
   level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -427,11 +473,13 @@ export type CertificateRequestOrderByRelationAggregateInput = {
 export type CertificateRequestCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   requestTypeId?: Prisma.SortOrder
+  requiredValidationLevel?: Prisma.SortOrder
   requesterId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   status?: Prisma.SortOrder
   level1ValidatorId?: Prisma.SortOrder
   level2ValidatorId?: Prisma.SortOrder
+  level3ValidatorId?: Prisma.SortOrder
   escalated?: Prisma.SortOrder
   decisionNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -441,11 +489,13 @@ export type CertificateRequestCountOrderByAggregateInput = {
 export type CertificateRequestMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   requestTypeId?: Prisma.SortOrder
+  requiredValidationLevel?: Prisma.SortOrder
   requesterId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   status?: Prisma.SortOrder
   level1ValidatorId?: Prisma.SortOrder
   level2ValidatorId?: Prisma.SortOrder
+  level3ValidatorId?: Prisma.SortOrder
   escalated?: Prisma.SortOrder
   decisionNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -455,11 +505,13 @@ export type CertificateRequestMaxOrderByAggregateInput = {
 export type CertificateRequestMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   requestTypeId?: Prisma.SortOrder
+  requiredValidationLevel?: Prisma.SortOrder
   requesterId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   status?: Prisma.SortOrder
   level1ValidatorId?: Prisma.SortOrder
   level2ValidatorId?: Prisma.SortOrder
+  level3ValidatorId?: Prisma.SortOrder
   escalated?: Prisma.SortOrder
   decisionNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -499,6 +551,13 @@ export type CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput = {
   connect?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
 }
 
+export type CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput = {
+  create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput, Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput> | Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput[] | Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput[]
+  connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput | Prisma.CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput[]
+  createMany?: Prisma.CertificateRequestCreateManyLevel3ValidatorInputEnvelope
+  connect?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+}
+
 export type CertificateRequestUncheckedCreateNestedManyWithoutRequesterInput = {
   create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutRequesterInput, Prisma.CertificateRequestUncheckedCreateWithoutRequesterInput> | Prisma.CertificateRequestCreateWithoutRequesterInput[] | Prisma.CertificateRequestUncheckedCreateWithoutRequesterInput[]
   connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutRequesterInput | Prisma.CertificateRequestCreateOrConnectWithoutRequesterInput[]
@@ -524,6 +583,13 @@ export type CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInp
   create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutLevel2ValidatorInput, Prisma.CertificateRequestUncheckedCreateWithoutLevel2ValidatorInput> | Prisma.CertificateRequestCreateWithoutLevel2ValidatorInput[] | Prisma.CertificateRequestUncheckedCreateWithoutLevel2ValidatorInput[]
   connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutLevel2ValidatorInput | Prisma.CertificateRequestCreateOrConnectWithoutLevel2ValidatorInput[]
   createMany?: Prisma.CertificateRequestCreateManyLevel2ValidatorInputEnvelope
+  connect?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+}
+
+export type CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput = {
+  create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput, Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput> | Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput[] | Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput[]
+  connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput | Prisma.CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput[]
+  createMany?: Prisma.CertificateRequestCreateManyLevel3ValidatorInputEnvelope
   connect?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
 }
 
@@ -583,6 +649,20 @@ export type CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput = {
   deleteMany?: Prisma.CertificateRequestScalarWhereInput | Prisma.CertificateRequestScalarWhereInput[]
 }
 
+export type CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput = {
+  create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput, Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput> | Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput[] | Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput[]
+  connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput | Prisma.CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput[]
+  upsert?: Prisma.CertificateRequestUpsertWithWhereUniqueWithoutLevel3ValidatorInput | Prisma.CertificateRequestUpsertWithWhereUniqueWithoutLevel3ValidatorInput[]
+  createMany?: Prisma.CertificateRequestCreateManyLevel3ValidatorInputEnvelope
+  set?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+  disconnect?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+  delete?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+  connect?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+  update?: Prisma.CertificateRequestUpdateWithWhereUniqueWithoutLevel3ValidatorInput | Prisma.CertificateRequestUpdateWithWhereUniqueWithoutLevel3ValidatorInput[]
+  updateMany?: Prisma.CertificateRequestUpdateManyWithWhereWithoutLevel3ValidatorInput | Prisma.CertificateRequestUpdateManyWithWhereWithoutLevel3ValidatorInput[]
+  deleteMany?: Prisma.CertificateRequestScalarWhereInput | Prisma.CertificateRequestScalarWhereInput[]
+}
+
 export type CertificateRequestUncheckedUpdateManyWithoutRequesterNestedInput = {
   create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutRequesterInput, Prisma.CertificateRequestUncheckedCreateWithoutRequesterInput> | Prisma.CertificateRequestCreateWithoutRequesterInput[] | Prisma.CertificateRequestUncheckedCreateWithoutRequesterInput[]
   connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutRequesterInput | Prisma.CertificateRequestCreateOrConnectWithoutRequesterInput[]
@@ -639,6 +719,20 @@ export type CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInp
   deleteMany?: Prisma.CertificateRequestScalarWhereInput | Prisma.CertificateRequestScalarWhereInput[]
 }
 
+export type CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput = {
+  create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput, Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput> | Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput[] | Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput[]
+  connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput | Prisma.CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput[]
+  upsert?: Prisma.CertificateRequestUpsertWithWhereUniqueWithoutLevel3ValidatorInput | Prisma.CertificateRequestUpsertWithWhereUniqueWithoutLevel3ValidatorInput[]
+  createMany?: Prisma.CertificateRequestCreateManyLevel3ValidatorInputEnvelope
+  set?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+  disconnect?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+  delete?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+  connect?: Prisma.CertificateRequestWhereUniqueInput | Prisma.CertificateRequestWhereUniqueInput[]
+  update?: Prisma.CertificateRequestUpdateWithWhereUniqueWithoutLevel3ValidatorInput | Prisma.CertificateRequestUpdateWithWhereUniqueWithoutLevel3ValidatorInput[]
+  updateMany?: Prisma.CertificateRequestUpdateManyWithWhereWithoutLevel3ValidatorInput | Prisma.CertificateRequestUpdateManyWithWhereWithoutLevel3ValidatorInput[]
+  deleteMany?: Prisma.CertificateRequestScalarWhereInput | Prisma.CertificateRequestScalarWhereInput[]
+}
+
 export type CertificateRequestCreateNestedManyWithoutRequestTypeInput = {
   create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutRequestTypeInput, Prisma.CertificateRequestUncheckedCreateWithoutRequestTypeInput> | Prisma.CertificateRequestCreateWithoutRequestTypeInput[] | Prisma.CertificateRequestUncheckedCreateWithoutRequestTypeInput[]
   connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutRequestTypeInput | Prisma.CertificateRequestCreateOrConnectWithoutRequestTypeInput[]
@@ -685,6 +779,20 @@ export type EnumCertificateRequestStatusFieldUpdateOperationsInput = {
   set?: $Enums.CertificateRequestStatus
 }
 
+export type CertificateRequestCreateNestedOneWithoutValidationStepsInput = {
+  create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutValidationStepsInput, Prisma.CertificateRequestUncheckedCreateWithoutValidationStepsInput>
+  connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutValidationStepsInput
+  connect?: Prisma.CertificateRequestWhereUniqueInput
+}
+
+export type CertificateRequestUpdateOneRequiredWithoutValidationStepsNestedInput = {
+  create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutValidationStepsInput, Prisma.CertificateRequestUncheckedCreateWithoutValidationStepsInput>
+  connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutValidationStepsInput
+  upsert?: Prisma.CertificateRequestUpsertWithoutValidationStepsInput
+  connect?: Prisma.CertificateRequestWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CertificateRequestUpdateToOneWithWhereWithoutValidationStepsInput, Prisma.CertificateRequestUpdateWithoutValidationStepsInput>, Prisma.CertificateRequestUncheckedUpdateWithoutValidationStepsInput>
+}
+
 export type CertificateRequestCreateNestedOneWithoutCertificateInput = {
   create?: Prisma.XOR<Prisma.CertificateRequestCreateWithoutCertificateInput, Prisma.CertificateRequestUncheckedCreateWithoutCertificateInput>
   connectOrCreate?: Prisma.CertificateRequestCreateOrConnectWithoutCertificateInput
@@ -701,6 +809,7 @@ export type CertificateRequestUpdateOneRequiredWithoutCertificateNestedInput = {
 
 export type CertificateRequestCreateWithoutRequesterInput = {
   id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
   status?: $Enums.CertificateRequestStatus
   escalated?: boolean
   decisionNote?: string | null
@@ -710,21 +819,26 @@ export type CertificateRequestCreateWithoutRequesterInput = {
   createdBy: Prisma.PersonCreateNestedOneWithoutCertificateRequestsCreatedInput
   level1Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL1Input
   level2Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input
+  level3Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input
   certificate?: Prisma.CertificateCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestUncheckedCreateWithoutRequesterInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
   closedAt?: Date | string | null
   certificate?: Prisma.CertificateUncheckedCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestCreateOrConnectWithoutRequesterInput = {
@@ -739,6 +853,7 @@ export type CertificateRequestCreateManyRequesterInputEnvelope = {
 
 export type CertificateRequestCreateWithoutCreatedByInput = {
   id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
   status?: $Enums.CertificateRequestStatus
   escalated?: boolean
   decisionNote?: string | null
@@ -748,21 +863,26 @@ export type CertificateRequestCreateWithoutCreatedByInput = {
   requester: Prisma.PersonCreateNestedOneWithoutCertificateRequestsMadeInput
   level1Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL1Input
   level2Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input
+  level3Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input
   certificate?: Prisma.CertificateCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestUncheckedCreateWithoutCreatedByInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
   closedAt?: Date | string | null
   certificate?: Prisma.CertificateUncheckedCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestCreateOrConnectWithoutCreatedByInput = {
@@ -777,6 +897,7 @@ export type CertificateRequestCreateManyCreatedByInputEnvelope = {
 
 export type CertificateRequestCreateWithoutLevel1ValidatorInput = {
   id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
   status?: $Enums.CertificateRequestStatus
   escalated?: boolean
   decisionNote?: string | null
@@ -786,21 +907,26 @@ export type CertificateRequestCreateWithoutLevel1ValidatorInput = {
   requester: Prisma.PersonCreateNestedOneWithoutCertificateRequestsMadeInput
   createdBy: Prisma.PersonCreateNestedOneWithoutCertificateRequestsCreatedInput
   level2Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input
+  level3Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input
   certificate?: Prisma.CertificateCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestUncheckedCreateWithoutLevel1ValidatorInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
   closedAt?: Date | string | null
   certificate?: Prisma.CertificateUncheckedCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestCreateOrConnectWithoutLevel1ValidatorInput = {
@@ -815,6 +941,7 @@ export type CertificateRequestCreateManyLevel1ValidatorInputEnvelope = {
 
 export type CertificateRequestCreateWithoutLevel2ValidatorInput = {
   id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
   status?: $Enums.CertificateRequestStatus
   escalated?: boolean
   decisionNote?: string | null
@@ -824,21 +951,26 @@ export type CertificateRequestCreateWithoutLevel2ValidatorInput = {
   requester: Prisma.PersonCreateNestedOneWithoutCertificateRequestsMadeInput
   createdBy: Prisma.PersonCreateNestedOneWithoutCertificateRequestsCreatedInput
   level1Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL1Input
+  level3Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input
   certificate?: Prisma.CertificateCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestUncheckedCreateWithoutLevel2ValidatorInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
   closedAt?: Date | string | null
   certificate?: Prisma.CertificateUncheckedCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestCreateOrConnectWithoutLevel2ValidatorInput = {
@@ -848,6 +980,50 @@ export type CertificateRequestCreateOrConnectWithoutLevel2ValidatorInput = {
 
 export type CertificateRequestCreateManyLevel2ValidatorInputEnvelope = {
   data: Prisma.CertificateRequestCreateManyLevel2ValidatorInput | Prisma.CertificateRequestCreateManyLevel2ValidatorInput[]
+  skipDuplicates?: boolean
+}
+
+export type CertificateRequestCreateWithoutLevel3ValidatorInput = {
+  id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
+  status?: $Enums.CertificateRequestStatus
+  escalated?: boolean
+  decisionNote?: string | null
+  createdAt?: Date | string
+  closedAt?: Date | string | null
+  requestType: Prisma.RequestTypeCreateNestedOneWithoutRequestsInput
+  requester: Prisma.PersonCreateNestedOneWithoutCertificateRequestsMadeInput
+  createdBy: Prisma.PersonCreateNestedOneWithoutCertificateRequestsCreatedInput
+  level1Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL1Input
+  level2Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input
+  certificate?: Prisma.CertificateCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutRequestInput
+}
+
+export type CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput = {
+  id?: string
+  requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
+  requesterId: string
+  createdById: string
+  status?: $Enums.CertificateRequestStatus
+  level1ValidatorId?: string | null
+  level2ValidatorId?: string | null
+  escalated?: boolean
+  decisionNote?: string | null
+  createdAt?: Date | string
+  closedAt?: Date | string | null
+  certificate?: Prisma.CertificateUncheckedCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutRequestInput
+}
+
+export type CertificateRequestCreateOrConnectWithoutLevel3ValidatorInput = {
+  where: Prisma.CertificateRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput, Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput>
+}
+
+export type CertificateRequestCreateManyLevel3ValidatorInputEnvelope = {
+  data: Prisma.CertificateRequestCreateManyLevel3ValidatorInput | Prisma.CertificateRequestCreateManyLevel3ValidatorInput[]
   skipDuplicates?: boolean
 }
 
@@ -873,11 +1049,13 @@ export type CertificateRequestScalarWhereInput = {
   NOT?: Prisma.CertificateRequestScalarWhereInput | Prisma.CertificateRequestScalarWhereInput[]
   id?: Prisma.StringFilter<"CertificateRequest"> | string
   requestTypeId?: Prisma.StringFilter<"CertificateRequest"> | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFilter<"CertificateRequest"> | $Enums.ValidationLevel
   requesterId?: Prisma.StringFilter<"CertificateRequest"> | string
   createdById?: Prisma.StringFilter<"CertificateRequest"> | string
   status?: Prisma.EnumCertificateRequestStatusFilter<"CertificateRequest"> | $Enums.CertificateRequestStatus
   level1ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   level2ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
+  level3ValidatorId?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   escalated?: Prisma.BoolFilter<"CertificateRequest"> | boolean
   decisionNote?: Prisma.StringNullableFilter<"CertificateRequest"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CertificateRequest"> | Date | string
@@ -932,8 +1110,25 @@ export type CertificateRequestUpdateManyWithWhereWithoutLevel2ValidatorInput = {
   data: Prisma.XOR<Prisma.CertificateRequestUpdateManyMutationInput, Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorInput>
 }
 
+export type CertificateRequestUpsertWithWhereUniqueWithoutLevel3ValidatorInput = {
+  where: Prisma.CertificateRequestWhereUniqueInput
+  update: Prisma.XOR<Prisma.CertificateRequestUpdateWithoutLevel3ValidatorInput, Prisma.CertificateRequestUncheckedUpdateWithoutLevel3ValidatorInput>
+  create: Prisma.XOR<Prisma.CertificateRequestCreateWithoutLevel3ValidatorInput, Prisma.CertificateRequestUncheckedCreateWithoutLevel3ValidatorInput>
+}
+
+export type CertificateRequestUpdateWithWhereUniqueWithoutLevel3ValidatorInput = {
+  where: Prisma.CertificateRequestWhereUniqueInput
+  data: Prisma.XOR<Prisma.CertificateRequestUpdateWithoutLevel3ValidatorInput, Prisma.CertificateRequestUncheckedUpdateWithoutLevel3ValidatorInput>
+}
+
+export type CertificateRequestUpdateManyWithWhereWithoutLevel3ValidatorInput = {
+  where: Prisma.CertificateRequestScalarWhereInput
+  data: Prisma.XOR<Prisma.CertificateRequestUpdateManyMutationInput, Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorInput>
+}
+
 export type CertificateRequestCreateWithoutRequestTypeInput = {
   id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
   status?: $Enums.CertificateRequestStatus
   escalated?: boolean
   decisionNote?: string | null
@@ -943,21 +1138,26 @@ export type CertificateRequestCreateWithoutRequestTypeInput = {
   createdBy: Prisma.PersonCreateNestedOneWithoutCertificateRequestsCreatedInput
   level1Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL1Input
   level2Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input
+  level3Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input
   certificate?: Prisma.CertificateCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestUncheckedCreateWithoutRequestTypeInput = {
   id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
   closedAt?: Date | string | null
   certificate?: Prisma.CertificateUncheckedCreateNestedOneWithoutCertificateRequestInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestCreateOrConnectWithoutRequestTypeInput = {
@@ -986,8 +1186,9 @@ export type CertificateRequestUpdateManyWithWhereWithoutRequestTypeInput = {
   data: Prisma.XOR<Prisma.CertificateRequestUpdateManyMutationInput, Prisma.CertificateRequestUncheckedUpdateManyWithoutRequestTypeInput>
 }
 
-export type CertificateRequestCreateWithoutCertificateInput = {
+export type CertificateRequestCreateWithoutValidationStepsInput = {
   id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
   status?: $Enums.CertificateRequestStatus
   escalated?: boolean
   decisionNote?: string | null
@@ -998,20 +1199,109 @@ export type CertificateRequestCreateWithoutCertificateInput = {
   createdBy: Prisma.PersonCreateNestedOneWithoutCertificateRequestsCreatedInput
   level1Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL1Input
   level2Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input
+  level3Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input
+  certificate?: Prisma.CertificateCreateNestedOneWithoutCertificateRequestInput
 }
 
-export type CertificateRequestUncheckedCreateWithoutCertificateInput = {
+export type CertificateRequestUncheckedCreateWithoutValidationStepsInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
   closedAt?: Date | string | null
+  certificate?: Prisma.CertificateUncheckedCreateNestedOneWithoutCertificateRequestInput
+}
+
+export type CertificateRequestCreateOrConnectWithoutValidationStepsInput = {
+  where: Prisma.CertificateRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.CertificateRequestCreateWithoutValidationStepsInput, Prisma.CertificateRequestUncheckedCreateWithoutValidationStepsInput>
+}
+
+export type CertificateRequestUpsertWithoutValidationStepsInput = {
+  update: Prisma.XOR<Prisma.CertificateRequestUpdateWithoutValidationStepsInput, Prisma.CertificateRequestUncheckedUpdateWithoutValidationStepsInput>
+  create: Prisma.XOR<Prisma.CertificateRequestCreateWithoutValidationStepsInput, Prisma.CertificateRequestUncheckedCreateWithoutValidationStepsInput>
+  where?: Prisma.CertificateRequestWhereInput
+}
+
+export type CertificateRequestUpdateToOneWithWhereWithoutValidationStepsInput = {
+  where?: Prisma.CertificateRequestWhereInput
+  data: Prisma.XOR<Prisma.CertificateRequestUpdateWithoutValidationStepsInput, Prisma.CertificateRequestUncheckedUpdateWithoutValidationStepsInput>
+}
+
+export type CertificateRequestUpdateWithoutValidationStepsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
+  requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
+  createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
+  level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
+  level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
+  level3Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput
+  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateWithoutValidationStepsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
+}
+
+export type CertificateRequestCreateWithoutCertificateInput = {
+  id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
+  status?: $Enums.CertificateRequestStatus
+  escalated?: boolean
+  decisionNote?: string | null
+  createdAt?: Date | string
+  closedAt?: Date | string | null
+  requestType: Prisma.RequestTypeCreateNestedOneWithoutRequestsInput
+  requester: Prisma.PersonCreateNestedOneWithoutCertificateRequestsMadeInput
+  createdBy: Prisma.PersonCreateNestedOneWithoutCertificateRequestsCreatedInput
+  level1Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL1Input
+  level2Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input
+  level3Validator?: Prisma.PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input
+  validationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutRequestInput
+}
+
+export type CertificateRequestUncheckedCreateWithoutCertificateInput = {
+  id?: string
+  requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
+  requesterId: string
+  createdById: string
+  status?: $Enums.CertificateRequestStatus
+  level1ValidatorId?: string | null
+  level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
+  escalated?: boolean
+  decisionNote?: string | null
+  createdAt?: Date | string
+  closedAt?: Date | string | null
+  validationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutRequestInput
 }
 
 export type CertificateRequestCreateOrConnectWithoutCertificateInput = {
@@ -1032,6 +1322,7 @@ export type CertificateRequestUpdateToOneWithWhereWithoutCertificateInput = {
 
 export type CertificateRequestUpdateWithoutCertificateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
   escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1042,29 +1333,36 @@ export type CertificateRequestUpdateWithoutCertificateInput = {
   createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
   level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
   level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
+  level3Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput
+  validationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutRequestNestedInput
 }
 
 export type CertificateRequestUncheckedUpdateWithoutCertificateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   requesterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
   level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  validationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutRequestNestedInput
 }
 
 export type CertificateRequestCreateManyRequesterInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
@@ -1074,10 +1372,12 @@ export type CertificateRequestCreateManyRequesterInput = {
 export type CertificateRequestCreateManyCreatedByInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
@@ -1087,10 +1387,12 @@ export type CertificateRequestCreateManyCreatedByInput = {
 export type CertificateRequestCreateManyLevel1ValidatorInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
@@ -1100,182 +1402,22 @@ export type CertificateRequestCreateManyLevel1ValidatorInput = {
 export type CertificateRequestCreateManyLevel2ValidatorInput = {
   id?: string
   requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
   level1ValidatorId?: string | null
+  level3ValidatorId?: string | null
   escalated?: boolean
   decisionNote?: string | null
   createdAt?: Date | string
   closedAt?: Date | string | null
 }
 
-export type CertificateRequestUpdateWithoutRequesterInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
-  createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
-  level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
-  level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
-  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
-}
-
-export type CertificateRequestUncheckedUpdateWithoutRequesterInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
-}
-
-export type CertificateRequestUncheckedUpdateManyWithoutRequesterInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type CertificateRequestUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
-  requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
-  level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
-  level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
-  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
-}
-
-export type CertificateRequestUncheckedUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
-}
-
-export type CertificateRequestUncheckedUpdateManyWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type CertificateRequestUpdateWithoutLevel1ValidatorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
-  requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
-  createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
-  level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
-  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
-}
-
-export type CertificateRequestUncheckedUpdateWithoutLevel1ValidatorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
-}
-
-export type CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type CertificateRequestUpdateWithoutLevel2ValidatorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
-  requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
-  createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
-  level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
-  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
-}
-
-export type CertificateRequestUncheckedUpdateWithoutLevel2ValidatorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
-}
-
-export type CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
-  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type CertificateRequestCreateManyRequestTypeInput = {
+export type CertificateRequestCreateManyLevel3ValidatorInput = {
   id?: string
+  requestTypeId: string
+  requiredValidationLevel: $Enums.ValidationLevel
   requesterId: string
   createdById: string
   status?: $Enums.CertificateRequestStatus
@@ -1287,22 +1429,223 @@ export type CertificateRequestCreateManyRequestTypeInput = {
   closedAt?: Date | string | null
 }
 
-export type CertificateRequestUpdateWithoutRequestTypeInput = {
+export type CertificateRequestUpdateWithoutRequesterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
   escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
+  createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
+  level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
+  level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
+  level3Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput
+  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateWithoutRequesterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateManyWithoutRequesterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type CertificateRequestUpdateWithoutCreatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
+  requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
+  level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
+  level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
+  level3Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput
+  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateWithoutCreatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateManyWithoutCreatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type CertificateRequestUpdateWithoutLevel1ValidatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
+  requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
+  createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
+  level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
+  level3Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput
+  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateWithoutLevel1ValidatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type CertificateRequestUpdateWithoutLevel2ValidatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
+  requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
+  createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
+  level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
+  level3Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput
+  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateWithoutLevel2ValidatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type CertificateRequestUpdateWithoutLevel3ValidatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requestType?: Prisma.RequestTypeUpdateOneRequiredWithoutRequestsNestedInput
   requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
   createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
   level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
   level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
   certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutRequestNestedInput
 }
 
-export type CertificateRequestUncheckedUpdateWithoutRequestTypeInput = {
+export type CertificateRequestUncheckedUpdateWithoutLevel3ValidatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   requesterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
@@ -1313,10 +1656,13 @@ export type CertificateRequestUncheckedUpdateWithoutRequestTypeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutRequestNestedInput
 }
 
-export type CertificateRequestUncheckedUpdateManyWithoutRequestTypeInput = {
+export type CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
   requesterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
@@ -1328,16 +1674,111 @@ export type CertificateRequestUncheckedUpdateManyWithoutRequestTypeInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type CertificateRequestCreateManyRequestTypeInput = {
+  id?: string
+  requiredValidationLevel: $Enums.ValidationLevel
+  requesterId: string
+  createdById: string
+  status?: $Enums.CertificateRequestStatus
+  level1ValidatorId?: string | null
+  level2ValidatorId?: string | null
+  level3ValidatorId?: string | null
+  escalated?: boolean
+  decisionNote?: string | null
+  createdAt?: Date | string
+  closedAt?: Date | string | null
+}
+
+export type CertificateRequestUpdateWithoutRequestTypeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requester?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput
+  createdBy?: Prisma.PersonUpdateOneRequiredWithoutCertificateRequestsCreatedNestedInput
+  level1Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL1NestedInput
+  level2Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput
+  level3Validator?: Prisma.PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput
+  certificate?: Prisma.CertificateUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateWithoutRequestTypeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certificate?: Prisma.CertificateUncheckedUpdateOneWithoutCertificateRequestNestedInput
+  validationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutRequestNestedInput
+}
+
+export type CertificateRequestUncheckedUpdateManyWithoutRequestTypeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredValidationLevel?: Prisma.EnumValidationLevelFieldUpdateOperationsInput | $Enums.ValidationLevel
+  requesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCertificateRequestStatusFieldUpdateOperationsInput | $Enums.CertificateRequestStatus
+  level1ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level2ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level3ValidatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  escalated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  decisionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+
+/**
+ * Count Type CertificateRequestCountOutputType
+ */
+
+export type CertificateRequestCountOutputType = {
+  validationSteps: number
+}
+
+export type CertificateRequestCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  validationSteps?: boolean | CertificateRequestCountOutputTypeCountValidationStepsArgs
+}
+
+/**
+ * CertificateRequestCountOutputType without action
+ */
+export type CertificateRequestCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CertificateRequestCountOutputType
+   */
+  select?: Prisma.CertificateRequestCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CertificateRequestCountOutputType without action
+ */
+export type CertificateRequestCountOutputTypeCountValidationStepsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CertificateValidationStepWhereInput
+}
 
 
 export type CertificateRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   requestTypeId?: boolean
+  requiredValidationLevel?: boolean
   requesterId?: boolean
   createdById?: boolean
   status?: boolean
   level1ValidatorId?: boolean
   level2ValidatorId?: boolean
+  level3ValidatorId?: boolean
   escalated?: boolean
   decisionNote?: boolean
   createdAt?: boolean
@@ -1347,17 +1788,22 @@ export type CertificateRequestSelect<ExtArgs extends runtime.Types.Extensions.In
   createdBy?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   level1Validator?: boolean | Prisma.CertificateRequest$level1ValidatorArgs<ExtArgs>
   level2Validator?: boolean | Prisma.CertificateRequest$level2ValidatorArgs<ExtArgs>
+  level3Validator?: boolean | Prisma.CertificateRequest$level3ValidatorArgs<ExtArgs>
   certificate?: boolean | Prisma.CertificateRequest$certificateArgs<ExtArgs>
+  validationSteps?: boolean | Prisma.CertificateRequest$validationStepsArgs<ExtArgs>
+  _count?: boolean | Prisma.CertificateRequestCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["certificateRequest"]>
 
 export type CertificateRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   requestTypeId?: boolean
+  requiredValidationLevel?: boolean
   requesterId?: boolean
   createdById?: boolean
   status?: boolean
   level1ValidatorId?: boolean
   level2ValidatorId?: boolean
+  level3ValidatorId?: boolean
   escalated?: boolean
   decisionNote?: boolean
   createdAt?: boolean
@@ -1367,16 +1813,19 @@ export type CertificateRequestSelectCreateManyAndReturn<ExtArgs extends runtime.
   createdBy?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   level1Validator?: boolean | Prisma.CertificateRequest$level1ValidatorArgs<ExtArgs>
   level2Validator?: boolean | Prisma.CertificateRequest$level2ValidatorArgs<ExtArgs>
+  level3Validator?: boolean | Prisma.CertificateRequest$level3ValidatorArgs<ExtArgs>
 }, ExtArgs["result"]["certificateRequest"]>
 
 export type CertificateRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   requestTypeId?: boolean
+  requiredValidationLevel?: boolean
   requesterId?: boolean
   createdById?: boolean
   status?: boolean
   level1ValidatorId?: boolean
   level2ValidatorId?: boolean
+  level3ValidatorId?: boolean
   escalated?: boolean
   decisionNote?: boolean
   createdAt?: boolean
@@ -1386,30 +1835,36 @@ export type CertificateRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.
   createdBy?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   level1Validator?: boolean | Prisma.CertificateRequest$level1ValidatorArgs<ExtArgs>
   level2Validator?: boolean | Prisma.CertificateRequest$level2ValidatorArgs<ExtArgs>
+  level3Validator?: boolean | Prisma.CertificateRequest$level3ValidatorArgs<ExtArgs>
 }, ExtArgs["result"]["certificateRequest"]>
 
 export type CertificateRequestSelectScalar = {
   id?: boolean
   requestTypeId?: boolean
+  requiredValidationLevel?: boolean
   requesterId?: boolean
   createdById?: boolean
   status?: boolean
   level1ValidatorId?: boolean
   level2ValidatorId?: boolean
+  level3ValidatorId?: boolean
   escalated?: boolean
   decisionNote?: boolean
   createdAt?: boolean
   closedAt?: boolean
 }
 
-export type CertificateRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "requestTypeId" | "requesterId" | "createdById" | "status" | "level1ValidatorId" | "level2ValidatorId" | "escalated" | "decisionNote" | "createdAt" | "closedAt", ExtArgs["result"]["certificateRequest"]>
+export type CertificateRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "requestTypeId" | "requiredValidationLevel" | "requesterId" | "createdById" | "status" | "level1ValidatorId" | "level2ValidatorId" | "level3ValidatorId" | "escalated" | "decisionNote" | "createdAt" | "closedAt", ExtArgs["result"]["certificateRequest"]>
 export type CertificateRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requestType?: boolean | Prisma.RequestTypeDefaultArgs<ExtArgs>
   requester?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   level1Validator?: boolean | Prisma.CertificateRequest$level1ValidatorArgs<ExtArgs>
   level2Validator?: boolean | Prisma.CertificateRequest$level2ValidatorArgs<ExtArgs>
+  level3Validator?: boolean | Prisma.CertificateRequest$level3ValidatorArgs<ExtArgs>
   certificate?: boolean | Prisma.CertificateRequest$certificateArgs<ExtArgs>
+  validationSteps?: boolean | Prisma.CertificateRequest$validationStepsArgs<ExtArgs>
+  _count?: boolean | Prisma.CertificateRequestCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CertificateRequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requestType?: boolean | Prisma.RequestTypeDefaultArgs<ExtArgs>
@@ -1417,6 +1872,7 @@ export type CertificateRequestIncludeCreateManyAndReturn<ExtArgs extends runtime
   createdBy?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   level1Validator?: boolean | Prisma.CertificateRequest$level1ValidatorArgs<ExtArgs>
   level2Validator?: boolean | Prisma.CertificateRequest$level2ValidatorArgs<ExtArgs>
+  level3Validator?: boolean | Prisma.CertificateRequest$level3ValidatorArgs<ExtArgs>
 }
 export type CertificateRequestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requestType?: boolean | Prisma.RequestTypeDefaultArgs<ExtArgs>
@@ -1424,6 +1880,7 @@ export type CertificateRequestIncludeUpdateManyAndReturn<ExtArgs extends runtime
   createdBy?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
   level1Validator?: boolean | Prisma.CertificateRequest$level1ValidatorArgs<ExtArgs>
   level2Validator?: boolean | Prisma.CertificateRequest$level2ValidatorArgs<ExtArgs>
+  level3Validator?: boolean | Prisma.CertificateRequest$level3ValidatorArgs<ExtArgs>
 }
 
 export type $CertificateRequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1434,16 +1891,24 @@ export type $CertificateRequestPayload<ExtArgs extends runtime.Types.Extensions.
     createdBy: Prisma.$PersonPayload<ExtArgs>
     level1Validator: Prisma.$PersonPayload<ExtArgs> | null
     level2Validator: Prisma.$PersonPayload<ExtArgs> | null
+    level3Validator: Prisma.$PersonPayload<ExtArgs> | null
     certificate: Prisma.$CertificatePayload<ExtArgs> | null
+    validationSteps: Prisma.$CertificateValidationStepPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     requestTypeId: string
+    /**
+     * Snapshot of the configured route at submission time; later config edits
+     * must not silently change an already-running request.
+     */
+    requiredValidationLevel: $Enums.ValidationLevel
     requesterId: string
     createdById: string
     status: $Enums.CertificateRequestStatus
     level1ValidatorId: string | null
     level2ValidatorId: string | null
+    level3ValidatorId: string | null
     escalated: boolean
     decisionNote: string | null
     createdAt: Date
@@ -1847,7 +2312,9 @@ export interface Prisma__CertificateRequestClient<T, Null = never, ExtArgs exten
   createdBy<T extends Prisma.PersonDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PersonDefaultArgs<ExtArgs>>): Prisma.Prisma__PersonClient<runtime.Types.Result.GetResult<Prisma.$PersonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   level1Validator<T extends Prisma.CertificateRequest$level1ValidatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CertificateRequest$level1ValidatorArgs<ExtArgs>>): Prisma.Prisma__PersonClient<runtime.Types.Result.GetResult<Prisma.$PersonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   level2Validator<T extends Prisma.CertificateRequest$level2ValidatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CertificateRequest$level2ValidatorArgs<ExtArgs>>): Prisma.Prisma__PersonClient<runtime.Types.Result.GetResult<Prisma.$PersonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  level3Validator<T extends Prisma.CertificateRequest$level3ValidatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CertificateRequest$level3ValidatorArgs<ExtArgs>>): Prisma.Prisma__PersonClient<runtime.Types.Result.GetResult<Prisma.$PersonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   certificate<T extends Prisma.CertificateRequest$certificateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CertificateRequest$certificateArgs<ExtArgs>>): Prisma.Prisma__CertificateClient<runtime.Types.Result.GetResult<Prisma.$CertificatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  validationSteps<T extends Prisma.CertificateRequest$validationStepsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CertificateRequest$validationStepsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificateValidationStepPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1879,11 +2346,13 @@ export interface Prisma__CertificateRequestClient<T, Null = never, ExtArgs exten
 export interface CertificateRequestFieldRefs {
   readonly id: Prisma.FieldRef<"CertificateRequest", 'String'>
   readonly requestTypeId: Prisma.FieldRef<"CertificateRequest", 'String'>
+  readonly requiredValidationLevel: Prisma.FieldRef<"CertificateRequest", 'ValidationLevel'>
   readonly requesterId: Prisma.FieldRef<"CertificateRequest", 'String'>
   readonly createdById: Prisma.FieldRef<"CertificateRequest", 'String'>
   readonly status: Prisma.FieldRef<"CertificateRequest", 'CertificateRequestStatus'>
   readonly level1ValidatorId: Prisma.FieldRef<"CertificateRequest", 'String'>
   readonly level2ValidatorId: Prisma.FieldRef<"CertificateRequest", 'String'>
+  readonly level3ValidatorId: Prisma.FieldRef<"CertificateRequest", 'String'>
   readonly escalated: Prisma.FieldRef<"CertificateRequest", 'Boolean'>
   readonly decisionNote: Prisma.FieldRef<"CertificateRequest", 'String'>
   readonly createdAt: Prisma.FieldRef<"CertificateRequest", 'DateTime'>
@@ -2327,6 +2796,25 @@ export type CertificateRequest$level2ValidatorArgs<ExtArgs extends runtime.Types
 }
 
 /**
+ * CertificateRequest.level3Validator
+ */
+export type CertificateRequest$level3ValidatorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Person
+   */
+  select?: Prisma.PersonSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Person
+   */
+  omit?: Prisma.PersonOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PersonInclude<ExtArgs> | null
+  where?: Prisma.PersonWhereInput
+}
+
+/**
  * CertificateRequest.certificate
  */
 export type CertificateRequest$certificateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2343,6 +2831,30 @@ export type CertificateRequest$certificateArgs<ExtArgs extends runtime.Types.Ext
    */
   include?: Prisma.CertificateInclude<ExtArgs> | null
   where?: Prisma.CertificateWhereInput
+}
+
+/**
+ * CertificateRequest.validationSteps
+ */
+export type CertificateRequest$validationStepsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CertificateValidationStep
+   */
+  select?: Prisma.CertificateValidationStepSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CertificateValidationStep
+   */
+  omit?: Prisma.CertificateValidationStepOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CertificateValidationStepInclude<ExtArgs> | null
+  where?: Prisma.CertificateValidationStepWhereInput
+  orderBy?: Prisma.CertificateValidationStepOrderByWithRelationInput | Prisma.CertificateValidationStepOrderByWithRelationInput[]
+  cursor?: Prisma.CertificateValidationStepWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CertificateValidationStepScalarFieldEnum | Prisma.CertificateValidationStepScalarFieldEnum[]
 }
 
 /**

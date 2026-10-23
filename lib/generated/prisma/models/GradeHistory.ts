@@ -15,7 +15,8 @@ import type * as Prisma from "../internal/prismaNamespace"
 /**
  * Model GradeHistory
  * Parcours militant : Benjamin → Cadet → Aîné → Meneur. Le grade courant est
- * la ligne sans endedAt. Figé (lastMilitantGrade) au passage Chef, jamais
+ * la ligne sans endedAt (un seul grade courant par personne, index partiel
+ * PostgreSQL en migration). Figé (lastMilitantGrade) au passage Chef, jamais
  * écrasé (D-054).
  */
 export type GradeHistoryModel = runtime.Types.Result.DefaultSelection<Prisma.$GradeHistoryPayload>

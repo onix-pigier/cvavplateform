@@ -33,6 +33,9 @@ export type PersonMinAggregateOutputType = {
   sex: $Enums.Sex | null
   phone: string | null
   email: string | null
+  addressLine: string | null
+  addressCity: string | null
+  addressPostalCode: string | null
   status: $Enums.PersonStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -46,6 +49,9 @@ export type PersonMaxAggregateOutputType = {
   sex: $Enums.Sex | null
   phone: string | null
   email: string | null
+  addressLine: string | null
+  addressCity: string | null
+  addressPostalCode: string | null
   status: $Enums.PersonStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,6 +65,9 @@ export type PersonCountAggregateOutputType = {
   sex: number
   phone: number
   email: number
+  addressLine: number
+  addressCity: number
+  addressPostalCode: number
   status: number
   createdAt: number
   updatedAt: number
@@ -74,6 +83,9 @@ export type PersonMinAggregateInputType = {
   sex?: true
   phone?: true
   email?: true
+  addressLine?: true
+  addressCity?: true
+  addressPostalCode?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -87,6 +99,9 @@ export type PersonMaxAggregateInputType = {
   sex?: true
   phone?: true
   email?: true
+  addressLine?: true
+  addressCity?: true
+  addressPostalCode?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -100,6 +115,9 @@ export type PersonCountAggregateInputType = {
   sex?: true
   phone?: true
   email?: true
+  addressLine?: true
+  addressCity?: true
+  addressPostalCode?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -186,6 +204,9 @@ export type PersonGroupByOutputType = {
   sex: $Enums.Sex
   phone: string | null
   email: string | null
+  addressLine: string | null
+  addressCity: string | null
+  addressPostalCode: string | null
   status: $Enums.PersonStatus
   createdAt: Date
   updatedAt: Date
@@ -220,6 +241,9 @@ export type PersonWhereInput = {
   sex?: Prisma.EnumSexFilter<"Person"> | $Enums.Sex
   phone?: Prisma.StringNullableFilter<"Person"> | string | null
   email?: Prisma.StringNullableFilter<"Person"> | string | null
+  addressLine?: Prisma.StringNullableFilter<"Person"> | string | null
+  addressCity?: Prisma.StringNullableFilter<"Person"> | string | null
+  addressPostalCode?: Prisma.StringNullableFilter<"Person"> | string | null
   status?: Prisma.EnumPersonStatusFilter<"Person"> | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFilter<"Person"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Person"> | Date | string
@@ -229,6 +253,7 @@ export type PersonWhereInput = {
   mandatesHeld?: Prisma.MandateListRelationFilter
   gradeHistory?: Prisma.GradeHistoryListRelationFilter
   gradesAwarded?: Prisma.GradeHistoryListRelationFilter
+  gradeProposals?: Prisma.GradeProposalListRelationFilter
   chefQualifications?: Prisma.ChefQualificationListRelationFilter
   chefQualificationsAwarded?: Prisma.ChefQualificationListRelationFilter
   contributions?: Prisma.ContributionListRelationFilter
@@ -240,10 +265,13 @@ export type PersonWhereInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestListRelationFilter
   certificateRequestsValidatedL1?: Prisma.CertificateRequestListRelationFilter
   certificateRequestsValidatedL2?: Prisma.CertificateRequestListRelationFilter
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestListRelationFilter
+  certificateValidationSteps?: Prisma.CertificateValidationStepListRelationFilter
   broadcastsAuthored?: Prisma.BroadcastListRelationFilter
   tutorsAsMinor?: Prisma.TutorListRelationFilter
   healthProfile?: Prisma.XOR<Prisma.HealthProfileNullableScalarRelationFilter, Prisma.HealthProfileWhereInput> | null
   mediaAssets?: Prisma.MediaAssetListRelationFilter
+  registryEntries?: Prisma.PersonRegistryEntryListRelationFilter
 }
 
 export type PersonOrderByWithRelationInput = {
@@ -254,6 +282,9 @@ export type PersonOrderByWithRelationInput = {
   sex?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressCity?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressPostalCode?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -263,6 +294,7 @@ export type PersonOrderByWithRelationInput = {
   mandatesHeld?: Prisma.MandateOrderByRelationAggregateInput
   gradeHistory?: Prisma.GradeHistoryOrderByRelationAggregateInput
   gradesAwarded?: Prisma.GradeHistoryOrderByRelationAggregateInput
+  gradeProposals?: Prisma.GradeProposalOrderByRelationAggregateInput
   chefQualifications?: Prisma.ChefQualificationOrderByRelationAggregateInput
   chefQualificationsAwarded?: Prisma.ChefQualificationOrderByRelationAggregateInput
   contributions?: Prisma.ContributionOrderByRelationAggregateInput
@@ -274,10 +306,13 @@ export type PersonOrderByWithRelationInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestOrderByRelationAggregateInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestOrderByRelationAggregateInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestOrderByRelationAggregateInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestOrderByRelationAggregateInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepOrderByRelationAggregateInput
   broadcastsAuthored?: Prisma.BroadcastOrderByRelationAggregateInput
   tutorsAsMinor?: Prisma.TutorOrderByRelationAggregateInput
   healthProfile?: Prisma.HealthProfileOrderByWithRelationInput
   mediaAssets?: Prisma.MediaAssetOrderByRelationAggregateInput
+  registryEntries?: Prisma.PersonRegistryEntryOrderByRelationAggregateInput
 }
 
 export type PersonWhereUniqueInput = Prisma.AtLeast<{
@@ -291,6 +326,9 @@ export type PersonWhereUniqueInput = Prisma.AtLeast<{
   sex?: Prisma.EnumSexFilter<"Person"> | $Enums.Sex
   phone?: Prisma.StringNullableFilter<"Person"> | string | null
   email?: Prisma.StringNullableFilter<"Person"> | string | null
+  addressLine?: Prisma.StringNullableFilter<"Person"> | string | null
+  addressCity?: Prisma.StringNullableFilter<"Person"> | string | null
+  addressPostalCode?: Prisma.StringNullableFilter<"Person"> | string | null
   status?: Prisma.EnumPersonStatusFilter<"Person"> | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFilter<"Person"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Person"> | Date | string
@@ -300,6 +338,7 @@ export type PersonWhereUniqueInput = Prisma.AtLeast<{
   mandatesHeld?: Prisma.MandateListRelationFilter
   gradeHistory?: Prisma.GradeHistoryListRelationFilter
   gradesAwarded?: Prisma.GradeHistoryListRelationFilter
+  gradeProposals?: Prisma.GradeProposalListRelationFilter
   chefQualifications?: Prisma.ChefQualificationListRelationFilter
   chefQualificationsAwarded?: Prisma.ChefQualificationListRelationFilter
   contributions?: Prisma.ContributionListRelationFilter
@@ -311,10 +350,13 @@ export type PersonWhereUniqueInput = Prisma.AtLeast<{
   certificateRequestsCreated?: Prisma.CertificateRequestListRelationFilter
   certificateRequestsValidatedL1?: Prisma.CertificateRequestListRelationFilter
   certificateRequestsValidatedL2?: Prisma.CertificateRequestListRelationFilter
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestListRelationFilter
+  certificateValidationSteps?: Prisma.CertificateValidationStepListRelationFilter
   broadcastsAuthored?: Prisma.BroadcastListRelationFilter
   tutorsAsMinor?: Prisma.TutorListRelationFilter
   healthProfile?: Prisma.XOR<Prisma.HealthProfileNullableScalarRelationFilter, Prisma.HealthProfileWhereInput> | null
   mediaAssets?: Prisma.MediaAssetListRelationFilter
+  registryEntries?: Prisma.PersonRegistryEntryListRelationFilter
 }, "id">
 
 export type PersonOrderByWithAggregationInput = {
@@ -325,6 +367,9 @@ export type PersonOrderByWithAggregationInput = {
   sex?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressCity?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressPostalCode?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -344,6 +389,9 @@ export type PersonScalarWhereWithAggregatesInput = {
   sex?: Prisma.EnumSexWithAggregatesFilter<"Person"> | $Enums.Sex
   phone?: Prisma.StringNullableWithAggregatesFilter<"Person"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"Person"> | string | null
+  addressLine?: Prisma.StringNullableWithAggregatesFilter<"Person"> | string | null
+  addressCity?: Prisma.StringNullableWithAggregatesFilter<"Person"> | string | null
+  addressPostalCode?: Prisma.StringNullableWithAggregatesFilter<"Person"> | string | null
   status?: Prisma.EnumPersonStatusWithAggregatesFilter<"Person"> | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Person"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Person"> | Date | string
@@ -357,6 +405,9 @@ export type PersonCreateInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -366,6 +417,7 @@ export type PersonCreateInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -377,10 +429,13 @@ export type PersonCreateInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateInput = {
@@ -391,6 +446,9 @@ export type PersonUncheckedCreateInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -400,6 +458,7 @@ export type PersonUncheckedCreateInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -411,10 +470,13 @@ export type PersonUncheckedCreateInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUpdateInput = {
@@ -425,6 +487,9 @@ export type PersonUpdateInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -434,6 +499,7 @@ export type PersonUpdateInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -445,10 +511,13 @@ export type PersonUpdateInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateInput = {
@@ -459,6 +528,9 @@ export type PersonUncheckedUpdateInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -468,6 +540,7 @@ export type PersonUncheckedUpdateInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -479,10 +552,13 @@ export type PersonUncheckedUpdateInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateManyInput = {
@@ -493,6 +569,9 @@ export type PersonCreateManyInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -506,6 +585,9 @@ export type PersonUpdateManyMutationInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -519,6 +601,9 @@ export type PersonUncheckedUpdateManyInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -537,6 +622,9 @@ export type PersonCountOrderByAggregateInput = {
   sex?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  addressLine?: Prisma.SortOrder
+  addressCity?: Prisma.SortOrder
+  addressPostalCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -550,6 +638,9 @@ export type PersonMaxOrderByAggregateInput = {
   sex?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  addressLine?: Prisma.SortOrder
+  addressCity?: Prisma.SortOrder
+  addressPostalCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -563,6 +654,9 @@ export type PersonMinOrderByAggregateInput = {
   sex?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  addressLine?: Prisma.SortOrder
+  addressCity?: Prisma.SortOrder
+  addressPostalCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -609,6 +703,20 @@ export type PersonUpdateOneRequiredWithoutAccountNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PersonUpdateToOneWithWhereWithoutAccountInput, Prisma.PersonUpdateWithoutAccountInput>, Prisma.PersonUncheckedUpdateWithoutAccountInput>
 }
 
+export type PersonCreateNestedOneWithoutRegistryEntriesInput = {
+  create?: Prisma.XOR<Prisma.PersonCreateWithoutRegistryEntriesInput, Prisma.PersonUncheckedCreateWithoutRegistryEntriesInput>
+  connectOrCreate?: Prisma.PersonCreateOrConnectWithoutRegistryEntriesInput
+  connect?: Prisma.PersonWhereUniqueInput
+}
+
+export type PersonUpdateOneRequiredWithoutRegistryEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.PersonCreateWithoutRegistryEntriesInput, Prisma.PersonUncheckedCreateWithoutRegistryEntriesInput>
+  connectOrCreate?: Prisma.PersonCreateOrConnectWithoutRegistryEntriesInput
+  upsert?: Prisma.PersonUpsertWithoutRegistryEntriesInput
+  connect?: Prisma.PersonWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PersonUpdateToOneWithWhereWithoutRegistryEntriesInput, Prisma.PersonUpdateWithoutRegistryEntriesInput>, Prisma.PersonUncheckedUpdateWithoutRegistryEntriesInput>
+}
+
 export type PersonCreateNestedOneWithoutMandatesHeldInput = {
   create?: Prisma.XOR<Prisma.PersonCreateWithoutMandatesHeldInput, Prisma.PersonUncheckedCreateWithoutMandatesHeldInput>
   connectOrCreate?: Prisma.PersonCreateOrConnectWithoutMandatesHeldInput
@@ -651,6 +759,20 @@ export type PersonUpdateOneWithoutGradesAwardedNestedInput = {
   delete?: Prisma.PersonWhereInput | boolean
   connect?: Prisma.PersonWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.PersonUpdateToOneWithWhereWithoutGradesAwardedInput, Prisma.PersonUpdateWithoutGradesAwardedInput>, Prisma.PersonUncheckedUpdateWithoutGradesAwardedInput>
+}
+
+export type PersonCreateNestedOneWithoutGradeProposalsInput = {
+  create?: Prisma.XOR<Prisma.PersonCreateWithoutGradeProposalsInput, Prisma.PersonUncheckedCreateWithoutGradeProposalsInput>
+  connectOrCreate?: Prisma.PersonCreateOrConnectWithoutGradeProposalsInput
+  connect?: Prisma.PersonWhereUniqueInput
+}
+
+export type PersonUpdateOneRequiredWithoutGradeProposalsNestedInput = {
+  create?: Prisma.XOR<Prisma.PersonCreateWithoutGradeProposalsInput, Prisma.PersonUncheckedCreateWithoutGradeProposalsInput>
+  connectOrCreate?: Prisma.PersonCreateOrConnectWithoutGradeProposalsInput
+  upsert?: Prisma.PersonUpsertWithoutGradeProposalsInput
+  connect?: Prisma.PersonWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PersonUpdateToOneWithWhereWithoutGradeProposalsInput, Prisma.PersonUpdateWithoutGradeProposalsInput>, Prisma.PersonUncheckedUpdateWithoutGradeProposalsInput>
 }
 
 export type PersonCreateNestedOneWithoutChefQualificationsInput = {
@@ -807,6 +929,12 @@ export type PersonCreateNestedOneWithoutCertificateRequestsValidatedL2Input = {
   connect?: Prisma.PersonWhereUniqueInput
 }
 
+export type PersonCreateNestedOneWithoutCertificateRequestsValidatedL3Input = {
+  create?: Prisma.XOR<Prisma.PersonCreateWithoutCertificateRequestsValidatedL3Input, Prisma.PersonUncheckedCreateWithoutCertificateRequestsValidatedL3Input>
+  connectOrCreate?: Prisma.PersonCreateOrConnectWithoutCertificateRequestsValidatedL3Input
+  connect?: Prisma.PersonWhereUniqueInput
+}
+
 export type PersonUpdateOneRequiredWithoutCertificateRequestsMadeNestedInput = {
   create?: Prisma.XOR<Prisma.PersonCreateWithoutCertificateRequestsMadeInput, Prisma.PersonUncheckedCreateWithoutCertificateRequestsMadeInput>
   connectOrCreate?: Prisma.PersonCreateOrConnectWithoutCertificateRequestsMadeInput
@@ -841,6 +969,32 @@ export type PersonUpdateOneWithoutCertificateRequestsValidatedL2NestedInput = {
   delete?: Prisma.PersonWhereInput | boolean
   connect?: Prisma.PersonWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.PersonUpdateToOneWithWhereWithoutCertificateRequestsValidatedL2Input, Prisma.PersonUpdateWithoutCertificateRequestsValidatedL2Input>, Prisma.PersonUncheckedUpdateWithoutCertificateRequestsValidatedL2Input>
+}
+
+export type PersonUpdateOneWithoutCertificateRequestsValidatedL3NestedInput = {
+  create?: Prisma.XOR<Prisma.PersonCreateWithoutCertificateRequestsValidatedL3Input, Prisma.PersonUncheckedCreateWithoutCertificateRequestsValidatedL3Input>
+  connectOrCreate?: Prisma.PersonCreateOrConnectWithoutCertificateRequestsValidatedL3Input
+  upsert?: Prisma.PersonUpsertWithoutCertificateRequestsValidatedL3Input
+  disconnect?: Prisma.PersonWhereInput | boolean
+  delete?: Prisma.PersonWhereInput | boolean
+  connect?: Prisma.PersonWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PersonUpdateToOneWithWhereWithoutCertificateRequestsValidatedL3Input, Prisma.PersonUpdateWithoutCertificateRequestsValidatedL3Input>, Prisma.PersonUncheckedUpdateWithoutCertificateRequestsValidatedL3Input>
+}
+
+export type PersonCreateNestedOneWithoutCertificateValidationStepsInput = {
+  create?: Prisma.XOR<Prisma.PersonCreateWithoutCertificateValidationStepsInput, Prisma.PersonUncheckedCreateWithoutCertificateValidationStepsInput>
+  connectOrCreate?: Prisma.PersonCreateOrConnectWithoutCertificateValidationStepsInput
+  connect?: Prisma.PersonWhereUniqueInput
+}
+
+export type PersonUpdateOneWithoutCertificateValidationStepsNestedInput = {
+  create?: Prisma.XOR<Prisma.PersonCreateWithoutCertificateValidationStepsInput, Prisma.PersonUncheckedCreateWithoutCertificateValidationStepsInput>
+  connectOrCreate?: Prisma.PersonCreateOrConnectWithoutCertificateValidationStepsInput
+  upsert?: Prisma.PersonUpsertWithoutCertificateValidationStepsInput
+  disconnect?: Prisma.PersonWhereInput | boolean
+  delete?: Prisma.PersonWhereInput | boolean
+  connect?: Prisma.PersonWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PersonUpdateToOneWithWhereWithoutCertificateValidationStepsInput, Prisma.PersonUpdateWithoutCertificateValidationStepsInput>, Prisma.PersonUncheckedUpdateWithoutCertificateValidationStepsInput>
 }
 
 export type PersonCreateNestedOneWithoutMediaAssetsInput = {
@@ -895,6 +1049,9 @@ export type PersonCreateWithoutTeamLeadershipsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -903,6 +1060,7 @@ export type PersonCreateWithoutTeamLeadershipsInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -914,10 +1072,13 @@ export type PersonCreateWithoutTeamLeadershipsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutTeamLeadershipsInput = {
@@ -928,6 +1089,9 @@ export type PersonUncheckedCreateWithoutTeamLeadershipsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -936,6 +1100,7 @@ export type PersonUncheckedCreateWithoutTeamLeadershipsInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -947,10 +1112,13 @@ export type PersonUncheckedCreateWithoutTeamLeadershipsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutTeamLeadershipsInput = {
@@ -977,6 +1145,9 @@ export type PersonUpdateWithoutTeamLeadershipsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -985,6 +1156,7 @@ export type PersonUpdateWithoutTeamLeadershipsInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -996,10 +1168,13 @@ export type PersonUpdateWithoutTeamLeadershipsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutTeamLeadershipsInput = {
@@ -1010,6 +1185,9 @@ export type PersonUncheckedUpdateWithoutTeamLeadershipsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1018,6 +1196,7 @@ export type PersonUncheckedUpdateWithoutTeamLeadershipsInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -1029,10 +1208,13 @@ export type PersonUncheckedUpdateWithoutTeamLeadershipsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutAccountInput = {
@@ -1043,6 +1225,9 @@ export type PersonCreateWithoutAccountInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1051,6 +1236,7 @@ export type PersonCreateWithoutAccountInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -1062,10 +1248,13 @@ export type PersonCreateWithoutAccountInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutAccountInput = {
@@ -1076,6 +1265,9 @@ export type PersonUncheckedCreateWithoutAccountInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1084,6 +1276,7 @@ export type PersonUncheckedCreateWithoutAccountInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -1095,10 +1288,13 @@ export type PersonUncheckedCreateWithoutAccountInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutAccountInput = {
@@ -1125,6 +1321,9 @@ export type PersonUpdateWithoutAccountInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1133,6 +1332,7 @@ export type PersonUpdateWithoutAccountInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -1144,10 +1344,13 @@ export type PersonUpdateWithoutAccountInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutAccountInput = {
@@ -1158,6 +1361,9 @@ export type PersonUncheckedUpdateWithoutAccountInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1166,6 +1372,7 @@ export type PersonUncheckedUpdateWithoutAccountInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -1177,6 +1384,185 @@ export type PersonUncheckedUpdateWithoutAccountInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
+  broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
+  tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
+  mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
+}
+
+export type PersonCreateWithoutRegistryEntriesInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  birthDate: Date | string
+  sex: $Enums.Sex
+  phone?: string | null
+  email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
+  status?: $Enums.PersonStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountCreateNestedOneWithoutPersonInput
+  memberships?: Prisma.MembershipCreateNestedManyWithoutPersonInput
+  teamLeaderships?: Prisma.TeamLeadershipCreateNestedManyWithoutPersonInput
+  mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
+  gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
+  gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
+  chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
+  contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
+  presences?: Prisma.PresenceCreateNestedManyWithoutPersonInput
+  responsibleActivities?: Prisma.ActivityCreateNestedManyWithoutResponsibleInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateCreateNestedManyWithoutPersonInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordCreateNestedManyWithoutAuthorInput
+  certificateRequestsMade?: Prisma.CertificateRequestCreateNestedManyWithoutRequesterInput
+  certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
+  broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
+  tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
+  mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+}
+
+export type PersonUncheckedCreateWithoutRegistryEntriesInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  birthDate: Date | string
+  sex: $Enums.Sex
+  phone?: string | null
+  email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
+  status?: $Enums.PersonStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutPersonInput
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutPersonInput
+  teamLeaderships?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutPersonInput
+  mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
+  gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
+  gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
+  chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
+  contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
+  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutPersonInput
+  responsibleActivities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResponsibleInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUncheckedCreateNestedManyWithoutPersonInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUncheckedCreateNestedManyWithoutAuthorInput
+  certificateRequestsMade?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutRequesterInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
+  broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
+  tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
+  mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+}
+
+export type PersonCreateOrConnectWithoutRegistryEntriesInput = {
+  where: Prisma.PersonWhereUniqueInput
+  create: Prisma.XOR<Prisma.PersonCreateWithoutRegistryEntriesInput, Prisma.PersonUncheckedCreateWithoutRegistryEntriesInput>
+}
+
+export type PersonUpsertWithoutRegistryEntriesInput = {
+  update: Prisma.XOR<Prisma.PersonUpdateWithoutRegistryEntriesInput, Prisma.PersonUncheckedUpdateWithoutRegistryEntriesInput>
+  create: Prisma.XOR<Prisma.PersonCreateWithoutRegistryEntriesInput, Prisma.PersonUncheckedCreateWithoutRegistryEntriesInput>
+  where?: Prisma.PersonWhereInput
+}
+
+export type PersonUpdateToOneWithWhereWithoutRegistryEntriesInput = {
+  where?: Prisma.PersonWhereInput
+  data: Prisma.XOR<Prisma.PersonUpdateWithoutRegistryEntriesInput, Prisma.PersonUncheckedUpdateWithoutRegistryEntriesInput>
+}
+
+export type PersonUpdateWithoutRegistryEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUpdateOneWithoutPersonNestedInput
+  memberships?: Prisma.MembershipUpdateManyWithoutPersonNestedInput
+  teamLeaderships?: Prisma.TeamLeadershipUpdateManyWithoutPersonNestedInput
+  mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
+  gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
+  gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
+  chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
+  contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
+  presences?: Prisma.PresenceUpdateManyWithoutPersonNestedInput
+  responsibleActivities?: Prisma.ActivityUpdateManyWithoutResponsibleNestedInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUpdateManyWithoutPersonNestedInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUpdateManyWithoutAuthorNestedInput
+  certificateRequestsMade?: Prisma.CertificateRequestUpdateManyWithoutRequesterNestedInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
+  broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
+  tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
+  mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+}
+
+export type PersonUncheckedUpdateWithoutRegistryEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUncheckedUpdateOneWithoutPersonNestedInput
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutPersonNestedInput
+  teamLeaderships?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutPersonNestedInput
+  mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
+  gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
+  gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
+  chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
+  contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
+  presences?: Prisma.PresenceUncheckedUpdateManyWithoutPersonNestedInput
+  responsibleActivities?: Prisma.ActivityUncheckedUpdateManyWithoutResponsibleNestedInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUncheckedUpdateManyWithoutPersonNestedInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUncheckedUpdateManyWithoutAuthorNestedInput
+  certificateRequestsMade?: Prisma.CertificateRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
@@ -1191,6 +1577,9 @@ export type PersonCreateWithoutMandatesHeldInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1199,6 +1588,7 @@ export type PersonCreateWithoutMandatesHeldInput = {
   teamLeaderships?: Prisma.TeamLeadershipCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -1210,10 +1600,13 @@ export type PersonCreateWithoutMandatesHeldInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutMandatesHeldInput = {
@@ -1224,6 +1617,9 @@ export type PersonUncheckedCreateWithoutMandatesHeldInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1232,6 +1628,7 @@ export type PersonUncheckedCreateWithoutMandatesHeldInput = {
   teamLeaderships?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -1243,10 +1640,13 @@ export type PersonUncheckedCreateWithoutMandatesHeldInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutMandatesHeldInput = {
@@ -1273,6 +1673,9 @@ export type PersonUpdateWithoutMandatesHeldInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1281,6 +1684,7 @@ export type PersonUpdateWithoutMandatesHeldInput = {
   teamLeaderships?: Prisma.TeamLeadershipUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -1292,10 +1696,13 @@ export type PersonUpdateWithoutMandatesHeldInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutMandatesHeldInput = {
@@ -1306,6 +1713,9 @@ export type PersonUncheckedUpdateWithoutMandatesHeldInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1314,6 +1724,7 @@ export type PersonUncheckedUpdateWithoutMandatesHeldInput = {
   teamLeaderships?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -1325,10 +1736,13 @@ export type PersonUncheckedUpdateWithoutMandatesHeldInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutGradeHistoryInput = {
@@ -1339,6 +1753,9 @@ export type PersonCreateWithoutGradeHistoryInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1347,6 +1764,7 @@ export type PersonCreateWithoutGradeHistoryInput = {
   teamLeaderships?: Prisma.TeamLeadershipCreateNestedManyWithoutPersonInput
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -1358,10 +1776,13 @@ export type PersonCreateWithoutGradeHistoryInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutGradeHistoryInput = {
@@ -1372,6 +1793,9 @@ export type PersonUncheckedCreateWithoutGradeHistoryInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1380,6 +1804,7 @@ export type PersonUncheckedCreateWithoutGradeHistoryInput = {
   teamLeaderships?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutPersonInput
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -1391,10 +1816,13 @@ export type PersonUncheckedCreateWithoutGradeHistoryInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutGradeHistoryInput = {
@@ -1410,6 +1838,9 @@ export type PersonCreateWithoutGradesAwardedInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1418,6 +1849,7 @@ export type PersonCreateWithoutGradesAwardedInput = {
   teamLeaderships?: Prisma.TeamLeadershipCreateNestedManyWithoutPersonInput
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -1429,10 +1861,13 @@ export type PersonCreateWithoutGradesAwardedInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutGradesAwardedInput = {
@@ -1443,6 +1878,9 @@ export type PersonUncheckedCreateWithoutGradesAwardedInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1451,6 +1889,7 @@ export type PersonUncheckedCreateWithoutGradesAwardedInput = {
   teamLeaderships?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutPersonInput
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -1462,10 +1901,13 @@ export type PersonUncheckedCreateWithoutGradesAwardedInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutGradesAwardedInput = {
@@ -1492,6 +1934,9 @@ export type PersonUpdateWithoutGradeHistoryInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1500,6 +1945,7 @@ export type PersonUpdateWithoutGradeHistoryInput = {
   teamLeaderships?: Prisma.TeamLeadershipUpdateManyWithoutPersonNestedInput
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -1511,10 +1957,13 @@ export type PersonUpdateWithoutGradeHistoryInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutGradeHistoryInput = {
@@ -1525,6 +1974,9 @@ export type PersonUncheckedUpdateWithoutGradeHistoryInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1533,6 +1985,7 @@ export type PersonUncheckedUpdateWithoutGradeHistoryInput = {
   teamLeaderships?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutPersonNestedInput
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -1544,10 +1997,13 @@ export type PersonUncheckedUpdateWithoutGradeHistoryInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUpsertWithoutGradesAwardedInput = {
@@ -1569,6 +2025,9 @@ export type PersonUpdateWithoutGradesAwardedInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1577,6 +2036,7 @@ export type PersonUpdateWithoutGradesAwardedInput = {
   teamLeaderships?: Prisma.TeamLeadershipUpdateManyWithoutPersonNestedInput
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -1588,10 +2048,13 @@ export type PersonUpdateWithoutGradesAwardedInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutGradesAwardedInput = {
@@ -1602,6 +2065,9 @@ export type PersonUncheckedUpdateWithoutGradesAwardedInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1610,6 +2076,7 @@ export type PersonUncheckedUpdateWithoutGradesAwardedInput = {
   teamLeaderships?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutPersonNestedInput
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -1621,13 +2088,16 @@ export type PersonUncheckedUpdateWithoutGradesAwardedInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
-export type PersonCreateWithoutChefQualificationsInput = {
+export type PersonCreateWithoutGradeProposalsInput = {
   id?: string
   firstName: string
   lastName: string
@@ -1635,6 +2105,9 @@ export type PersonCreateWithoutChefQualificationsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1644,6 +2117,7 @@ export type PersonCreateWithoutChefQualificationsInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
   presences?: Prisma.PresenceCreateNestedManyWithoutPersonInput
@@ -1654,13 +2128,16 @@ export type PersonCreateWithoutChefQualificationsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
-export type PersonUncheckedCreateWithoutChefQualificationsInput = {
+export type PersonUncheckedCreateWithoutGradeProposalsInput = {
   id?: string
   firstName: string
   lastName: string
@@ -1668,6 +2145,9 @@ export type PersonUncheckedCreateWithoutChefQualificationsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1677,6 +2157,7 @@ export type PersonUncheckedCreateWithoutChefQualificationsInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
   presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutPersonInput
@@ -1687,10 +2168,189 @@ export type PersonUncheckedCreateWithoutChefQualificationsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
+}
+
+export type PersonCreateOrConnectWithoutGradeProposalsInput = {
+  where: Prisma.PersonWhereUniqueInput
+  create: Prisma.XOR<Prisma.PersonCreateWithoutGradeProposalsInput, Prisma.PersonUncheckedCreateWithoutGradeProposalsInput>
+}
+
+export type PersonUpsertWithoutGradeProposalsInput = {
+  update: Prisma.XOR<Prisma.PersonUpdateWithoutGradeProposalsInput, Prisma.PersonUncheckedUpdateWithoutGradeProposalsInput>
+  create: Prisma.XOR<Prisma.PersonCreateWithoutGradeProposalsInput, Prisma.PersonUncheckedCreateWithoutGradeProposalsInput>
+  where?: Prisma.PersonWhereInput
+}
+
+export type PersonUpdateToOneWithWhereWithoutGradeProposalsInput = {
+  where?: Prisma.PersonWhereInput
+  data: Prisma.XOR<Prisma.PersonUpdateWithoutGradeProposalsInput, Prisma.PersonUncheckedUpdateWithoutGradeProposalsInput>
+}
+
+export type PersonUpdateWithoutGradeProposalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUpdateOneWithoutPersonNestedInput
+  memberships?: Prisma.MembershipUpdateManyWithoutPersonNestedInput
+  teamLeaderships?: Prisma.TeamLeadershipUpdateManyWithoutPersonNestedInput
+  mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
+  gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
+  gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
+  contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
+  presences?: Prisma.PresenceUpdateManyWithoutPersonNestedInput
+  responsibleActivities?: Prisma.ActivityUpdateManyWithoutResponsibleNestedInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUpdateManyWithoutPersonNestedInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUpdateManyWithoutAuthorNestedInput
+  certificateRequestsMade?: Prisma.CertificateRequestUpdateManyWithoutRequesterNestedInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
+  broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
+  tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
+  mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
+}
+
+export type PersonUncheckedUpdateWithoutGradeProposalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUncheckedUpdateOneWithoutPersonNestedInput
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutPersonNestedInput
+  teamLeaderships?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutPersonNestedInput
+  mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
+  gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
+  gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
+  contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
+  presences?: Prisma.PresenceUncheckedUpdateManyWithoutPersonNestedInput
+  responsibleActivities?: Prisma.ActivityUncheckedUpdateManyWithoutResponsibleNestedInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUncheckedUpdateManyWithoutPersonNestedInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUncheckedUpdateManyWithoutAuthorNestedInput
+  certificateRequestsMade?: Prisma.CertificateRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
+  broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
+  tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
+  mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
+}
+
+export type PersonCreateWithoutChefQualificationsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  birthDate: Date | string
+  sex: $Enums.Sex
+  phone?: string | null
+  email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
+  status?: $Enums.PersonStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountCreateNestedOneWithoutPersonInput
+  memberships?: Prisma.MembershipCreateNestedManyWithoutPersonInput
+  teamLeaderships?: Prisma.TeamLeadershipCreateNestedManyWithoutPersonInput
+  mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
+  gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
+  gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
+  contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
+  presences?: Prisma.PresenceCreateNestedManyWithoutPersonInput
+  responsibleActivities?: Prisma.ActivityCreateNestedManyWithoutResponsibleInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateCreateNestedManyWithoutPersonInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordCreateNestedManyWithoutAuthorInput
+  certificateRequestsMade?: Prisma.CertificateRequestCreateNestedManyWithoutRequesterInput
+  certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
+  broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
+  tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
+  mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
+}
+
+export type PersonUncheckedCreateWithoutChefQualificationsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  birthDate: Date | string
+  sex: $Enums.Sex
+  phone?: string | null
+  email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
+  status?: $Enums.PersonStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutPersonInput
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutPersonInput
+  teamLeaderships?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutPersonInput
+  mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
+  gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
+  gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
+  contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
+  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutPersonInput
+  responsibleActivities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResponsibleInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUncheckedCreateNestedManyWithoutPersonInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUncheckedCreateNestedManyWithoutAuthorInput
+  certificateRequestsMade?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutRequesterInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
+  broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
+  tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
+  mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutChefQualificationsInput = {
@@ -1706,6 +2366,9 @@ export type PersonCreateWithoutChefQualificationsAwardedInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1715,6 +2378,7 @@ export type PersonCreateWithoutChefQualificationsAwardedInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
   presences?: Prisma.PresenceCreateNestedManyWithoutPersonInput
@@ -1725,10 +2389,13 @@ export type PersonCreateWithoutChefQualificationsAwardedInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutChefQualificationsAwardedInput = {
@@ -1739,6 +2406,9 @@ export type PersonUncheckedCreateWithoutChefQualificationsAwardedInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1748,6 +2418,7 @@ export type PersonUncheckedCreateWithoutChefQualificationsAwardedInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
   presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutPersonInput
@@ -1758,10 +2429,13 @@ export type PersonUncheckedCreateWithoutChefQualificationsAwardedInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutChefQualificationsAwardedInput = {
@@ -1788,6 +2462,9 @@ export type PersonUpdateWithoutChefQualificationsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1797,6 +2474,7 @@ export type PersonUpdateWithoutChefQualificationsInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
   presences?: Prisma.PresenceUpdateManyWithoutPersonNestedInput
@@ -1807,10 +2485,13 @@ export type PersonUpdateWithoutChefQualificationsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutChefQualificationsInput = {
@@ -1821,6 +2502,9 @@ export type PersonUncheckedUpdateWithoutChefQualificationsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1830,6 +2514,7 @@ export type PersonUncheckedUpdateWithoutChefQualificationsInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
   presences?: Prisma.PresenceUncheckedUpdateManyWithoutPersonNestedInput
@@ -1840,10 +2525,13 @@ export type PersonUncheckedUpdateWithoutChefQualificationsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUpsertWithoutChefQualificationsAwardedInput = {
@@ -1865,6 +2553,9 @@ export type PersonUpdateWithoutChefQualificationsAwardedInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1874,6 +2565,7 @@ export type PersonUpdateWithoutChefQualificationsAwardedInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
   presences?: Prisma.PresenceUpdateManyWithoutPersonNestedInput
@@ -1884,10 +2576,13 @@ export type PersonUpdateWithoutChefQualificationsAwardedInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutChefQualificationsAwardedInput = {
@@ -1898,6 +2593,9 @@ export type PersonUncheckedUpdateWithoutChefQualificationsAwardedInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1907,6 +2605,7 @@ export type PersonUncheckedUpdateWithoutChefQualificationsAwardedInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
   presences?: Prisma.PresenceUncheckedUpdateManyWithoutPersonNestedInput
@@ -1917,10 +2616,13 @@ export type PersonUncheckedUpdateWithoutChefQualificationsAwardedInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutMembershipsInput = {
@@ -1931,6 +2633,9 @@ export type PersonCreateWithoutMembershipsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1939,6 +2644,7 @@ export type PersonCreateWithoutMembershipsInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -1950,10 +2656,13 @@ export type PersonCreateWithoutMembershipsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutMembershipsInput = {
@@ -1964,6 +2673,9 @@ export type PersonUncheckedCreateWithoutMembershipsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1972,6 +2684,7 @@ export type PersonUncheckedCreateWithoutMembershipsInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -1983,10 +2696,13 @@ export type PersonUncheckedCreateWithoutMembershipsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutMembershipsInput = {
@@ -2013,6 +2729,9 @@ export type PersonUpdateWithoutMembershipsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2021,6 +2740,7 @@ export type PersonUpdateWithoutMembershipsInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -2032,10 +2752,13 @@ export type PersonUpdateWithoutMembershipsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutMembershipsInput = {
@@ -2046,6 +2769,9 @@ export type PersonUncheckedUpdateWithoutMembershipsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2054,6 +2780,7 @@ export type PersonUncheckedUpdateWithoutMembershipsInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -2065,10 +2792,13 @@ export type PersonUncheckedUpdateWithoutMembershipsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutTutorsAsMinorInput = {
@@ -2079,6 +2809,9 @@ export type PersonCreateWithoutTutorsAsMinorInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2088,6 +2821,7 @@ export type PersonCreateWithoutTutorsAsMinorInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -2099,9 +2833,12 @@ export type PersonCreateWithoutTutorsAsMinorInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutTutorsAsMinorInput = {
@@ -2112,6 +2849,9 @@ export type PersonUncheckedCreateWithoutTutorsAsMinorInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2121,6 +2861,7 @@ export type PersonUncheckedCreateWithoutTutorsAsMinorInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -2132,9 +2873,12 @@ export type PersonUncheckedCreateWithoutTutorsAsMinorInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutTutorsAsMinorInput = {
@@ -2161,6 +2905,9 @@ export type PersonUpdateWithoutTutorsAsMinorInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2170,6 +2917,7 @@ export type PersonUpdateWithoutTutorsAsMinorInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -2181,9 +2929,12 @@ export type PersonUpdateWithoutTutorsAsMinorInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutTutorsAsMinorInput = {
@@ -2194,6 +2945,9 @@ export type PersonUncheckedUpdateWithoutTutorsAsMinorInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2203,6 +2957,7 @@ export type PersonUncheckedUpdateWithoutTutorsAsMinorInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -2214,9 +2969,12 @@ export type PersonUncheckedUpdateWithoutTutorsAsMinorInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutResponsibleActivitiesInput = {
@@ -2227,6 +2985,9 @@ export type PersonCreateWithoutResponsibleActivitiesInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2236,6 +2997,7 @@ export type PersonCreateWithoutResponsibleActivitiesInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -2246,10 +3008,13 @@ export type PersonCreateWithoutResponsibleActivitiesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutResponsibleActivitiesInput = {
@@ -2260,6 +3025,9 @@ export type PersonUncheckedCreateWithoutResponsibleActivitiesInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2269,6 +3037,7 @@ export type PersonUncheckedCreateWithoutResponsibleActivitiesInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -2279,10 +3048,13 @@ export type PersonUncheckedCreateWithoutResponsibleActivitiesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutResponsibleActivitiesInput = {
@@ -2309,6 +3081,9 @@ export type PersonUpdateWithoutResponsibleActivitiesInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2318,6 +3093,7 @@ export type PersonUpdateWithoutResponsibleActivitiesInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -2328,10 +3104,13 @@ export type PersonUpdateWithoutResponsibleActivitiesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutResponsibleActivitiesInput = {
@@ -2342,6 +3121,9 @@ export type PersonUncheckedUpdateWithoutResponsibleActivitiesInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2351,6 +3133,7 @@ export type PersonUncheckedUpdateWithoutResponsibleActivitiesInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -2361,10 +3144,13 @@ export type PersonUncheckedUpdateWithoutResponsibleActivitiesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutPresencesInput = {
@@ -2375,6 +3161,9 @@ export type PersonCreateWithoutPresencesInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2384,6 +3173,7 @@ export type PersonCreateWithoutPresencesInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -2394,10 +3184,13 @@ export type PersonCreateWithoutPresencesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutPresencesInput = {
@@ -2408,6 +3201,9 @@ export type PersonUncheckedCreateWithoutPresencesInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2417,6 +3213,7 @@ export type PersonUncheckedCreateWithoutPresencesInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -2427,10 +3224,13 @@ export type PersonUncheckedCreateWithoutPresencesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutPresencesInput = {
@@ -2457,6 +3257,9 @@ export type PersonUpdateWithoutPresencesInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2466,6 +3269,7 @@ export type PersonUpdateWithoutPresencesInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -2476,10 +3280,13 @@ export type PersonUpdateWithoutPresencesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutPresencesInput = {
@@ -2490,6 +3297,9 @@ export type PersonUncheckedUpdateWithoutPresencesInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2499,6 +3309,7 @@ export type PersonUncheckedUpdateWithoutPresencesInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -2509,10 +3320,13 @@ export type PersonUncheckedUpdateWithoutPresencesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutCeremonyCandidaciesInput = {
@@ -2523,6 +3337,9 @@ export type PersonCreateWithoutCeremonyCandidaciesInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2532,6 +3349,7 @@ export type PersonCreateWithoutCeremonyCandidaciesInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -2542,10 +3360,13 @@ export type PersonCreateWithoutCeremonyCandidaciesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutCeremonyCandidaciesInput = {
@@ -2556,6 +3377,9 @@ export type PersonUncheckedCreateWithoutCeremonyCandidaciesInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2565,6 +3389,7 @@ export type PersonUncheckedCreateWithoutCeremonyCandidaciesInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -2575,10 +3400,13 @@ export type PersonUncheckedCreateWithoutCeremonyCandidaciesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutCeremonyCandidaciesInput = {
@@ -2605,6 +3433,9 @@ export type PersonUpdateWithoutCeremonyCandidaciesInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2614,6 +3445,7 @@ export type PersonUpdateWithoutCeremonyCandidaciesInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -2624,10 +3456,13 @@ export type PersonUpdateWithoutCeremonyCandidaciesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutCeremonyCandidaciesInput = {
@@ -2638,6 +3473,9 @@ export type PersonUncheckedUpdateWithoutCeremonyCandidaciesInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2647,6 +3485,7 @@ export type PersonUncheckedUpdateWithoutCeremonyCandidaciesInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -2657,10 +3496,13 @@ export type PersonUncheckedUpdateWithoutCeremonyCandidaciesInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutSpiritualOpinionsGivenInput = {
@@ -2671,6 +3513,9 @@ export type PersonCreateWithoutSpiritualOpinionsGivenInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2680,6 +3525,7 @@ export type PersonCreateWithoutSpiritualOpinionsGivenInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -2690,10 +3536,13 @@ export type PersonCreateWithoutSpiritualOpinionsGivenInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutSpiritualOpinionsGivenInput = {
@@ -2704,6 +3553,9 @@ export type PersonUncheckedCreateWithoutSpiritualOpinionsGivenInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2713,6 +3565,7 @@ export type PersonUncheckedCreateWithoutSpiritualOpinionsGivenInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -2723,10 +3576,13 @@ export type PersonUncheckedCreateWithoutSpiritualOpinionsGivenInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutSpiritualOpinionsGivenInput = {
@@ -2753,6 +3609,9 @@ export type PersonUpdateWithoutSpiritualOpinionsGivenInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2762,6 +3621,7 @@ export type PersonUpdateWithoutSpiritualOpinionsGivenInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -2772,10 +3632,13 @@ export type PersonUpdateWithoutSpiritualOpinionsGivenInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutSpiritualOpinionsGivenInput = {
@@ -2786,6 +3649,9 @@ export type PersonUncheckedUpdateWithoutSpiritualOpinionsGivenInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2795,6 +3661,7 @@ export type PersonUncheckedUpdateWithoutSpiritualOpinionsGivenInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -2805,10 +3672,13 @@ export type PersonUncheckedUpdateWithoutSpiritualOpinionsGivenInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutContributionsInput = {
@@ -2819,6 +3689,9 @@ export type PersonCreateWithoutContributionsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2828,6 +3701,7 @@ export type PersonCreateWithoutContributionsInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   presences?: Prisma.PresenceCreateNestedManyWithoutPersonInput
@@ -2838,10 +3712,13 @@ export type PersonCreateWithoutContributionsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutContributionsInput = {
@@ -2852,6 +3729,9 @@ export type PersonUncheckedCreateWithoutContributionsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2861,6 +3741,7 @@ export type PersonUncheckedCreateWithoutContributionsInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutPersonInput
@@ -2871,10 +3752,13 @@ export type PersonUncheckedCreateWithoutContributionsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutContributionsInput = {
@@ -2901,6 +3785,9 @@ export type PersonUpdateWithoutContributionsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2910,6 +3797,7 @@ export type PersonUpdateWithoutContributionsInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   presences?: Prisma.PresenceUpdateManyWithoutPersonNestedInput
@@ -2920,10 +3808,13 @@ export type PersonUpdateWithoutContributionsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutContributionsInput = {
@@ -2934,6 +3825,9 @@ export type PersonUncheckedUpdateWithoutContributionsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2943,6 +3837,7 @@ export type PersonUncheckedUpdateWithoutContributionsInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   presences?: Prisma.PresenceUncheckedUpdateManyWithoutPersonNestedInput
@@ -2953,10 +3848,13 @@ export type PersonUncheckedUpdateWithoutContributionsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutCertificateRequestsMadeInput = {
@@ -2967,6 +3865,9 @@ export type PersonCreateWithoutCertificateRequestsMadeInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2976,6 +3877,7 @@ export type PersonCreateWithoutCertificateRequestsMadeInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -2986,10 +3888,13 @@ export type PersonCreateWithoutCertificateRequestsMadeInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutCertificateRequestsMadeInput = {
@@ -3000,6 +3905,9 @@ export type PersonUncheckedCreateWithoutCertificateRequestsMadeInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3009,6 +3917,7 @@ export type PersonUncheckedCreateWithoutCertificateRequestsMadeInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -3019,10 +3928,13 @@ export type PersonUncheckedCreateWithoutCertificateRequestsMadeInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutCertificateRequestsMadeInput = {
@@ -3038,6 +3950,9 @@ export type PersonCreateWithoutCertificateRequestsCreatedInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3047,6 +3962,7 @@ export type PersonCreateWithoutCertificateRequestsCreatedInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -3057,10 +3973,13 @@ export type PersonCreateWithoutCertificateRequestsCreatedInput = {
   certificateRequestsMade?: Prisma.CertificateRequestCreateNestedManyWithoutRequesterInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutCertificateRequestsCreatedInput = {
@@ -3071,6 +3990,9 @@ export type PersonUncheckedCreateWithoutCertificateRequestsCreatedInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3080,6 +4002,7 @@ export type PersonUncheckedCreateWithoutCertificateRequestsCreatedInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -3090,10 +4013,13 @@ export type PersonUncheckedCreateWithoutCertificateRequestsCreatedInput = {
   certificateRequestsMade?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutRequesterInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutCertificateRequestsCreatedInput = {
@@ -3109,6 +4035,9 @@ export type PersonCreateWithoutCertificateRequestsValidatedL1Input = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3118,6 +4047,7 @@ export type PersonCreateWithoutCertificateRequestsValidatedL1Input = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -3128,10 +4058,13 @@ export type PersonCreateWithoutCertificateRequestsValidatedL1Input = {
   certificateRequestsMade?: Prisma.CertificateRequestCreateNestedManyWithoutRequesterInput
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL1Input = {
@@ -3142,6 +4075,9 @@ export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL1Input = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3151,6 +4087,7 @@ export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL1Input = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -3161,10 +4098,13 @@ export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL1Input = {
   certificateRequestsMade?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutRequesterInput
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutCertificateRequestsValidatedL1Input = {
@@ -3180,6 +4120,9 @@ export type PersonCreateWithoutCertificateRequestsValidatedL2Input = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3189,6 +4132,7 @@ export type PersonCreateWithoutCertificateRequestsValidatedL2Input = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -3199,10 +4143,13 @@ export type PersonCreateWithoutCertificateRequestsValidatedL2Input = {
   certificateRequestsMade?: Prisma.CertificateRequestCreateNestedManyWithoutRequesterInput
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL2Input = {
@@ -3213,6 +4160,9 @@ export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL2Input = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3222,6 +4172,7 @@ export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL2Input = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -3232,15 +4183,103 @@ export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL2Input = {
   certificateRequestsMade?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutRequesterInput
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutCertificateRequestsValidatedL2Input = {
   where: Prisma.PersonWhereUniqueInput
   create: Prisma.XOR<Prisma.PersonCreateWithoutCertificateRequestsValidatedL2Input, Prisma.PersonUncheckedCreateWithoutCertificateRequestsValidatedL2Input>
+}
+
+export type PersonCreateWithoutCertificateRequestsValidatedL3Input = {
+  id?: string
+  firstName: string
+  lastName: string
+  birthDate: Date | string
+  sex: $Enums.Sex
+  phone?: string | null
+  email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
+  status?: $Enums.PersonStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountCreateNestedOneWithoutPersonInput
+  memberships?: Prisma.MembershipCreateNestedManyWithoutPersonInput
+  teamLeaderships?: Prisma.TeamLeadershipCreateNestedManyWithoutPersonInput
+  mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
+  gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
+  gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
+  chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
+  contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
+  presences?: Prisma.PresenceCreateNestedManyWithoutPersonInput
+  responsibleActivities?: Prisma.ActivityCreateNestedManyWithoutResponsibleInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateCreateNestedManyWithoutPersonInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordCreateNestedManyWithoutAuthorInput
+  certificateRequestsMade?: Prisma.CertificateRequestCreateNestedManyWithoutRequesterInput
+  certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
+  broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
+  tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
+  mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
+}
+
+export type PersonUncheckedCreateWithoutCertificateRequestsValidatedL3Input = {
+  id?: string
+  firstName: string
+  lastName: string
+  birthDate: Date | string
+  sex: $Enums.Sex
+  phone?: string | null
+  email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
+  status?: $Enums.PersonStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutPersonInput
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutPersonInput
+  teamLeaderships?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutPersonInput
+  mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
+  gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
+  gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
+  chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
+  contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
+  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutPersonInput
+  responsibleActivities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResponsibleInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUncheckedCreateNestedManyWithoutPersonInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUncheckedCreateNestedManyWithoutAuthorInput
+  certificateRequestsMade?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutRequesterInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
+  broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
+  tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
+  mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
+}
+
+export type PersonCreateOrConnectWithoutCertificateRequestsValidatedL3Input = {
+  where: Prisma.PersonWhereUniqueInput
+  create: Prisma.XOR<Prisma.PersonCreateWithoutCertificateRequestsValidatedL3Input, Prisma.PersonUncheckedCreateWithoutCertificateRequestsValidatedL3Input>
 }
 
 export type PersonUpsertWithoutCertificateRequestsMadeInput = {
@@ -3262,6 +4301,9 @@ export type PersonUpdateWithoutCertificateRequestsMadeInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3271,6 +4313,7 @@ export type PersonUpdateWithoutCertificateRequestsMadeInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -3281,10 +4324,13 @@ export type PersonUpdateWithoutCertificateRequestsMadeInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutCertificateRequestsMadeInput = {
@@ -3295,6 +4341,9 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsMadeInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3304,6 +4353,7 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsMadeInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -3314,10 +4364,13 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsMadeInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUpsertWithoutCertificateRequestsCreatedInput = {
@@ -3339,6 +4392,9 @@ export type PersonUpdateWithoutCertificateRequestsCreatedInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3348,6 +4404,7 @@ export type PersonUpdateWithoutCertificateRequestsCreatedInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -3358,10 +4415,13 @@ export type PersonUpdateWithoutCertificateRequestsCreatedInput = {
   certificateRequestsMade?: Prisma.CertificateRequestUpdateManyWithoutRequesterNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutCertificateRequestsCreatedInput = {
@@ -3372,6 +4432,9 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsCreatedInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3381,6 +4444,7 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsCreatedInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -3391,10 +4455,13 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsCreatedInput = {
   certificateRequestsMade?: Prisma.CertificateRequestUncheckedUpdateManyWithoutRequesterNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUpsertWithoutCertificateRequestsValidatedL1Input = {
@@ -3416,6 +4483,9 @@ export type PersonUpdateWithoutCertificateRequestsValidatedL1Input = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3425,6 +4495,7 @@ export type PersonUpdateWithoutCertificateRequestsValidatedL1Input = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -3435,10 +4506,13 @@ export type PersonUpdateWithoutCertificateRequestsValidatedL1Input = {
   certificateRequestsMade?: Prisma.CertificateRequestUpdateManyWithoutRequesterNestedInput
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL1Input = {
@@ -3449,6 +4523,9 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL1Input = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3458,6 +4535,7 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL1Input = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -3468,10 +4546,13 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL1Input = {
   certificateRequestsMade?: Prisma.CertificateRequestUncheckedUpdateManyWithoutRequesterNestedInput
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUpsertWithoutCertificateRequestsValidatedL2Input = {
@@ -3493,6 +4574,9 @@ export type PersonUpdateWithoutCertificateRequestsValidatedL2Input = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3502,6 +4586,7 @@ export type PersonUpdateWithoutCertificateRequestsValidatedL2Input = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -3512,10 +4597,13 @@ export type PersonUpdateWithoutCertificateRequestsValidatedL2Input = {
   certificateRequestsMade?: Prisma.CertificateRequestUpdateManyWithoutRequesterNestedInput
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL2Input = {
@@ -3526,6 +4614,9 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL2Input = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3535,6 +4626,7 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL2Input = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -3545,13 +4637,107 @@ export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL2Input = {
   certificateRequestsMade?: Prisma.CertificateRequestUncheckedUpdateManyWithoutRequesterNestedInput
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
-export type PersonCreateWithoutMediaAssetsInput = {
+export type PersonUpsertWithoutCertificateRequestsValidatedL3Input = {
+  update: Prisma.XOR<Prisma.PersonUpdateWithoutCertificateRequestsValidatedL3Input, Prisma.PersonUncheckedUpdateWithoutCertificateRequestsValidatedL3Input>
+  create: Prisma.XOR<Prisma.PersonCreateWithoutCertificateRequestsValidatedL3Input, Prisma.PersonUncheckedCreateWithoutCertificateRequestsValidatedL3Input>
+  where?: Prisma.PersonWhereInput
+}
+
+export type PersonUpdateToOneWithWhereWithoutCertificateRequestsValidatedL3Input = {
+  where?: Prisma.PersonWhereInput
+  data: Prisma.XOR<Prisma.PersonUpdateWithoutCertificateRequestsValidatedL3Input, Prisma.PersonUncheckedUpdateWithoutCertificateRequestsValidatedL3Input>
+}
+
+export type PersonUpdateWithoutCertificateRequestsValidatedL3Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUpdateOneWithoutPersonNestedInput
+  memberships?: Prisma.MembershipUpdateManyWithoutPersonNestedInput
+  teamLeaderships?: Prisma.TeamLeadershipUpdateManyWithoutPersonNestedInput
+  mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
+  gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
+  gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
+  chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
+  contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
+  presences?: Prisma.PresenceUpdateManyWithoutPersonNestedInput
+  responsibleActivities?: Prisma.ActivityUpdateManyWithoutResponsibleNestedInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUpdateManyWithoutPersonNestedInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUpdateManyWithoutAuthorNestedInput
+  certificateRequestsMade?: Prisma.CertificateRequestUpdateManyWithoutRequesterNestedInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
+  broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
+  tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
+  mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
+}
+
+export type PersonUncheckedUpdateWithoutCertificateRequestsValidatedL3Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUncheckedUpdateOneWithoutPersonNestedInput
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutPersonNestedInput
+  teamLeaderships?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutPersonNestedInput
+  mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
+  gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
+  gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
+  chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
+  contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
+  presences?: Prisma.PresenceUncheckedUpdateManyWithoutPersonNestedInput
+  responsibleActivities?: Prisma.ActivityUncheckedUpdateManyWithoutResponsibleNestedInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUncheckedUpdateManyWithoutPersonNestedInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUncheckedUpdateManyWithoutAuthorNestedInput
+  certificateRequestsMade?: Prisma.CertificateRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
+  broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
+  tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
+  mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
+}
+
+export type PersonCreateWithoutCertificateValidationStepsInput = {
   id?: string
   firstName: string
   lastName: string
@@ -3559,6 +4745,9 @@ export type PersonCreateWithoutMediaAssetsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3568,6 +4757,7 @@ export type PersonCreateWithoutMediaAssetsInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -3579,12 +4769,15 @@ export type PersonCreateWithoutMediaAssetsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
+  mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
-export type PersonUncheckedCreateWithoutMediaAssetsInput = {
+export type PersonUncheckedCreateWithoutCertificateValidationStepsInput = {
   id?: string
   firstName: string
   lastName: string
@@ -3592,6 +4785,9 @@ export type PersonUncheckedCreateWithoutMediaAssetsInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3601,6 +4797,7 @@ export type PersonUncheckedCreateWithoutMediaAssetsInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -3612,9 +4809,188 @@ export type PersonUncheckedCreateWithoutMediaAssetsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
+  mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
+}
+
+export type PersonCreateOrConnectWithoutCertificateValidationStepsInput = {
+  where: Prisma.PersonWhereUniqueInput
+  create: Prisma.XOR<Prisma.PersonCreateWithoutCertificateValidationStepsInput, Prisma.PersonUncheckedCreateWithoutCertificateValidationStepsInput>
+}
+
+export type PersonUpsertWithoutCertificateValidationStepsInput = {
+  update: Prisma.XOR<Prisma.PersonUpdateWithoutCertificateValidationStepsInput, Prisma.PersonUncheckedUpdateWithoutCertificateValidationStepsInput>
+  create: Prisma.XOR<Prisma.PersonCreateWithoutCertificateValidationStepsInput, Prisma.PersonUncheckedCreateWithoutCertificateValidationStepsInput>
+  where?: Prisma.PersonWhereInput
+}
+
+export type PersonUpdateToOneWithWhereWithoutCertificateValidationStepsInput = {
+  where?: Prisma.PersonWhereInput
+  data: Prisma.XOR<Prisma.PersonUpdateWithoutCertificateValidationStepsInput, Prisma.PersonUncheckedUpdateWithoutCertificateValidationStepsInput>
+}
+
+export type PersonUpdateWithoutCertificateValidationStepsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUpdateOneWithoutPersonNestedInput
+  memberships?: Prisma.MembershipUpdateManyWithoutPersonNestedInput
+  teamLeaderships?: Prisma.TeamLeadershipUpdateManyWithoutPersonNestedInput
+  mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
+  gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
+  gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
+  chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
+  contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
+  presences?: Prisma.PresenceUpdateManyWithoutPersonNestedInput
+  responsibleActivities?: Prisma.ActivityUpdateManyWithoutResponsibleNestedInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUpdateManyWithoutPersonNestedInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUpdateManyWithoutAuthorNestedInput
+  certificateRequestsMade?: Prisma.CertificateRequestUpdateManyWithoutRequesterNestedInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
+  tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
+  mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
+}
+
+export type PersonUncheckedUpdateWithoutCertificateValidationStepsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUncheckedUpdateOneWithoutPersonNestedInput
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutPersonNestedInput
+  teamLeaderships?: Prisma.TeamLeadershipUncheckedUpdateManyWithoutPersonNestedInput
+  mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
+  gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
+  gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
+  chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
+  contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
+  presences?: Prisma.PresenceUncheckedUpdateManyWithoutPersonNestedInput
+  responsibleActivities?: Prisma.ActivityUncheckedUpdateManyWithoutResponsibleNestedInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUncheckedUpdateManyWithoutPersonNestedInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUncheckedUpdateManyWithoutAuthorNestedInput
+  certificateRequestsMade?: Prisma.CertificateRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
+  tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
+  mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
+}
+
+export type PersonCreateWithoutMediaAssetsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  birthDate: Date | string
+  sex: $Enums.Sex
+  phone?: string | null
+  email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
+  status?: $Enums.PersonStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountCreateNestedOneWithoutPersonInput
+  memberships?: Prisma.MembershipCreateNestedManyWithoutPersonInput
+  teamLeaderships?: Prisma.TeamLeadershipCreateNestedManyWithoutPersonInput
+  mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
+  gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
+  gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
+  chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
+  contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
+  presences?: Prisma.PresenceCreateNestedManyWithoutPersonInput
+  responsibleActivities?: Prisma.ActivityCreateNestedManyWithoutResponsibleInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateCreateNestedManyWithoutPersonInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordCreateNestedManyWithoutAuthorInput
+  certificateRequestsMade?: Prisma.CertificateRequestCreateNestedManyWithoutRequesterInput
+  certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
+  broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
+  tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
+}
+
+export type PersonUncheckedCreateWithoutMediaAssetsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  birthDate: Date | string
+  sex: $Enums.Sex
+  phone?: string | null
+  email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
+  status?: $Enums.PersonStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutPersonInput
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutPersonInput
+  teamLeaderships?: Prisma.TeamLeadershipUncheckedCreateNestedManyWithoutPersonInput
+  mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
+  gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
+  gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
+  chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
+  chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
+  contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
+  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutPersonInput
+  responsibleActivities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResponsibleInput
+  ceremonyCandidacies?: Prisma.CeremonyCandidateUncheckedCreateNestedManyWithoutPersonInput
+  spiritualOpinionsGiven?: Prisma.SpiritualOpinionRecordUncheckedCreateNestedManyWithoutAuthorInput
+  certificateRequestsMade?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutRequesterInput
+  certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
+  certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
+  certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
+  broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
+  tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutMediaAssetsInput = {
@@ -3641,6 +5017,9 @@ export type PersonUpdateWithoutMediaAssetsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3650,6 +5029,7 @@ export type PersonUpdateWithoutMediaAssetsInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -3661,9 +5041,12 @@ export type PersonUpdateWithoutMediaAssetsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutMediaAssetsInput = {
@@ -3674,6 +5057,9 @@ export type PersonUncheckedUpdateWithoutMediaAssetsInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3683,6 +5069,7 @@ export type PersonUncheckedUpdateWithoutMediaAssetsInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -3694,9 +5081,12 @@ export type PersonUncheckedUpdateWithoutMediaAssetsInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutBroadcastsAuthoredInput = {
@@ -3707,6 +5097,9 @@ export type PersonCreateWithoutBroadcastsAuthoredInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3716,6 +5109,7 @@ export type PersonCreateWithoutBroadcastsAuthoredInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -3727,9 +5121,12 @@ export type PersonCreateWithoutBroadcastsAuthoredInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutBroadcastsAuthoredInput = {
@@ -3740,6 +5137,9 @@ export type PersonUncheckedCreateWithoutBroadcastsAuthoredInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3749,6 +5149,7 @@ export type PersonUncheckedCreateWithoutBroadcastsAuthoredInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -3760,9 +5161,12 @@ export type PersonUncheckedCreateWithoutBroadcastsAuthoredInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutBroadcastsAuthoredInput = {
@@ -3789,6 +5193,9 @@ export type PersonUpdateWithoutBroadcastsAuthoredInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3798,6 +5205,7 @@ export type PersonUpdateWithoutBroadcastsAuthoredInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -3809,9 +5217,12 @@ export type PersonUpdateWithoutBroadcastsAuthoredInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutBroadcastsAuthoredInput = {
@@ -3822,6 +5233,9 @@ export type PersonUncheckedUpdateWithoutBroadcastsAuthoredInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3831,6 +5245,7 @@ export type PersonUncheckedUpdateWithoutBroadcastsAuthoredInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -3842,9 +5257,12 @@ export type PersonUncheckedUpdateWithoutBroadcastsAuthoredInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonCreateWithoutHealthProfileInput = {
@@ -3855,6 +5273,9 @@ export type PersonCreateWithoutHealthProfileInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3864,6 +5285,7 @@ export type PersonCreateWithoutHealthProfileInput = {
   mandatesHeld?: Prisma.MandateCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionCreateNestedManyWithoutPersonInput
@@ -3875,9 +5297,12 @@ export type PersonCreateWithoutHealthProfileInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorCreateNestedManyWithoutMinorPersonInput
   mediaAssets?: Prisma.MediaAssetCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryCreateNestedManyWithoutPersonInput
 }
 
 export type PersonUncheckedCreateWithoutHealthProfileInput = {
@@ -3888,6 +5313,9 @@ export type PersonUncheckedCreateWithoutHealthProfileInput = {
   sex: $Enums.Sex
   phone?: string | null
   email?: string | null
+  addressLine?: string | null
+  addressCity?: string | null
+  addressPostalCode?: string | null
   status?: $Enums.PersonStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3897,6 +5325,7 @@ export type PersonUncheckedCreateWithoutHealthProfileInput = {
   mandatesHeld?: Prisma.MandateUncheckedCreateNestedManyWithoutPersonInput
   gradeHistory?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutPersonInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutAwardedByInput
+  gradeProposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutPersonInput
   chefQualifications?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutPersonInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedCreateNestedManyWithoutAwardedByInput
   contributions?: Prisma.ContributionUncheckedCreateNestedManyWithoutPersonInput
@@ -3908,9 +5337,12 @@ export type PersonUncheckedCreateWithoutHealthProfileInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutCreatedByInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel1ValidatorInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel2ValidatorInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedCreateNestedManyWithoutLevel3ValidatorInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedCreateNestedManyWithoutValidatedByInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedCreateNestedManyWithoutAuthorInput
   tutorsAsMinor?: Prisma.TutorUncheckedCreateNestedManyWithoutMinorPersonInput
   mediaAssets?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutOwnerPersonInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedCreateNestedManyWithoutPersonInput
 }
 
 export type PersonCreateOrConnectWithoutHealthProfileInput = {
@@ -3937,6 +5369,9 @@ export type PersonUpdateWithoutHealthProfileInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3946,6 +5381,7 @@ export type PersonUpdateWithoutHealthProfileInput = {
   mandatesHeld?: Prisma.MandateUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUpdateManyWithoutPersonNestedInput
@@ -3957,9 +5393,12 @@ export type PersonUpdateWithoutHealthProfileInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUpdateManyWithoutMinorPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUpdateManyWithoutPersonNestedInput
 }
 
 export type PersonUncheckedUpdateWithoutHealthProfileInput = {
@@ -3970,6 +5409,9 @@ export type PersonUncheckedUpdateWithoutHealthProfileInput = {
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPersonStatusFieldUpdateOperationsInput | $Enums.PersonStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3979,6 +5421,7 @@ export type PersonUncheckedUpdateWithoutHealthProfileInput = {
   mandatesHeld?: Prisma.MandateUncheckedUpdateManyWithoutPersonNestedInput
   gradeHistory?: Prisma.GradeHistoryUncheckedUpdateManyWithoutPersonNestedInput
   gradesAwarded?: Prisma.GradeHistoryUncheckedUpdateManyWithoutAwardedByNestedInput
+  gradeProposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutPersonNestedInput
   chefQualifications?: Prisma.ChefQualificationUncheckedUpdateManyWithoutPersonNestedInput
   chefQualificationsAwarded?: Prisma.ChefQualificationUncheckedUpdateManyWithoutAwardedByNestedInput
   contributions?: Prisma.ContributionUncheckedUpdateManyWithoutPersonNestedInput
@@ -3990,9 +5433,12 @@ export type PersonUncheckedUpdateWithoutHealthProfileInput = {
   certificateRequestsCreated?: Prisma.CertificateRequestUncheckedUpdateManyWithoutCreatedByNestedInput
   certificateRequestsValidatedL1?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel1ValidatorNestedInput
   certificateRequestsValidatedL2?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel2ValidatorNestedInput
+  certificateRequestsValidatedL3?: Prisma.CertificateRequestUncheckedUpdateManyWithoutLevel3ValidatorNestedInput
+  certificateValidationSteps?: Prisma.CertificateValidationStepUncheckedUpdateManyWithoutValidatedByNestedInput
   broadcastsAuthored?: Prisma.BroadcastUncheckedUpdateManyWithoutAuthorNestedInput
   tutorsAsMinor?: Prisma.TutorUncheckedUpdateManyWithoutMinorPersonNestedInput
   mediaAssets?: Prisma.MediaAssetUncheckedUpdateManyWithoutOwnerPersonNestedInput
+  registryEntries?: Prisma.PersonRegistryEntryUncheckedUpdateManyWithoutPersonNestedInput
 }
 
 
@@ -4006,6 +5452,7 @@ export type PersonCountOutputType = {
   mandatesHeld: number
   gradeHistory: number
   gradesAwarded: number
+  gradeProposals: number
   chefQualifications: number
   chefQualificationsAwarded: number
   contributions: number
@@ -4017,9 +5464,12 @@ export type PersonCountOutputType = {
   certificateRequestsCreated: number
   certificateRequestsValidatedL1: number
   certificateRequestsValidatedL2: number
+  certificateRequestsValidatedL3: number
+  certificateValidationSteps: number
   broadcastsAuthored: number
   tutorsAsMinor: number
   mediaAssets: number
+  registryEntries: number
 }
 
 export type PersonCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4028,6 +5478,7 @@ export type PersonCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   mandatesHeld?: boolean | PersonCountOutputTypeCountMandatesHeldArgs
   gradeHistory?: boolean | PersonCountOutputTypeCountGradeHistoryArgs
   gradesAwarded?: boolean | PersonCountOutputTypeCountGradesAwardedArgs
+  gradeProposals?: boolean | PersonCountOutputTypeCountGradeProposalsArgs
   chefQualifications?: boolean | PersonCountOutputTypeCountChefQualificationsArgs
   chefQualificationsAwarded?: boolean | PersonCountOutputTypeCountChefQualificationsAwardedArgs
   contributions?: boolean | PersonCountOutputTypeCountContributionsArgs
@@ -4039,9 +5490,12 @@ export type PersonCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   certificateRequestsCreated?: boolean | PersonCountOutputTypeCountCertificateRequestsCreatedArgs
   certificateRequestsValidatedL1?: boolean | PersonCountOutputTypeCountCertificateRequestsValidatedL1Args
   certificateRequestsValidatedL2?: boolean | PersonCountOutputTypeCountCertificateRequestsValidatedL2Args
+  certificateRequestsValidatedL3?: boolean | PersonCountOutputTypeCountCertificateRequestsValidatedL3Args
+  certificateValidationSteps?: boolean | PersonCountOutputTypeCountCertificateValidationStepsArgs
   broadcastsAuthored?: boolean | PersonCountOutputTypeCountBroadcastsAuthoredArgs
   tutorsAsMinor?: boolean | PersonCountOutputTypeCountTutorsAsMinorArgs
   mediaAssets?: boolean | PersonCountOutputTypeCountMediaAssetsArgs
+  registryEntries?: boolean | PersonCountOutputTypeCountRegistryEntriesArgs
 }
 
 /**
@@ -4087,6 +5541,13 @@ export type PersonCountOutputTypeCountGradeHistoryArgs<ExtArgs extends runtime.T
  */
 export type PersonCountOutputTypeCountGradesAwardedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.GradeHistoryWhereInput
+}
+
+/**
+ * PersonCountOutputType without action
+ */
+export type PersonCountOutputTypeCountGradeProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GradeProposalWhereInput
 }
 
 /**
@@ -4169,6 +5630,20 @@ export type PersonCountOutputTypeCountCertificateRequestsValidatedL2Args<ExtArgs
 /**
  * PersonCountOutputType without action
  */
+export type PersonCountOutputTypeCountCertificateRequestsValidatedL3Args<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CertificateRequestWhereInput
+}
+
+/**
+ * PersonCountOutputType without action
+ */
+export type PersonCountOutputTypeCountCertificateValidationStepsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CertificateValidationStepWhereInput
+}
+
+/**
+ * PersonCountOutputType without action
+ */
 export type PersonCountOutputTypeCountBroadcastsAuthoredArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.BroadcastWhereInput
 }
@@ -4187,6 +5662,13 @@ export type PersonCountOutputTypeCountMediaAssetsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.MediaAssetWhereInput
 }
 
+/**
+ * PersonCountOutputType without action
+ */
+export type PersonCountOutputTypeCountRegistryEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PersonRegistryEntryWhereInput
+}
+
 
 export type PersonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4196,6 +5678,9 @@ export type PersonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   sex?: boolean
   phone?: boolean
   email?: boolean
+  addressLine?: boolean
+  addressCity?: boolean
+  addressPostalCode?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -4205,6 +5690,7 @@ export type PersonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   mandatesHeld?: boolean | Prisma.Person$mandatesHeldArgs<ExtArgs>
   gradeHistory?: boolean | Prisma.Person$gradeHistoryArgs<ExtArgs>
   gradesAwarded?: boolean | Prisma.Person$gradesAwardedArgs<ExtArgs>
+  gradeProposals?: boolean | Prisma.Person$gradeProposalsArgs<ExtArgs>
   chefQualifications?: boolean | Prisma.Person$chefQualificationsArgs<ExtArgs>
   chefQualificationsAwarded?: boolean | Prisma.Person$chefQualificationsAwardedArgs<ExtArgs>
   contributions?: boolean | Prisma.Person$contributionsArgs<ExtArgs>
@@ -4216,10 +5702,13 @@ export type PersonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   certificateRequestsCreated?: boolean | Prisma.Person$certificateRequestsCreatedArgs<ExtArgs>
   certificateRequestsValidatedL1?: boolean | Prisma.Person$certificateRequestsValidatedL1Args<ExtArgs>
   certificateRequestsValidatedL2?: boolean | Prisma.Person$certificateRequestsValidatedL2Args<ExtArgs>
+  certificateRequestsValidatedL3?: boolean | Prisma.Person$certificateRequestsValidatedL3Args<ExtArgs>
+  certificateValidationSteps?: boolean | Prisma.Person$certificateValidationStepsArgs<ExtArgs>
   broadcastsAuthored?: boolean | Prisma.Person$broadcastsAuthoredArgs<ExtArgs>
   tutorsAsMinor?: boolean | Prisma.Person$tutorsAsMinorArgs<ExtArgs>
   healthProfile?: boolean | Prisma.Person$healthProfileArgs<ExtArgs>
   mediaAssets?: boolean | Prisma.Person$mediaAssetsArgs<ExtArgs>
+  registryEntries?: boolean | Prisma.Person$registryEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.PersonCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["person"]>
 
@@ -4231,6 +5720,9 @@ export type PersonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   sex?: boolean
   phone?: boolean
   email?: boolean
+  addressLine?: boolean
+  addressCity?: boolean
+  addressPostalCode?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -4244,6 +5736,9 @@ export type PersonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   sex?: boolean
   phone?: boolean
   email?: boolean
+  addressLine?: boolean
+  addressCity?: boolean
+  addressPostalCode?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -4257,12 +5752,15 @@ export type PersonSelectScalar = {
   sex?: boolean
   phone?: boolean
   email?: boolean
+  addressLine?: boolean
+  addressCity?: boolean
+  addressPostalCode?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PersonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "birthDate" | "sex" | "phone" | "email" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["person"]>
+export type PersonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "birthDate" | "sex" | "phone" | "email" | "addressLine" | "addressCity" | "addressPostalCode" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["person"]>
 export type PersonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.Person$accountArgs<ExtArgs>
   memberships?: boolean | Prisma.Person$membershipsArgs<ExtArgs>
@@ -4270,6 +5768,7 @@ export type PersonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   mandatesHeld?: boolean | Prisma.Person$mandatesHeldArgs<ExtArgs>
   gradeHistory?: boolean | Prisma.Person$gradeHistoryArgs<ExtArgs>
   gradesAwarded?: boolean | Prisma.Person$gradesAwardedArgs<ExtArgs>
+  gradeProposals?: boolean | Prisma.Person$gradeProposalsArgs<ExtArgs>
   chefQualifications?: boolean | Prisma.Person$chefQualificationsArgs<ExtArgs>
   chefQualificationsAwarded?: boolean | Prisma.Person$chefQualificationsAwardedArgs<ExtArgs>
   contributions?: boolean | Prisma.Person$contributionsArgs<ExtArgs>
@@ -4281,10 +5780,13 @@ export type PersonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   certificateRequestsCreated?: boolean | Prisma.Person$certificateRequestsCreatedArgs<ExtArgs>
   certificateRequestsValidatedL1?: boolean | Prisma.Person$certificateRequestsValidatedL1Args<ExtArgs>
   certificateRequestsValidatedL2?: boolean | Prisma.Person$certificateRequestsValidatedL2Args<ExtArgs>
+  certificateRequestsValidatedL3?: boolean | Prisma.Person$certificateRequestsValidatedL3Args<ExtArgs>
+  certificateValidationSteps?: boolean | Prisma.Person$certificateValidationStepsArgs<ExtArgs>
   broadcastsAuthored?: boolean | Prisma.Person$broadcastsAuthoredArgs<ExtArgs>
   tutorsAsMinor?: boolean | Prisma.Person$tutorsAsMinorArgs<ExtArgs>
   healthProfile?: boolean | Prisma.Person$healthProfileArgs<ExtArgs>
   mediaAssets?: boolean | Prisma.Person$mediaAssetsArgs<ExtArgs>
+  registryEntries?: boolean | Prisma.Person$registryEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.PersonCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PersonIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4299,6 +5801,7 @@ export type $PersonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     mandatesHeld: Prisma.$MandatePayload<ExtArgs>[]
     gradeHistory: Prisma.$GradeHistoryPayload<ExtArgs>[]
     gradesAwarded: Prisma.$GradeHistoryPayload<ExtArgs>[]
+    gradeProposals: Prisma.$GradeProposalPayload<ExtArgs>[]
     chefQualifications: Prisma.$ChefQualificationPayload<ExtArgs>[]
     chefQualificationsAwarded: Prisma.$ChefQualificationPayload<ExtArgs>[]
     contributions: Prisma.$ContributionPayload<ExtArgs>[]
@@ -4310,10 +5813,13 @@ export type $PersonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     certificateRequestsCreated: Prisma.$CertificateRequestPayload<ExtArgs>[]
     certificateRequestsValidatedL1: Prisma.$CertificateRequestPayload<ExtArgs>[]
     certificateRequestsValidatedL2: Prisma.$CertificateRequestPayload<ExtArgs>[]
+    certificateRequestsValidatedL3: Prisma.$CertificateRequestPayload<ExtArgs>[]
+    certificateValidationSteps: Prisma.$CertificateValidationStepPayload<ExtArgs>[]
     broadcastsAuthored: Prisma.$BroadcastPayload<ExtArgs>[]
     tutorsAsMinor: Prisma.$TutorPayload<ExtArgs>[]
     healthProfile: Prisma.$HealthProfilePayload<ExtArgs> | null
     mediaAssets: Prisma.$MediaAssetPayload<ExtArgs>[]
+    registryEntries: Prisma.$PersonRegistryEntryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4323,6 +5829,9 @@ export type $PersonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     sex: $Enums.Sex
     phone: string | null
     email: string | null
+    addressLine: string | null
+    addressCity: string | null
+    addressPostalCode: string | null
     status: $Enums.PersonStatus
     createdAt: Date
     updatedAt: Date
@@ -4726,6 +6235,7 @@ export interface Prisma__PersonClient<T, Null = never, ExtArgs extends runtime.T
   mandatesHeld<T extends Prisma.Person$mandatesHeldArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$mandatesHeldArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MandatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   gradeHistory<T extends Prisma.Person$gradeHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$gradeHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   gradesAwarded<T extends Prisma.Person$gradesAwardedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$gradesAwardedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  gradeProposals<T extends Prisma.Person$gradeProposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$gradeProposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chefQualifications<T extends Prisma.Person$chefQualificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$chefQualificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChefQualificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chefQualificationsAwarded<T extends Prisma.Person$chefQualificationsAwardedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$chefQualificationsAwardedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChefQualificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contributions<T extends Prisma.Person$contributionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$contributionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContributionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4737,10 +6247,13 @@ export interface Prisma__PersonClient<T, Null = never, ExtArgs extends runtime.T
   certificateRequestsCreated<T extends Prisma.Person$certificateRequestsCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$certificateRequestsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificateRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   certificateRequestsValidatedL1<T extends Prisma.Person$certificateRequestsValidatedL1Args<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$certificateRequestsValidatedL1Args<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificateRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   certificateRequestsValidatedL2<T extends Prisma.Person$certificateRequestsValidatedL2Args<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$certificateRequestsValidatedL2Args<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificateRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  certificateRequestsValidatedL3<T extends Prisma.Person$certificateRequestsValidatedL3Args<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$certificateRequestsValidatedL3Args<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificateRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  certificateValidationSteps<T extends Prisma.Person$certificateValidationStepsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$certificateValidationStepsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificateValidationStepPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   broadcastsAuthored<T extends Prisma.Person$broadcastsAuthoredArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$broadcastsAuthoredArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BroadcastPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tutorsAsMinor<T extends Prisma.Person$tutorsAsMinorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$tutorsAsMinorArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TutorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   healthProfile<T extends Prisma.Person$healthProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$healthProfileArgs<ExtArgs>>): Prisma.Prisma__HealthProfileClient<runtime.Types.Result.GetResult<Prisma.$HealthProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   mediaAssets<T extends Prisma.Person$mediaAssetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$mediaAssetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  registryEntries<T extends Prisma.Person$registryEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$registryEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PersonRegistryEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4777,6 +6290,9 @@ export interface PersonFieldRefs {
   readonly sex: Prisma.FieldRef<"Person", 'Sex'>
   readonly phone: Prisma.FieldRef<"Person", 'String'>
   readonly email: Prisma.FieldRef<"Person", 'String'>
+  readonly addressLine: Prisma.FieldRef<"Person", 'String'>
+  readonly addressCity: Prisma.FieldRef<"Person", 'String'>
+  readonly addressPostalCode: Prisma.FieldRef<"Person", 'String'>
   readonly status: Prisma.FieldRef<"Person", 'PersonStatus'>
   readonly createdAt: Prisma.FieldRef<"Person", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Person", 'DateTime'>
@@ -5312,6 +6828,30 @@ export type Person$gradesAwardedArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * Person.gradeProposals
+ */
+export type Person$gradeProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GradeProposal
+   */
+  select?: Prisma.GradeProposalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GradeProposal
+   */
+  omit?: Prisma.GradeProposalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GradeProposalInclude<ExtArgs> | null
+  where?: Prisma.GradeProposalWhereInput
+  orderBy?: Prisma.GradeProposalOrderByWithRelationInput | Prisma.GradeProposalOrderByWithRelationInput[]
+  cursor?: Prisma.GradeProposalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GradeProposalScalarFieldEnum | Prisma.GradeProposalScalarFieldEnum[]
+}
+
+/**
  * Person.chefQualifications
  */
 export type Person$chefQualificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5576,6 +7116,54 @@ export type Person$certificateRequestsValidatedL2Args<ExtArgs extends runtime.Ty
 }
 
 /**
+ * Person.certificateRequestsValidatedL3
+ */
+export type Person$certificateRequestsValidatedL3Args<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CertificateRequest
+   */
+  select?: Prisma.CertificateRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CertificateRequest
+   */
+  omit?: Prisma.CertificateRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CertificateRequestInclude<ExtArgs> | null
+  where?: Prisma.CertificateRequestWhereInput
+  orderBy?: Prisma.CertificateRequestOrderByWithRelationInput | Prisma.CertificateRequestOrderByWithRelationInput[]
+  cursor?: Prisma.CertificateRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CertificateRequestScalarFieldEnum | Prisma.CertificateRequestScalarFieldEnum[]
+}
+
+/**
+ * Person.certificateValidationSteps
+ */
+export type Person$certificateValidationStepsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CertificateValidationStep
+   */
+  select?: Prisma.CertificateValidationStepSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CertificateValidationStep
+   */
+  omit?: Prisma.CertificateValidationStepOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CertificateValidationStepInclude<ExtArgs> | null
+  where?: Prisma.CertificateValidationStepWhereInput
+  orderBy?: Prisma.CertificateValidationStepOrderByWithRelationInput | Prisma.CertificateValidationStepOrderByWithRelationInput[]
+  cursor?: Prisma.CertificateValidationStepWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CertificateValidationStepScalarFieldEnum | Prisma.CertificateValidationStepScalarFieldEnum[]
+}
+
+/**
  * Person.broadcastsAuthored
  */
 export type Person$broadcastsAuthoredArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5664,6 +7252,30 @@ export type Person$mediaAssetsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.MediaAssetScalarFieldEnum | Prisma.MediaAssetScalarFieldEnum[]
+}
+
+/**
+ * Person.registryEntries
+ */
+export type Person$registryEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PersonRegistryEntry
+   */
+  select?: Prisma.PersonRegistryEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PersonRegistryEntry
+   */
+  omit?: Prisma.PersonRegistryEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PersonRegistryEntryInclude<ExtArgs> | null
+  where?: Prisma.PersonRegistryEntryWhereInput
+  orderBy?: Prisma.PersonRegistryEntryOrderByWithRelationInput | Prisma.PersonRegistryEntryOrderByWithRelationInput[]
+  cursor?: Prisma.PersonRegistryEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PersonRegistryEntryScalarFieldEnum | Prisma.PersonRegistryEntryScalarFieldEnum[]
 }
 
 /**

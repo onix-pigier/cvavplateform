@@ -15,8 +15,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 /**
  * Model Membership
  * Rattachement organisationnel actif. Un seul actif par Personne à un
- * instant T (D-005) et un seul par Équipe/année pastorale (D-052) — voir
- * note d'en-tête sur les contraintes partielles.
+ * instant T (D-005), garanti par un index partiel PostgreSQL en migration.
  */
 export type MembershipModel = runtime.Types.Result.DefaultSelection<Prisma.$MembershipPayload>
 

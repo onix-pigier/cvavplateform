@@ -243,6 +243,8 @@ export type ParoisseWhereInput = {
   sections?: Prisma.SectionListRelationFilter
   memberships?: Prisma.MembershipListRelationFilter
   documents?: Prisma.DocumentRecordListRelationFilter
+  preRegistrationsRequested?: Prisma.PreRegistrationListRelationFilter
+  preRegistrationsOrigin?: Prisma.PreRegistrationListRelationFilter
 }
 
 export type ParoisseOrderByWithRelationInput = {
@@ -263,6 +265,8 @@ export type ParoisseOrderByWithRelationInput = {
   sections?: Prisma.SectionOrderByRelationAggregateInput
   memberships?: Prisma.MembershipOrderByRelationAggregateInput
   documents?: Prisma.DocumentRecordOrderByRelationAggregateInput
+  preRegistrationsRequested?: Prisma.PreRegistrationOrderByRelationAggregateInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationOrderByRelationAggregateInput
 }
 
 export type ParoisseWhereUniqueInput = Prisma.AtLeast<{
@@ -286,6 +290,8 @@ export type ParoisseWhereUniqueInput = Prisma.AtLeast<{
   sections?: Prisma.SectionListRelationFilter
   memberships?: Prisma.MembershipListRelationFilter
   documents?: Prisma.DocumentRecordListRelationFilter
+  preRegistrationsRequested?: Prisma.PreRegistrationListRelationFilter
+  preRegistrationsOrigin?: Prisma.PreRegistrationListRelationFilter
 }, "id">
 
 export type ParoisseOrderByWithAggregationInput = {
@@ -340,6 +346,8 @@ export type ParoisseCreateInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutParoisseInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseUncheckedCreateInput = {
@@ -358,6 +366,8 @@ export type ParoisseUncheckedCreateInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutParoisseInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseUpdateInput = {
@@ -376,6 +386,8 @@ export type ParoisseUpdateInput = {
   sections?: Prisma.SectionUpdateManyWithoutParoisseNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseUncheckedUpdateInput = {
@@ -394,6 +406,8 @@ export type ParoisseUncheckedUpdateInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutParoisseNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUncheckedUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseCreateManyInput = {
@@ -624,6 +638,36 @@ export type ParoisseUpdateOneRequiredWithoutMembershipsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ParoisseUpdateToOneWithWhereWithoutMembershipsInput, Prisma.ParoisseUpdateWithoutMembershipsInput>, Prisma.ParoisseUncheckedUpdateWithoutMembershipsInput>
 }
 
+export type ParoisseCreateNestedOneWithoutPreRegistrationsOriginInput = {
+  create?: Prisma.XOR<Prisma.ParoisseCreateWithoutPreRegistrationsOriginInput, Prisma.ParoisseUncheckedCreateWithoutPreRegistrationsOriginInput>
+  connectOrCreate?: Prisma.ParoisseCreateOrConnectWithoutPreRegistrationsOriginInput
+  connect?: Prisma.ParoisseWhereUniqueInput
+}
+
+export type ParoisseCreateNestedOneWithoutPreRegistrationsRequestedInput = {
+  create?: Prisma.XOR<Prisma.ParoisseCreateWithoutPreRegistrationsRequestedInput, Prisma.ParoisseUncheckedCreateWithoutPreRegistrationsRequestedInput>
+  connectOrCreate?: Prisma.ParoisseCreateOrConnectWithoutPreRegistrationsRequestedInput
+  connect?: Prisma.ParoisseWhereUniqueInput
+}
+
+export type ParoisseUpdateOneWithoutPreRegistrationsOriginNestedInput = {
+  create?: Prisma.XOR<Prisma.ParoisseCreateWithoutPreRegistrationsOriginInput, Prisma.ParoisseUncheckedCreateWithoutPreRegistrationsOriginInput>
+  connectOrCreate?: Prisma.ParoisseCreateOrConnectWithoutPreRegistrationsOriginInput
+  upsert?: Prisma.ParoisseUpsertWithoutPreRegistrationsOriginInput
+  disconnect?: Prisma.ParoisseWhereInput | boolean
+  delete?: Prisma.ParoisseWhereInput | boolean
+  connect?: Prisma.ParoisseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ParoisseUpdateToOneWithWhereWithoutPreRegistrationsOriginInput, Prisma.ParoisseUpdateWithoutPreRegistrationsOriginInput>, Prisma.ParoisseUncheckedUpdateWithoutPreRegistrationsOriginInput>
+}
+
+export type ParoisseUpdateOneRequiredWithoutPreRegistrationsRequestedNestedInput = {
+  create?: Prisma.XOR<Prisma.ParoisseCreateWithoutPreRegistrationsRequestedInput, Prisma.ParoisseUncheckedCreateWithoutPreRegistrationsRequestedInput>
+  connectOrCreate?: Prisma.ParoisseCreateOrConnectWithoutPreRegistrationsRequestedInput
+  upsert?: Prisma.ParoisseUpsertWithoutPreRegistrationsRequestedInput
+  connect?: Prisma.ParoisseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ParoisseUpdateToOneWithWhereWithoutPreRegistrationsRequestedInput, Prisma.ParoisseUpdateWithoutPreRegistrationsRequestedInput>, Prisma.ParoisseUncheckedUpdateWithoutPreRegistrationsRequestedInput>
+}
+
 export type ParoisseCreateNestedOneWithoutDocumentsInput = {
   create?: Prisma.XOR<Prisma.ParoisseCreateWithoutDocumentsInput, Prisma.ParoisseUncheckedCreateWithoutDocumentsInput>
   connectOrCreate?: Prisma.ParoisseCreateOrConnectWithoutDocumentsInput
@@ -655,6 +699,8 @@ export type ParoisseCreateWithoutDoyenneInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutParoisseInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseUncheckedCreateWithoutDoyenneInput = {
@@ -672,6 +718,8 @@ export type ParoisseUncheckedCreateWithoutDoyenneInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutParoisseInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseCreateOrConnectWithoutDoyenneInput = {
@@ -733,6 +781,8 @@ export type ParoisseCreateWithoutVilleInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutParoisseInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseUncheckedCreateWithoutVilleInput = {
@@ -750,6 +800,8 @@ export type ParoisseUncheckedCreateWithoutVilleInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutParoisseInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseCreateOrConnectWithoutVilleInput = {
@@ -793,6 +845,8 @@ export type ParoisseCreateWithoutSectionsInput = {
   ville: Prisma.VilleCreateNestedOneWithoutParoissesInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseUncheckedCreateWithoutSectionsInput = {
@@ -810,6 +864,8 @@ export type ParoisseUncheckedCreateWithoutSectionsInput = {
   updatedAt?: Date | string
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseCreateOrConnectWithoutSectionsInput = {
@@ -843,6 +899,8 @@ export type ParoisseUpdateWithoutSectionsInput = {
   ville?: Prisma.VilleUpdateOneRequiredWithoutParoissesNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseUncheckedUpdateWithoutSectionsInput = {
@@ -860,6 +918,8 @@ export type ParoisseUncheckedUpdateWithoutSectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUncheckedUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseCreateWithoutMembershipsInput = {
@@ -877,6 +937,8 @@ export type ParoisseCreateWithoutMembershipsInput = {
   ville: Prisma.VilleCreateNestedOneWithoutParoissesInput
   sections?: Prisma.SectionCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseUncheckedCreateWithoutMembershipsInput = {
@@ -894,6 +956,8 @@ export type ParoisseUncheckedCreateWithoutMembershipsInput = {
   updatedAt?: Date | string
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutParoisseInput
   documents?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseCreateOrConnectWithoutMembershipsInput = {
@@ -927,6 +991,8 @@ export type ParoisseUpdateWithoutMembershipsInput = {
   ville?: Prisma.VilleUpdateOneRequiredWithoutParoissesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseUncheckedUpdateWithoutMembershipsInput = {
@@ -944,6 +1010,192 @@ export type ParoisseUncheckedUpdateWithoutMembershipsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sections?: Prisma.SectionUncheckedUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUncheckedUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedUpdateManyWithoutOriginParishNestedInput
+}
+
+export type ParoisseCreateWithoutPreRegistrationsOriginInput = {
+  id?: string
+  name: string
+  address?: string | null
+  isActive?: boolean
+  confidence?: $Enums.DataConfidence
+  source?: string | null
+  sourceDate?: Date | string | null
+  verifiedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doyenne: Prisma.DoyenneCreateNestedOneWithoutParoissesInput
+  ville: Prisma.VilleCreateNestedOneWithoutParoissesInput
+  sections?: Prisma.SectionCreateNestedManyWithoutParoisseInput
+  memberships?: Prisma.MembershipCreateNestedManyWithoutParoisseInput
+  documents?: Prisma.DocumentRecordCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationCreateNestedManyWithoutRequestedParishInput
+}
+
+export type ParoisseUncheckedCreateWithoutPreRegistrationsOriginInput = {
+  id?: string
+  name: string
+  doyenneId: string
+  villeId: string
+  address?: string | null
+  isActive?: boolean
+  confidence?: $Enums.DataConfidence
+  source?: string | null
+  sourceDate?: Date | string | null
+  verifiedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutParoisseInput
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutParoisseInput
+  documents?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutRequestedParishInput
+}
+
+export type ParoisseCreateOrConnectWithoutPreRegistrationsOriginInput = {
+  where: Prisma.ParoisseWhereUniqueInput
+  create: Prisma.XOR<Prisma.ParoisseCreateWithoutPreRegistrationsOriginInput, Prisma.ParoisseUncheckedCreateWithoutPreRegistrationsOriginInput>
+}
+
+export type ParoisseCreateWithoutPreRegistrationsRequestedInput = {
+  id?: string
+  name: string
+  address?: string | null
+  isActive?: boolean
+  confidence?: $Enums.DataConfidence
+  source?: string | null
+  sourceDate?: Date | string | null
+  verifiedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doyenne: Prisma.DoyenneCreateNestedOneWithoutParoissesInput
+  ville: Prisma.VilleCreateNestedOneWithoutParoissesInput
+  sections?: Prisma.SectionCreateNestedManyWithoutParoisseInput
+  memberships?: Prisma.MembershipCreateNestedManyWithoutParoisseInput
+  documents?: Prisma.DocumentRecordCreateNestedManyWithoutParoisseInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationCreateNestedManyWithoutOriginParishInput
+}
+
+export type ParoisseUncheckedCreateWithoutPreRegistrationsRequestedInput = {
+  id?: string
+  name: string
+  doyenneId: string
+  villeId: string
+  address?: string | null
+  isActive?: boolean
+  confidence?: $Enums.DataConfidence
+  source?: string | null
+  sourceDate?: Date | string | null
+  verifiedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutParoisseInput
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutParoisseInput
+  documents?: Prisma.DocumentRecordUncheckedCreateNestedManyWithoutParoisseInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutOriginParishInput
+}
+
+export type ParoisseCreateOrConnectWithoutPreRegistrationsRequestedInput = {
+  where: Prisma.ParoisseWhereUniqueInput
+  create: Prisma.XOR<Prisma.ParoisseCreateWithoutPreRegistrationsRequestedInput, Prisma.ParoisseUncheckedCreateWithoutPreRegistrationsRequestedInput>
+}
+
+export type ParoisseUpsertWithoutPreRegistrationsOriginInput = {
+  update: Prisma.XOR<Prisma.ParoisseUpdateWithoutPreRegistrationsOriginInput, Prisma.ParoisseUncheckedUpdateWithoutPreRegistrationsOriginInput>
+  create: Prisma.XOR<Prisma.ParoisseCreateWithoutPreRegistrationsOriginInput, Prisma.ParoisseUncheckedCreateWithoutPreRegistrationsOriginInput>
+  where?: Prisma.ParoisseWhereInput
+}
+
+export type ParoisseUpdateToOneWithWhereWithoutPreRegistrationsOriginInput = {
+  where?: Prisma.ParoisseWhereInput
+  data: Prisma.XOR<Prisma.ParoisseUpdateWithoutPreRegistrationsOriginInput, Prisma.ParoisseUncheckedUpdateWithoutPreRegistrationsOriginInput>
+}
+
+export type ParoisseUpdateWithoutPreRegistrationsOriginInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  confidence?: Prisma.EnumDataConfidenceFieldUpdateOperationsInput | $Enums.DataConfidence
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doyenne?: Prisma.DoyenneUpdateOneRequiredWithoutParoissesNestedInput
+  ville?: Prisma.VilleUpdateOneRequiredWithoutParoissesNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutParoisseNestedInput
+  memberships?: Prisma.MembershipUpdateManyWithoutParoisseNestedInput
+  documents?: Prisma.DocumentRecordUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUpdateManyWithoutRequestedParishNestedInput
+}
+
+export type ParoisseUncheckedUpdateWithoutPreRegistrationsOriginInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  doyenneId?: Prisma.StringFieldUpdateOperationsInput | string
+  villeId?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  confidence?: Prisma.EnumDataConfidenceFieldUpdateOperationsInput | $Enums.DataConfidence
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutParoisseNestedInput
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutParoisseNestedInput
+  documents?: Prisma.DocumentRecordUncheckedUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedUpdateManyWithoutRequestedParishNestedInput
+}
+
+export type ParoisseUpsertWithoutPreRegistrationsRequestedInput = {
+  update: Prisma.XOR<Prisma.ParoisseUpdateWithoutPreRegistrationsRequestedInput, Prisma.ParoisseUncheckedUpdateWithoutPreRegistrationsRequestedInput>
+  create: Prisma.XOR<Prisma.ParoisseCreateWithoutPreRegistrationsRequestedInput, Prisma.ParoisseUncheckedCreateWithoutPreRegistrationsRequestedInput>
+  where?: Prisma.ParoisseWhereInput
+}
+
+export type ParoisseUpdateToOneWithWhereWithoutPreRegistrationsRequestedInput = {
+  where?: Prisma.ParoisseWhereInput
+  data: Prisma.XOR<Prisma.ParoisseUpdateWithoutPreRegistrationsRequestedInput, Prisma.ParoisseUncheckedUpdateWithoutPreRegistrationsRequestedInput>
+}
+
+export type ParoisseUpdateWithoutPreRegistrationsRequestedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  confidence?: Prisma.EnumDataConfidenceFieldUpdateOperationsInput | $Enums.DataConfidence
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doyenne?: Prisma.DoyenneUpdateOneRequiredWithoutParoissesNestedInput
+  ville?: Prisma.VilleUpdateOneRequiredWithoutParoissesNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutParoisseNestedInput
+  memberships?: Prisma.MembershipUpdateManyWithoutParoisseNestedInput
+  documents?: Prisma.DocumentRecordUpdateManyWithoutParoisseNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUpdateManyWithoutOriginParishNestedInput
+}
+
+export type ParoisseUncheckedUpdateWithoutPreRegistrationsRequestedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  doyenneId?: Prisma.StringFieldUpdateOperationsInput | string
+  villeId?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  confidence?: Prisma.EnumDataConfidenceFieldUpdateOperationsInput | $Enums.DataConfidence
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutParoisseNestedInput
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutParoisseNestedInput
+  documents?: Prisma.DocumentRecordUncheckedUpdateManyWithoutParoisseNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseCreateWithoutDocumentsInput = {
@@ -961,6 +1213,8 @@ export type ParoisseCreateWithoutDocumentsInput = {
   ville: Prisma.VilleCreateNestedOneWithoutParoissesInput
   sections?: Prisma.SectionCreateNestedManyWithoutParoisseInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseUncheckedCreateWithoutDocumentsInput = {
@@ -978,6 +1232,8 @@ export type ParoisseUncheckedCreateWithoutDocumentsInput = {
   updatedAt?: Date | string
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutParoisseInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutParoisseInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutRequestedParishInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedCreateNestedManyWithoutOriginParishInput
 }
 
 export type ParoisseCreateOrConnectWithoutDocumentsInput = {
@@ -1011,6 +1267,8 @@ export type ParoisseUpdateWithoutDocumentsInput = {
   ville?: Prisma.VilleUpdateOneRequiredWithoutParoissesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutParoisseNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseUncheckedUpdateWithoutDocumentsInput = {
@@ -1028,6 +1286,8 @@ export type ParoisseUncheckedUpdateWithoutDocumentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sections?: Prisma.SectionUncheckedUpdateManyWithoutParoisseNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseCreateManyDoyenneInput = {
@@ -1059,6 +1319,8 @@ export type ParoisseUpdateWithoutDoyenneInput = {
   sections?: Prisma.SectionUpdateManyWithoutParoisseNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseUncheckedUpdateWithoutDoyenneInput = {
@@ -1076,6 +1338,8 @@ export type ParoisseUncheckedUpdateWithoutDoyenneInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutParoisseNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUncheckedUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseUncheckedUpdateManyWithoutDoyenneInput = {
@@ -1121,6 +1385,8 @@ export type ParoisseUpdateWithoutVilleInput = {
   sections?: Prisma.SectionUpdateManyWithoutParoisseNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseUncheckedUpdateWithoutVilleInput = {
@@ -1138,6 +1404,8 @@ export type ParoisseUncheckedUpdateWithoutVilleInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutParoisseNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutParoisseNestedInput
   documents?: Prisma.DocumentRecordUncheckedUpdateManyWithoutParoisseNestedInput
+  preRegistrationsRequested?: Prisma.PreRegistrationUncheckedUpdateManyWithoutRequestedParishNestedInput
+  preRegistrationsOrigin?: Prisma.PreRegistrationUncheckedUpdateManyWithoutOriginParishNestedInput
 }
 
 export type ParoisseUncheckedUpdateManyWithoutVilleInput = {
@@ -1163,12 +1431,16 @@ export type ParoisseCountOutputType = {
   sections: number
   memberships: number
   documents: number
+  preRegistrationsRequested: number
+  preRegistrationsOrigin: number
 }
 
 export type ParoisseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sections?: boolean | ParoisseCountOutputTypeCountSectionsArgs
   memberships?: boolean | ParoisseCountOutputTypeCountMembershipsArgs
   documents?: boolean | ParoisseCountOutputTypeCountDocumentsArgs
+  preRegistrationsRequested?: boolean | ParoisseCountOutputTypeCountPreRegistrationsRequestedArgs
+  preRegistrationsOrigin?: boolean | ParoisseCountOutputTypeCountPreRegistrationsOriginArgs
 }
 
 /**
@@ -1202,6 +1474,20 @@ export type ParoisseCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.DocumentRecordWhereInput
 }
 
+/**
+ * ParoisseCountOutputType without action
+ */
+export type ParoisseCountOutputTypeCountPreRegistrationsRequestedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PreRegistrationWhereInput
+}
+
+/**
+ * ParoisseCountOutputType without action
+ */
+export type ParoisseCountOutputTypeCountPreRegistrationsOriginArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PreRegistrationWhereInput
+}
+
 
 export type ParoisseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1221,6 +1507,8 @@ export type ParoisseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   sections?: boolean | Prisma.Paroisse$sectionsArgs<ExtArgs>
   memberships?: boolean | Prisma.Paroisse$membershipsArgs<ExtArgs>
   documents?: boolean | Prisma.Paroisse$documentsArgs<ExtArgs>
+  preRegistrationsRequested?: boolean | Prisma.Paroisse$preRegistrationsRequestedArgs<ExtArgs>
+  preRegistrationsOrigin?: boolean | Prisma.Paroisse$preRegistrationsOriginArgs<ExtArgs>
   _count?: boolean | Prisma.ParoisseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paroisse"]>
 
@@ -1280,6 +1568,8 @@ export type ParoisseInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   sections?: boolean | Prisma.Paroisse$sectionsArgs<ExtArgs>
   memberships?: boolean | Prisma.Paroisse$membershipsArgs<ExtArgs>
   documents?: boolean | Prisma.Paroisse$documentsArgs<ExtArgs>
+  preRegistrationsRequested?: boolean | Prisma.Paroisse$preRegistrationsRequestedArgs<ExtArgs>
+  preRegistrationsOrigin?: boolean | Prisma.Paroisse$preRegistrationsOriginArgs<ExtArgs>
   _count?: boolean | Prisma.ParoisseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ParoisseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1299,6 +1589,8 @@ export type $ParoissePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     sections: Prisma.$SectionPayload<ExtArgs>[]
     memberships: Prisma.$MembershipPayload<ExtArgs>[]
     documents: Prisma.$DocumentRecordPayload<ExtArgs>[]
+    preRegistrationsRequested: Prisma.$PreRegistrationPayload<ExtArgs>[]
+    preRegistrationsOrigin: Prisma.$PreRegistrationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1712,6 +2004,8 @@ export interface Prisma__ParoisseClient<T, Null = never, ExtArgs extends runtime
   sections<T extends Prisma.Paroisse$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Paroisse$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memberships<T extends Prisma.Paroisse$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Paroisse$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.Paroisse$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Paroisse$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  preRegistrationsRequested<T extends Prisma.Paroisse$preRegistrationsRequestedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Paroisse$preRegistrationsRequestedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PreRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  preRegistrationsOrigin<T extends Prisma.Paroisse$preRegistrationsOriginArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Paroisse$preRegistrationsOriginArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PreRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2223,6 +2517,54 @@ export type Paroisse$documentsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.DocumentRecordScalarFieldEnum | Prisma.DocumentRecordScalarFieldEnum[]
+}
+
+/**
+ * Paroisse.preRegistrationsRequested
+ */
+export type Paroisse$preRegistrationsRequestedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PreRegistration
+   */
+  select?: Prisma.PreRegistrationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PreRegistration
+   */
+  omit?: Prisma.PreRegistrationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PreRegistrationInclude<ExtArgs> | null
+  where?: Prisma.PreRegistrationWhereInput
+  orderBy?: Prisma.PreRegistrationOrderByWithRelationInput | Prisma.PreRegistrationOrderByWithRelationInput[]
+  cursor?: Prisma.PreRegistrationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PreRegistrationScalarFieldEnum | Prisma.PreRegistrationScalarFieldEnum[]
+}
+
+/**
+ * Paroisse.preRegistrationsOrigin
+ */
+export type Paroisse$preRegistrationsOriginArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PreRegistration
+   */
+  select?: Prisma.PreRegistrationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PreRegistration
+   */
+  omit?: Prisma.PreRegistrationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PreRegistrationInclude<ExtArgs> | null
+  where?: Prisma.PreRegistrationWhereInput
+  orderBy?: Prisma.PreRegistrationOrderByWithRelationInput | Prisma.PreRegistrationOrderByWithRelationInput[]
+  cursor?: Prisma.PreRegistrationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PreRegistrationScalarFieldEnum | Prisma.PreRegistrationScalarFieldEnum[]
 }
 
 /**

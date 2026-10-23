@@ -406,6 +406,7 @@ export const ModelName = {
   TeamLeadership: 'TeamLeadership',
   Person: 'Person',
   Account: 'Account',
+  PersonRegistryEntry: 'PersonRegistryEntry',
   Role: 'Role',
   UserRole: 'UserRole',
   Fonction: 'Fonction',
@@ -413,8 +414,10 @@ export const ModelName = {
   Mandate: 'Mandate',
   Grade: 'Grade',
   GradeHistory: 'GradeHistory',
+  GradeProposal: 'GradeProposal',
   ChefQualification: 'ChefQualification',
   Membership: 'Membership',
+  PreRegistration: 'PreRegistration',
   Tutor: 'Tutor',
   MembershipCard: 'MembershipCard',
   ActivityType: 'ActivityType',
@@ -430,11 +433,13 @@ export const ModelName = {
   FinancialTransaction: 'FinancialTransaction',
   RequestType: 'RequestType',
   CertificateRequest: 'CertificateRequest',
+  CertificateValidationStep: 'CertificateValidationStep',
   Certificate: 'Certificate',
   DocumentRecord: 'DocumentRecord',
   LibraryDocument: 'LibraryDocument',
   MediaAsset: 'MediaAsset',
   Notification: 'Notification',
+  AccountAccessRequest: 'AccountAccessRequest',
   Broadcast: 'Broadcast',
   HealthProfile: 'HealthProfile',
   HealthProfileConsent: 'HealthProfileConsent',
@@ -461,7 +466,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "diocese" | "doyenne" | "ville" | "paroisse" | "section" | "team" | "teamLeadership" | "person" | "account" | "role" | "userRole" | "fonction" | "governanceBody" | "mandate" | "grade" | "gradeHistory" | "chefQualification" | "membership" | "tutor" | "membershipCard" | "activityType" | "activity" | "pilgrimageLogistics" | "presence" | "ceremonySession" | "ceremonyCandidate" | "spiritualOpinionRecord" | "feeGrid" | "contribution" | "payment" | "financialTransaction" | "requestType" | "certificateRequest" | "certificate" | "documentRecord" | "libraryDocument" | "mediaAsset" | "notification" | "broadcast" | "healthProfile" | "healthProfileConsent" | "dioceseSettings" | "publicContactRequest" | "newsletterSubscription" | "auditLog" | "backup" | "resource" | "action" | "permission"
+    modelProps: "diocese" | "doyenne" | "ville" | "paroisse" | "section" | "team" | "teamLeadership" | "person" | "account" | "personRegistryEntry" | "role" | "userRole" | "fonction" | "governanceBody" | "mandate" | "grade" | "gradeHistory" | "gradeProposal" | "chefQualification" | "membership" | "preRegistration" | "tutor" | "membershipCard" | "activityType" | "activity" | "pilgrimageLogistics" | "presence" | "ceremonySession" | "ceremonyCandidate" | "spiritualOpinionRecord" | "feeGrid" | "contribution" | "payment" | "financialTransaction" | "requestType" | "certificateRequest" | "certificateValidationStep" | "certificate" | "documentRecord" | "libraryDocument" | "mediaAsset" | "notification" | "accountAccessRequest" | "broadcast" | "healthProfile" | "healthProfileConsent" | "dioceseSettings" | "publicContactRequest" | "newsletterSubscription" | "auditLog" | "backup" | "resource" | "action" | "permission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1131,6 +1136,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PersonRegistryEntry: {
+      payload: Prisma.$PersonRegistryEntryPayload<ExtArgs>
+      fields: Prisma.PersonRegistryEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PersonRegistryEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PersonRegistryEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.PersonRegistryEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PersonRegistryEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>
+        }
+        findMany: {
+          args: Prisma.PersonRegistryEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>[]
+        }
+        create: {
+          args: Prisma.PersonRegistryEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>
+        }
+        createMany: {
+          args: Prisma.PersonRegistryEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PersonRegistryEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.PersonRegistryEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>
+        }
+        update: {
+          args: Prisma.PersonRegistryEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.PersonRegistryEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PersonRegistryEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PersonRegistryEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.PersonRegistryEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonRegistryEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.PersonRegistryEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePersonRegistryEntry>
+        }
+        groupBy: {
+          args: Prisma.PersonRegistryEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PersonRegistryEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PersonRegistryEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PersonRegistryEntryCountAggregateOutputType> | number
+        }
+      }
+    }
     Role: {
       payload: Prisma.$RolePayload<ExtArgs>
       fields: Prisma.RoleFieldRefs
@@ -1649,6 +1728,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GradeProposal: {
+      payload: Prisma.$GradeProposalPayload<ExtArgs>
+      fields: Prisma.GradeProposalFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GradeProposalFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GradeProposalFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>
+        }
+        findFirst: {
+          args: Prisma.GradeProposalFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GradeProposalFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>
+        }
+        findMany: {
+          args: Prisma.GradeProposalFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>[]
+        }
+        create: {
+          args: Prisma.GradeProposalCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>
+        }
+        createMany: {
+          args: Prisma.GradeProposalCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GradeProposalCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>[]
+        }
+        delete: {
+          args: Prisma.GradeProposalDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>
+        }
+        update: {
+          args: Prisma.GradeProposalUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>
+        }
+        deleteMany: {
+          args: Prisma.GradeProposalDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GradeProposalUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GradeProposalUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>[]
+        }
+        upsert: {
+          args: Prisma.GradeProposalUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GradeProposalPayload>
+        }
+        aggregate: {
+          args: Prisma.GradeProposalAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGradeProposal>
+        }
+        groupBy: {
+          args: Prisma.GradeProposalGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GradeProposalGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GradeProposalCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GradeProposalCountAggregateOutputType> | number
+        }
+      }
+    }
     ChefQualification: {
       payload: Prisma.$ChefQualificationPayload<ExtArgs>
       fields: Prisma.ChefQualificationFieldRefs
@@ -1794,6 +1947,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.MembershipCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.MembershipCountAggregateOutputType> | number
+        }
+      }
+    }
+    PreRegistration: {
+      payload: Prisma.$PreRegistrationPayload<ExtArgs>
+      fields: Prisma.PreRegistrationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PreRegistrationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PreRegistrationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>
+        }
+        findFirst: {
+          args: Prisma.PreRegistrationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PreRegistrationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>
+        }
+        findMany: {
+          args: Prisma.PreRegistrationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>[]
+        }
+        create: {
+          args: Prisma.PreRegistrationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>
+        }
+        createMany: {
+          args: Prisma.PreRegistrationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PreRegistrationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>[]
+        }
+        delete: {
+          args: Prisma.PreRegistrationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>
+        }
+        update: {
+          args: Prisma.PreRegistrationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>
+        }
+        deleteMany: {
+          args: Prisma.PreRegistrationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PreRegistrationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PreRegistrationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>[]
+        }
+        upsert: {
+          args: Prisma.PreRegistrationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PreRegistrationPayload>
+        }
+        aggregate: {
+          args: Prisma.PreRegistrationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePreRegistration>
+        }
+        groupBy: {
+          args: Prisma.PreRegistrationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PreRegistrationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PreRegistrationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PreRegistrationCountAggregateOutputType> | number
         }
       }
     }
@@ -2907,6 +3134,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CertificateValidationStep: {
+      payload: Prisma.$CertificateValidationStepPayload<ExtArgs>
+      fields: Prisma.CertificateValidationStepFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CertificateValidationStepFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CertificateValidationStepFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>
+        }
+        findFirst: {
+          args: Prisma.CertificateValidationStepFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CertificateValidationStepFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>
+        }
+        findMany: {
+          args: Prisma.CertificateValidationStepFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>[]
+        }
+        create: {
+          args: Prisma.CertificateValidationStepCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>
+        }
+        createMany: {
+          args: Prisma.CertificateValidationStepCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CertificateValidationStepCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>[]
+        }
+        delete: {
+          args: Prisma.CertificateValidationStepDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>
+        }
+        update: {
+          args: Prisma.CertificateValidationStepUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>
+        }
+        deleteMany: {
+          args: Prisma.CertificateValidationStepDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CertificateValidationStepUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CertificateValidationStepUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>[]
+        }
+        upsert: {
+          args: Prisma.CertificateValidationStepUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CertificateValidationStepPayload>
+        }
+        aggregate: {
+          args: Prisma.CertificateValidationStepAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCertificateValidationStep>
+        }
+        groupBy: {
+          args: Prisma.CertificateValidationStepGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CertificateValidationStepGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CertificateValidationStepCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CertificateValidationStepCountAggregateOutputType> | number
+        }
+      }
+    }
     Certificate: {
       payload: Prisma.$CertificatePayload<ExtArgs>
       fields: Prisma.CertificateFieldRefs
@@ -3274,6 +3575,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.NotificationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.NotificationCountAggregateOutputType> | number
+        }
+      }
+    }
+    AccountAccessRequest: {
+      payload: Prisma.$AccountAccessRequestPayload<ExtArgs>
+      fields: Prisma.AccountAccessRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AccountAccessRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AccountAccessRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.AccountAccessRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AccountAccessRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>
+        }
+        findMany: {
+          args: Prisma.AccountAccessRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>[]
+        }
+        create: {
+          args: Prisma.AccountAccessRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>
+        }
+        createMany: {
+          args: Prisma.AccountAccessRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AccountAccessRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.AccountAccessRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>
+        }
+        update: {
+          args: Prisma.AccountAccessRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.AccountAccessRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AccountAccessRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AccountAccessRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.AccountAccessRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountAccessRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.AccountAccessRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAccountAccessRequest>
+        }
+        groupBy: {
+          args: Prisma.AccountAccessRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AccountAccessRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AccountAccessRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AccountAccessRequestCountAggregateOutputType> | number
         }
       }
     }
@@ -4212,7 +4587,12 @@ export const TeamLeadershipScalarFieldEnum = {
   teamId: 'teamId',
   personId: 'personId',
   role: 'role',
-  pastoralYear: 'pastoralYear'
+  pastoralYear: 'pastoralYear',
+  endedAt: 'endedAt',
+  createdByAccountId: 'createdByAccountId',
+  updatedByAccountId: 'updatedByAccountId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type TeamLeadershipScalarFieldEnum = (typeof TeamLeadershipScalarFieldEnum)[keyof typeof TeamLeadershipScalarFieldEnum]
@@ -4226,6 +4606,9 @@ export const PersonScalarFieldEnum = {
   sex: 'sex',
   phone: 'phone',
   email: 'email',
+  addressLine: 'addressLine',
+  addressCity: 'addressCity',
+  addressPostalCode: 'addressPostalCode',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -4240,10 +4623,24 @@ export const AccountScalarFieldEnum = {
   username: 'username',
   passwordHash: 'passwordHash',
   status: 'status',
+  sessionVersion: 'sessionVersion',
+  passwordChangeRequired: 'passwordChangeRequired',
   createdAt: 'createdAt'
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+export const PersonRegistryEntryScalarFieldEnum = {
+  id: 'id',
+  personId: 'personId',
+  scopeType: 'scopeType',
+  scopeId: 'scopeId',
+  createdByAccountId: 'createdByAccountId',
+  createdAt: 'createdAt'
+} as const
+
+export type PersonRegistryEntryScalarFieldEnum = (typeof PersonRegistryEntryScalarFieldEnum)[keyof typeof PersonRegistryEntryScalarFieldEnum]
 
 
 export const RoleScalarFieldEnum = {
@@ -4299,6 +4696,11 @@ export const MandateScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',
+  createdByAccountId: 'createdByAccountId',
+  updatedByAccountId: 'updatedByAccountId',
+  validatedByAccountId: 'validatedByAccountId',
+  validatedAt: 'validatedAt',
+  appointmentReference: 'appointmentReference',
   previousMandateId: 'previousMandateId',
   createdAt: 'createdAt'
 } as const
@@ -4332,6 +4734,21 @@ export const GradeHistoryScalarFieldEnum = {
 export type GradeHistoryScalarFieldEnum = (typeof GradeHistoryScalarFieldEnum)[keyof typeof GradeHistoryScalarFieldEnum]
 
 
+export const GradeProposalScalarFieldEnum = {
+  id: 'id',
+  personId: 'personId',
+  gradeId: 'gradeId',
+  proposedByAccountId: 'proposedByAccountId',
+  status: 'status',
+  decisionNote: 'decisionNote',
+  decidedByAccountId: 'decidedByAccountId',
+  createdAt: 'createdAt',
+  decidedAt: 'decidedAt'
+} as const
+
+export type GradeProposalScalarFieldEnum = (typeof GradeProposalScalarFieldEnum)[keyof typeof GradeProposalScalarFieldEnum]
+
+
 export const ChefQualificationScalarFieldEnum = {
   id: 'id',
   personId: 'personId',
@@ -4357,6 +4774,45 @@ export const MembershipScalarFieldEnum = {
 } as const
 
 export type MembershipScalarFieldEnum = (typeof MembershipScalarFieldEnum)[keyof typeof MembershipScalarFieldEnum]
+
+
+export const PreRegistrationScalarFieldEnum = {
+  id: 'id',
+  referenceCode: 'referenceCode',
+  kind: 'kind',
+  status: 'status',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  birthDate: 'birthDate',
+  sex: 'sex',
+  phone: 'phone',
+  email: 'email',
+  guardianFirstName: 'guardianFirstName',
+  guardianLastName: 'guardianLastName',
+  guardianPhone: 'guardianPhone',
+  guardianEmail: 'guardianEmail',
+  guardianRelationship: 'guardianRelationship',
+  originParishId: 'originParishId',
+  originMemberNumber: 'originMemberNumber',
+  requestedParishId: 'requestedParishId',
+  consentedAt: 'consentedAt',
+  possibleDuplicate: 'possibleDuplicate',
+  decisionNote: 'decisionNote',
+  proposalSectionId: 'proposalSectionId',
+  proposalTeamId: 'proposalTeamId',
+  proposalById: 'proposalById',
+  proposalSubmittedAt: 'proposalSubmittedAt',
+  proposalDecisionNote: 'proposalDecisionNote',
+  proposalReviewedById: 'proposalReviewedById',
+  proposalReviewedAt: 'proposalReviewedAt',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
+  createdAccountId: 'createdAccountId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PreRegistrationScalarFieldEnum = (typeof PreRegistrationScalarFieldEnum)[keyof typeof PreRegistrationScalarFieldEnum]
 
 
 export const TutorScalarFieldEnum = {
@@ -4544,11 +5000,13 @@ export type RequestTypeScalarFieldEnum = (typeof RequestTypeScalarFieldEnum)[key
 export const CertificateRequestScalarFieldEnum = {
   id: 'id',
   requestTypeId: 'requestTypeId',
+  requiredValidationLevel: 'requiredValidationLevel',
   requesterId: 'requesterId',
   createdById: 'createdById',
   status: 'status',
   level1ValidatorId: 'level1ValidatorId',
   level2ValidatorId: 'level2ValidatorId',
+  level3ValidatorId: 'level3ValidatorId',
   escalated: 'escalated',
   decisionNote: 'decisionNote',
   createdAt: 'createdAt',
@@ -4556,6 +5014,20 @@ export const CertificateRequestScalarFieldEnum = {
 } as const
 
 export type CertificateRequestScalarFieldEnum = (typeof CertificateRequestScalarFieldEnum)[keyof typeof CertificateRequestScalarFieldEnum]
+
+
+export const CertificateValidationStepScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  level: 'level',
+  status: 'status',
+  validatedByPersonId: 'validatedByPersonId',
+  comment: 'comment',
+  validatedAt: 'validatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type CertificateValidationStepScalarFieldEnum = (typeof CertificateValidationStepScalarFieldEnum)[keyof typeof CertificateValidationStepScalarFieldEnum]
 
 
 export const CertificateScalarFieldEnum = {
@@ -4568,7 +5040,8 @@ export const CertificateScalarFieldEnum = {
   generatedAt: 'generatedAt',
   templateUsed: 'templateUsed',
   pdfUrl: 'pdfUrl',
-  status: 'status'
+  status: 'status',
+  contentSnapshot: 'contentSnapshot'
 } as const
 
 export type CertificateScalarFieldEnum = (typeof CertificateScalarFieldEnum)[keyof typeof CertificateScalarFieldEnum]
@@ -4634,6 +5107,17 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const AccountAccessRequestScalarFieldEnum = {
+  id: 'id',
+  submittedIdentifier: 'submittedIdentifier',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AccountAccessRequestScalarFieldEnum = (typeof AccountAccessRequestScalarFieldEnum)[keyof typeof AccountAccessRequestScalarFieldEnum]
 
 
 export const BroadcastScalarFieldEnum = {
@@ -4942,6 +5426,20 @@ export type ListEnumAccountStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'ScopeType'
  */
 export type EnumScopeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScopeType'>
@@ -4998,20 +5496,6 @@ export type ListEnumGradeCategoryFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -5026,6 +5510,20 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
+ * Reference to a field of type 'GradeProposalStatus'
+ */
+export type EnumGradeProposalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GradeProposalStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'GradeProposalStatus[]'
+ */
+export type ListEnumGradeProposalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GradeProposalStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'ChefQualificationCode'
  */
 export type EnumChefQualificationCodeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChefQualificationCode'>
@@ -5036,6 +5534,34 @@ export type EnumChefQualificationCodeFieldRefInput<$PrismaModel> = FieldRefInput
  * Reference to a field of type 'ChefQualificationCode[]'
  */
 export type ListEnumChefQualificationCodeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChefQualificationCode[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PreRegistrationKind'
+ */
+export type EnumPreRegistrationKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PreRegistrationKind'>
+    
+
+
+/**
+ * Reference to a field of type 'PreRegistrationKind[]'
+ */
+export type ListEnumPreRegistrationKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PreRegistrationKind[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PreRegistrationStatus'
+ */
+export type EnumPreRegistrationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PreRegistrationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PreRegistrationStatus[]'
+ */
+export type ListEnumPreRegistrationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PreRegistrationStatus[]'>
     
 
 
@@ -5180,6 +5706,20 @@ export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'ValidationLevel'
+ */
+export type EnumValidationLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ValidationLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'ValidationLevel[]'
+ */
+export type ListEnumValidationLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ValidationLevel[]'>
+    
+
+
+/**
  * Reference to a field of type 'CertificateRequestStatus'
  */
 export type EnumCertificateRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CertificateRequestStatus'>
@@ -5190,6 +5730,20 @@ export type EnumCertificateRequestStatusFieldRefInput<$PrismaModel> = FieldRefIn
  * Reference to a field of type 'CertificateRequestStatus[]'
  */
 export type ListEnumCertificateRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CertificateRequestStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ValidationStepStatus'
+ */
+export type EnumValidationStepStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ValidationStepStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ValidationStepStatus[]'
+ */
+export type ListEnumValidationStepStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ValidationStepStatus[]'>
     
 
 
@@ -5478,6 +6032,7 @@ export type GlobalOmitConfig = {
   teamLeadership?: Prisma.TeamLeadershipOmit
   person?: Prisma.PersonOmit
   account?: Prisma.AccountOmit
+  personRegistryEntry?: Prisma.PersonRegistryEntryOmit
   role?: Prisma.RoleOmit
   userRole?: Prisma.UserRoleOmit
   fonction?: Prisma.FonctionOmit
@@ -5485,8 +6040,10 @@ export type GlobalOmitConfig = {
   mandate?: Prisma.MandateOmit
   grade?: Prisma.GradeOmit
   gradeHistory?: Prisma.GradeHistoryOmit
+  gradeProposal?: Prisma.GradeProposalOmit
   chefQualification?: Prisma.ChefQualificationOmit
   membership?: Prisma.MembershipOmit
+  preRegistration?: Prisma.PreRegistrationOmit
   tutor?: Prisma.TutorOmit
   membershipCard?: Prisma.MembershipCardOmit
   activityType?: Prisma.ActivityTypeOmit
@@ -5502,11 +6059,13 @@ export type GlobalOmitConfig = {
   financialTransaction?: Prisma.FinancialTransactionOmit
   requestType?: Prisma.RequestTypeOmit
   certificateRequest?: Prisma.CertificateRequestOmit
+  certificateValidationStep?: Prisma.CertificateValidationStepOmit
   certificate?: Prisma.CertificateOmit
   documentRecord?: Prisma.DocumentRecordOmit
   libraryDocument?: Prisma.LibraryDocumentOmit
   mediaAsset?: Prisma.MediaAssetOmit
   notification?: Prisma.NotificationOmit
+  accountAccessRequest?: Prisma.AccountAccessRequestOmit
   broadcast?: Prisma.BroadcastOmit
   healthProfile?: Prisma.HealthProfileOmit
   healthProfileConsent?: Prisma.HealthProfileConsentOmit

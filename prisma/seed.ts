@@ -7,16 +7,13 @@
  * TO_DOCUMENT) — on ne publie jamais une donnée non vérifiée comme actuelle
  * (règle explicite du référentiel source, §8).
  *
- * Régions des villes : Daloa/Vavoua/Issia/Zoukougbeu/Bahoulifla/Dania/
- * Dananon/Pelezi/Saïoua/Boguédia/Iboguhé/Guessabo → Haut-Sassandra (vérifié).
- * Sinfra/Gadouan/Kononfla/Bouaflé/Gonaté/Bonon/Zuénoula/Gohitafla/Sucrivoire
- * → Marahoué (vérifié pour les chefs-lieux de département ; les villages
- * rattachés sont déduits par proximité de département, non vérifiés
- * individuellement — à recouper si besoin).
+ * Les villes principales sont rattachées à leur région administrative. Les
+ * villages Bazra et Bozi sont classés par proximité avec leur zone pastorale ;
+ * leur rattachement administratif précis reste à recouper.
  */
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient, DataConfidence, GradeCategory } from "../lib/generated/prisma/client";
+import { PrismaClient, DataConfidence, GradeCategory, Prisma } from "../lib/generated/prisma/client";
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
@@ -36,11 +33,11 @@ async function main() {
   });
 
   const villes = [
-    ["Daloa", HS], ["Gboguhé", HS], ["Vavoua", HS], ["Bahoulifla", HS],
+    ["Daloa", HS], ["Gboguhé", HS], ["Vavoua", HS], ["Bahoulifla", HS], ["Bazra", HS],
     ["Dania", HS], ["Dananon", HS], ["Pelezi", HS], ["Issia", HS],
     ["Saïoua", HS], ["Boguédia", HS], ["Iboguhé", HS], ["Guessabo", HS],
     ["Zoukougbeu", HS], ["Sinfra", MA], ["Gadouan", MA], ["Kononfla", MA],
-    ["Bouaflé", MA], ["Gonaté", MA], ["Bonon", MA], ["Zuénoula", MA],
+    ["Bouaflé", MA], ["Gonaté", MA], ["Bonon", MA], ["Bozi", MA], ["Zuénoula", MA],
     ["Gohitafla", MA], ["Sucrivoire", MA],
   ] as const;
 
@@ -48,14 +45,12 @@ async function main() {
   for (const [name, region] of villes) {
     const v = await prisma.ville.upsert({
       where: { id: `ville-${slug(name)}` },
-      update: {},
+      update: { name, region },
       create: { id: `ville-${slug(name)}`, name, region },
     });
     villeByName.set(name, v.id);
   }
 
-  // Les 9 doyennés confirmés pour le référentiel 2026 (composition paroissiale
-  // encore en consolidation pour #7, #8, #9 — cf. doc source §10).
   const doyennesData = [
     "Doyenné Mgr Alphonse Kirmann",
     "Doyenné Louis Blé",
@@ -79,6 +74,8 @@ async function main() {
   }
 
   interface ParoisseSeed {
+    /** ID stable conservé lorsqu'une paroisse déjà seedée change de libellé. */
+    id?: string;
     name: string;
     ville: string;
     confidence: DataConfidence;
@@ -94,18 +91,17 @@ async function main() {
       { name: "Cathédrale Christ-Roi", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: CVAV_FORMATION_2026, sourceDate: "2026-04-02" },
       { name: "Saint-Marc des Belles-Côtes", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: CVAV_FORMATION_2026, sourceDate: "2026-04-02" },
       { name: "Saint-Jean-Paul II Huberson", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: CVAV_FORMATION_2026, sourceDate: "2026-04-02" },
-      { name: "Saint-Joseph de Belleville", ville: "Daloa", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
+      { id: "paroisse-doyenne-mgr-alphonse-kirmann-saint-joseph-de-belleville", name: "Saint-Joseph Charpentier de Belleville", ville: "Daloa", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Saint-Bernard", ville: "Gboguhé", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
-      // "Saint-Joseph Charpentier" cité comme section CV-AV 2026 mais non
-      // assimilé automatiquement à Saint-Joseph de Belleville (ambiguïté
-      // explicite du document source) : volontairement NON créé ici. À
-      // trancher par l'Admin Paroisse une fois la source recoupée.
+
     ],
     "Doyenné Louis Blé": [
-      { name: "Sainte-Hélène — Tazibouo II", ville: "Daloa", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
+      { id: "paroisse-doyenne-louis-ble-sainte-helene-tazibouo-ii", name: "Nôtre Dame du Rosaire — Tazibouo II", ville: "Daloa", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Saint-Joseph Mukasa Labia", ville: "Daloa", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Sainte-Cécile — Orly II", ville: "Daloa", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
-      { name: "Sainte-Thérèse — Abattoir II", ville: "Daloa", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
+      { id: "paroisse-doyenne-louis-ble-sainte-therese-abattoir-ii", name: "Sainte-Thérèse De l'Enfant Jésus — Abattoir II", ville: "Daloa", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
+      { name : "Sainte Rita — Ancien corridor issia", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Sainte Rita de Daloa" },
+      { name: "Saint Raphaêl Archange — Camp militaire", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Saint Raphaël Archange de Daloa" },
     ],
     "Doyenné Père Jean Meynier": [
       { name: "Sainte-Bernadette", ville: "Bahoulifla", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
@@ -113,6 +109,7 @@ async function main() {
       { name: "Notre-Dame de la Tendresse", ville: "Dania", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Saint-Jean-Baptiste", ville: "Dananon", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Sacré-Cœur", ville: "Vavoua", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
+      { name: "Saint-Esprit", ville:"Bazra", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Saint-Étienne", ville: "Pelezi", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
     ],
     "Doyenné Père Paul Pageaud": [
@@ -120,6 +117,7 @@ async function main() {
       { name: "Saint-Kizito", ville: "Issia", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Saint-Jacques", ville: "Saïoua", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Saint-Jacques de Saïoua" },
       { name: "Saint-Pierre-Apôtre", ville: "Boguédia", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
+      { name:"sainte famille", ville: "Issia", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Sainte Famille de Issia" }
     ],
     "Doyenné Père Alfred Dufour": [
       { name: "Saint-Jean-Marie Vianney", ville: "Iboguhé", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
@@ -130,17 +128,22 @@ async function main() {
       { name: "Saint-Michel-Archange", ville: "Sinfra", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Saint-Maurice", ville: "Gadouan", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
       { name: "Notre-Dame de l'Assomption", ville: "Kononfla", confidence: "OFFICIAL_HISTORICAL", source: TABLEAU_2020_2021 },
-      { name: "Saint-Benoît (quasi-paroisse en fondation)", ville: "Sinfra", confidence: "HISTORICAL_TO_VERIFY", source: TABLEAU_2020_2021 },
+      { name: "Saint-Benoît ", ville: "Sinfra", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Saint-Benoît de Sinfra" },
+      { id: "paroisse-doyenne-mgr-pierre-marie-coty-saint-benoit-quasi-paroisse-en-fondation", name: "Saint-Benoît (quasi-paroisse en fondation)", ville: "Sinfra", confidence: "HISTORICAL_TO_VERIFY", source: TABLEAU_2020_2021 },
     ],
     "Doyenné Jean-Paul Benoît": [
-      // 🔴 Aucune paroisse suffisamment sourcée (doc source §4.7).
-      // Doyenné créé vide : à compléter via l'Admin dès qu'une source fiable existe.
+      { name: "Sainte-Marie Mère de Dieu", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Saint-Marie Mère de Dieu de Daloa" },
+      { name: "Saint-Martin", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Saint-Jean-Baptiste de Daloa" },
+      { name: "Saint-Luc ", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Saint-Jean-Baptiste de Daloa" },
+      { name: "Saint-Charles Lwangea Sapia ", ville: "Daloa", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Saint-Jean-Baptiste de Daloa" },
+      { name :"saint-jean", ville: "Gonaté", confidence: "CONFIRMED_CURRENT", source: "Activités diocésaines récentes confirmant l'existence pastorale de Saint-Jean de Gonaté" },
     ],
     "Doyenné Mgr Maurice Konan Kouassi": [
-      { name: "Saint-Jean", ville: "Gonaté", confidence: "HISTORICAL_TO_VERIFY", source: "Données historiques liées au secteur Mgr Maurice Konan Kouassi — à recouper" },
       { name: "Saint-François d'Assise", ville: "Bonon", confidence: "HISTORICAL_TO_VERIFY", source: "Données historiques liées au secteur Mgr Maurice Konan Kouassi — à recouper" },
       { name: "Saint-Augustin", ville: "Bouaflé", confidence: "HISTORICAL_TO_VERIFY", source: "Données historiques liées au secteur Mgr Maurice Konan Kouassi — à recouper" },
       { name: "Divine Miséricorde", ville: "Bouaflé", confidence: "HISTORICAL_TO_VERIFY", source: "Données historiques liées au secteur Mgr Maurice Konan Kouassi — à recouper" },
+      { name:"Sainte-Joséphine Bakhita", ville: "Bozi", confidence: "HISTORICAL_TO_VERIFY", source: "Données historiques liées au secteur Mgr Maurice Konan Kouassi — à recouper" },
+      { id: "paroisse-doyenne-mgr-maurice-konan-kouassi-saint-jean", name: "Saint-Jean", ville: "Gonaté", confidence: "HISTORICAL_TO_VERIFY", source: "Données historiques liées au secteur Mgr Maurice Konan Kouassi — à recouper" },
     ],
     "Doyenné Mgr Pierre Rouanet": [
       { name: "Saint-Matthieu", ville: "Sucrivoire", confidence: "HISTORICAL_TO_VERIFY", source: "Ancien secteur Mgr Rouanet, annuaire diocésain — rattachement 2026 à confirmer" },
@@ -154,11 +157,19 @@ async function main() {
     for (const p of paroisses) {
       const villeId = villeByName.get(p.ville);
       if (!villeId) throw new Error(`Ville inconnue: ${p.ville}`);
+      const paroisseId = p.id ?? `paroisse-${slug(doyenneName)}-${slug(p.name)}`;
       await prisma.paroisse.upsert({
-        where: { id: `paroisse-${slug(doyenneName)}-${slug(p.name)}` },
-        update: {},
+        where: { id: paroisseId },
+        update: {
+          name: p.name,
+          doyenneId,
+          villeId,
+          confidence: p.confidence,
+          source: p.source,
+          sourceDate: p.sourceDate ? new Date(p.sourceDate) : null,
+        },
         create: {
-          id: `paroisse-${slug(doyenneName)}-${slug(p.name)}`,
+          id: paroisseId,
           name: p.name,
           doyenneId,
           villeId,
@@ -201,6 +212,8 @@ async function main() {
     ["REFERENT_SECURITE", "Référent Sécurité", false], // D-072 : fonction consultative bornée à une activité
     ["PRESIDENT", "Président", true],
     ["VICE_PRESIDENT", "Vice-Président", true],
+    ["PARRAIN_MARRAINE", "Parrain / Marraine", false],
+    ["COLLABORATEUR", "Collaborateur", false],
   ] as const;
   for (const [code, label, votingRight] of fonctions) {
     await prisma.fonction.upsert({ where: { code }, update: {}, create: { code, label, votingRight } });
@@ -260,7 +273,7 @@ async function main() {
   // Sous-ensemble de démarrage ; le reste de la matrice s'ajoute en
   // administration, jamais en dur dans le code.
   // ==========================================================================
-  const resources = ["UTILISATEUR", "ORGANISATION", "ACTIVITE", "PRESENCE", "COTISATION", "DEMANDE", "ATTESTATION", "AUDIT", "FICHE_SANITAIRE", "CARTE_MEMBRE"];
+  const resources = ["PERSONNE", "APPARTENANCE", "MANDAT", "RESPONSABILITE_EQUIPE", "UTILISATEUR", "ORGANISATION", "ACTIVITE", "PRESENCE", "COTISATION", "DEMANDE", "ATTESTATION", "AUDIT", "FICHE_SANITAIRE", "CARTE_MEMBRE"];
   for (const code of resources) {
     await prisma.resource.upsert({ where: { code }, update: {}, create: { code, label: code } });
   }
@@ -274,8 +287,28 @@ async function main() {
   const roleId = async (code: string) => (await prisma.role.findUniqueOrThrow({ where: { code } })).id;
   const fonctionId = async (code: string) => (await prisma.fonction.findUniqueOrThrow({ where: { code } })).id;
 
-  const basePermissions: { role?: string; fonction?: string; resource: string; action: string; maxScopeType: "DIOCESE" | "DOYENNE" | "PAROISSE" | "SECTION" | "EQUIPE" | "SELF" }[] = [
+  const basePermissions: { role?: string; fonction?: string; resource: string; action: string; maxScopeType: "DIOCESE" | "DOYENNE" | "PAROISSE" | "SECTION" | "EQUIPE" | "SELF"; condition?: object }[] = [
+    { role: "SUPER_ADMIN", resource: "PERSONNE", action: "READ", maxScopeType: "DIOCESE" },
+    { role: "SUPER_ADMIN", resource: "PERSONNE", action: "CREATE", maxScopeType: "DIOCESE" },
+    { role: "SUPER_ADMIN", resource: "PERSONNE", action: "UPDATE", maxScopeType: "DIOCESE" },
+    { role: "ADMIN_DOYENNE", resource: "PERSONNE", action: "READ", maxScopeType: "DOYENNE" },
+    { role: "ADMIN_DOYENNE", resource: "PERSONNE", action: "CREATE", maxScopeType: "DOYENNE" },
+    { role: "ADMIN_DOYENNE", resource: "PERSONNE", action: "UPDATE", maxScopeType: "DOYENNE" },
+    { role: "ADMIN_PAROISSE", resource: "PERSONNE", action: "READ", maxScopeType: "PAROISSE" },
+    { role: "ADMIN_PAROISSE", resource: "PERSONNE", action: "CREATE", maxScopeType: "PAROISSE" },
+    { role: "ADMIN_PAROISSE", resource: "PERSONNE", action: "UPDATE", maxScopeType: "PAROISSE" },
+    { role: "CHEF", resource: "PERSONNE", action: "READ", maxScopeType: "EQUIPE" },
+    { role: "ADMIN_PAROISSE", resource: "APPARTENANCE", action: "CREATE", maxScopeType: "PAROISSE" },
+    { role: "SUPER_ADMIN", resource: "MANDAT", action: "CREATE", maxScopeType: "DIOCESE" },
+    { role: "SUPER_ADMIN", resource: "MANDAT", action: "REVOKE", maxScopeType: "DIOCESE" },
+    { role: "ADMIN_DOYENNE", resource: "MANDAT", action: "CREATE", maxScopeType: "DOYENNE" },
+    { role: "ADMIN_DOYENNE", resource: "MANDAT", action: "REVOKE", maxScopeType: "DOYENNE" },
+    { role: "ADMIN_PAROISSE", resource: "MANDAT", action: "CREATE", maxScopeType: "PAROISSE" },
+    { role: "ADMIN_PAROISSE", resource: "MANDAT", action: "REVOKE", maxScopeType: "PAROISSE" },
+    { role: "ADMIN_PAROISSE", resource: "RESPONSABILITE_EQUIPE", action: "CREATE", maxScopeType: "PAROISSE" },
+    { role: "ADMIN_PAROISSE", resource: "RESPONSABILITE_EQUIPE", action: "REVOKE", maxScopeType: "PAROISSE" },
     { role: "SUPER_ADMIN", resource: "ORGANISATION", action: "READ", maxScopeType: "DIOCESE" },
+    { role: "SUPER_ADMIN", resource: "UTILISATEUR", action: "READ", maxScopeType: "DIOCESE" },
     { role: "SUPER_ADMIN", resource: "AUDIT", action: "READ", maxScopeType: "DIOCESE" },
     { role: "SUPER_ADMIN", resource: "ACTIVITE", action: "CREATE", maxScopeType: "DIOCESE" },
     { role: "SUPER_ADMIN", resource: "ACTIVITE", action: "READ", maxScopeType: "DIOCESE" },
@@ -286,9 +319,10 @@ async function main() {
     { role: "CHEF", resource: "ACTIVITE", action: "CREATE", maxScopeType: "EQUIPE" },
     { role: "CHEF", resource: "ACTIVITE", action: "READ", maxScopeType: "EQUIPE" },
     { role: "ADMIN_DOYENNE", resource: "ORGANISATION", action: "READ", maxScopeType: "DOYENNE" },
-    { role: "ADMIN_DOYENNE", resource: "AUDIT", action: "READ", maxScopeType: "DOYENNE" },
+    { role: "ADMIN_DOYENNE", resource: "UTILISATEUR", action: "READ", maxScopeType: "DOYENNE" },
     { role: "ADMIN_PAROISSE", resource: "ORGANISATION", action: "READ", maxScopeType: "PAROISSE" },
-    { role: "ADMIN_PAROISSE", resource: "UTILISATEUR", action: "CREATE", maxScopeType: "PAROISSE" },
+    { role: "ADMIN_PAROISSE", resource: "UTILISATEUR", action: "READ", maxScopeType: "PAROISSE" },
+    { role: "ADMIN_PAROISSE", resource: "UTILISATEUR", action: "CREATE", maxScopeType: "PAROISSE", condition: { targetRoleCode: "MILITANT" } },
     { role: "ADMIN_PAROISSE", resource: "UTILISATEUR", action: "SUSPEND", maxScopeType: "PAROISSE" },
     { role: "ADMIN_PAROISSE", resource: "DEMANDE", action: "READ", maxScopeType: "PAROISSE" },
     { role: "ADMIN_PAROISSE", resource: "DEMANDE", action: "VALIDATE", maxScopeType: "PAROISSE" },
@@ -303,8 +337,10 @@ async function main() {
     { role: "MILITANT", resource: "DEMANDE", action: "READ", maxScopeType: "SELF" },
     { role: "MILITANT", resource: "ATTESTATION", action: "READ", maxScopeType: "SELF" },
     { role: "CHEF", resource: "PRESENCE", action: "CREATE", maxScopeType: "EQUIPE" },
+    { role: "CHEF", resource: "UTILISATEUR", action: "READ", maxScopeType: "EQUIPE" },
     { role: "CHEF", resource: "DEMANDE", action: "CREATE", maxScopeType: "EQUIPE" },
     { role: "MILITANT", resource: "UTILISATEUR", action: "READ", maxScopeType: "SELF" },
+    ...roles.map(([role]) => ({ role, resource: "UTILISATEUR", action: "UPDATE", maxScopeType: "SELF" as const, condition: { selfOnly: true } })),
     { role: "MILITANT", resource: "COTISATION", action: "READ", maxScopeType: "SELF" },
     { fonction: "TRESORIER", resource: "COTISATION", action: "CREATE", maxScopeType: "PAROISSE" },
     { fonction: "TRESORIER", resource: "COTISATION", action: "READ", maxScopeType: "PAROISSE" },
@@ -322,11 +358,51 @@ async function main() {
       resourceId: resourceRef,
       actionId: actionRef,
       maxScopeType: p.maxScopeType,
+      condition: p.condition,
     } as const;
-    const existing = await prisma.permission.findFirst({ where: data });
+    const existing = await prisma.permission.findFirst({
+      where: {
+        roleId: roleRef,
+        fonctionId: fonctionRef,
+        resourceId: resourceRef,
+        actionId: actionRef,
+        maxScopeType: p.maxScopeType,
+        condition: p.condition === undefined ? { equals: Prisma.DbNull } : { equals: p.condition },
+      },
+    });
     if (existing) await prisma.permission.update({ where: { id: existing.id }, data });
     else await prisma.permission.create({ data });
   }
+
+  // A chef may propose an affiliation but cannot validate/create one directly.
+  await prisma.permission.deleteMany({
+    where: {
+      role: { code: "CHEF" },
+      resource: { code: "APPARTENANCE" },
+      action: { code: "CREATE" },
+    },
+  });
+
+  // Matrice V1 : l'audit global est réservé au diocèse. Supprimer les anciens
+  // droits du seed précédent, car un upsert seul ne révoque pas une permission.
+  await prisma.permission.deleteMany({
+    where: {
+      role: { code: "ADMIN_DOYENNE" },
+      resource: { code: "AUDIT" },
+      action: { code: "READ" },
+    },
+  });
+
+  // Supprime l'ancien CREATE générique, qui permettrait de contourner la
+  // restriction targetRoleCode= MILITANT portée par la permission actuelle.
+  await prisma.permission.deleteMany({
+    where: {
+      role: { code: "ADMIN_PAROISSE" },
+      resource: { code: "UTILISATEUR" },
+      action: { code: "CREATE" },
+      condition: { equals: Prisma.DbNull },
+    },
+  });
 
   console.log(`RBAC : ${roles.length} rôles, ${fonctions.length} fonctions, ${basePermissions.length} permissions de base.`);
   console.log("Seed terminé.");

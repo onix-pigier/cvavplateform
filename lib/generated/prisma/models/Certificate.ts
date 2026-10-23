@@ -63,6 +63,7 @@ export type CertificateCountAggregateOutputType = {
   templateUsed: number
   pdfUrl: number
   status: number
+  contentSnapshot: number
   _all: number
 }
 
@@ -104,6 +105,7 @@ export type CertificateCountAggregateInputType = {
   templateUsed?: true
   pdfUrl?: true
   status?: true
+  contentSnapshot?: true
   _all?: true
 }
 
@@ -190,6 +192,7 @@ export type CertificateGroupByOutputType = {
   templateUsed: string | null
   pdfUrl: string
   status: $Enums.CertificateStatus
+  contentSnapshot: runtime.JsonValue | null
   _count: CertificateCountAggregateOutputType | null
   _min: CertificateMinAggregateOutputType | null
   _max: CertificateMaxAggregateOutputType | null
@@ -224,6 +227,7 @@ export type CertificateWhereInput = {
   templateUsed?: Prisma.StringNullableFilter<"Certificate"> | string | null
   pdfUrl?: Prisma.StringFilter<"Certificate"> | string
   status?: Prisma.EnumCertificateStatusFilter<"Certificate"> | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.JsonNullableFilter<"Certificate">
   certificateRequest?: Prisma.XOR<Prisma.CertificateRequestScalarRelationFilter, Prisma.CertificateRequestWhereInput>
 }
 
@@ -238,6 +242,7 @@ export type CertificateOrderByWithRelationInput = {
   templateUsed?: Prisma.SortOrderInput | Prisma.SortOrder
   pdfUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  contentSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   certificateRequest?: Prisma.CertificateRequestOrderByWithRelationInput
 }
 
@@ -255,6 +260,7 @@ export type CertificateWhereUniqueInput = Prisma.AtLeast<{
   templateUsed?: Prisma.StringNullableFilter<"Certificate"> | string | null
   pdfUrl?: Prisma.StringFilter<"Certificate"> | string
   status?: Prisma.EnumCertificateStatusFilter<"Certificate"> | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.JsonNullableFilter<"Certificate">
   certificateRequest?: Prisma.XOR<Prisma.CertificateRequestScalarRelationFilter, Prisma.CertificateRequestWhereInput>
 }, "id" | "certificateRequestId" | "uniqueNumber">
 
@@ -269,6 +275,7 @@ export type CertificateOrderByWithAggregationInput = {
   templateUsed?: Prisma.SortOrderInput | Prisma.SortOrder
   pdfUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  contentSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CertificateCountOrderByAggregateInput
   _max?: Prisma.CertificateMaxOrderByAggregateInput
   _min?: Prisma.CertificateMinOrderByAggregateInput
@@ -288,6 +295,7 @@ export type CertificateScalarWhereWithAggregatesInput = {
   templateUsed?: Prisma.StringNullableWithAggregatesFilter<"Certificate"> | string | null
   pdfUrl?: Prisma.StringWithAggregatesFilter<"Certificate"> | string
   status?: Prisma.EnumCertificateStatusWithAggregatesFilter<"Certificate"> | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.JsonNullableWithAggregatesFilter<"Certificate">
 }
 
 export type CertificateCreateInput = {
@@ -300,6 +308,7 @@ export type CertificateCreateInput = {
   templateUsed?: string | null
   pdfUrl: string
   status?: $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   certificateRequest: Prisma.CertificateRequestCreateNestedOneWithoutCertificateInput
 }
 
@@ -314,6 +323,7 @@ export type CertificateUncheckedCreateInput = {
   templateUsed?: string | null
   pdfUrl: string
   status?: $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CertificateUpdateInput = {
@@ -326,6 +336,7 @@ export type CertificateUpdateInput = {
   templateUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateStatusFieldUpdateOperationsInput | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   certificateRequest?: Prisma.CertificateRequestUpdateOneRequiredWithoutCertificateNestedInput
 }
 
@@ -340,6 +351,7 @@ export type CertificateUncheckedUpdateInput = {
   templateUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateStatusFieldUpdateOperationsInput | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CertificateCreateManyInput = {
@@ -353,6 +365,7 @@ export type CertificateCreateManyInput = {
   templateUsed?: string | null
   pdfUrl: string
   status?: $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CertificateUpdateManyMutationInput = {
@@ -365,6 +378,7 @@ export type CertificateUpdateManyMutationInput = {
   templateUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateStatusFieldUpdateOperationsInput | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CertificateUncheckedUpdateManyInput = {
@@ -378,6 +392,7 @@ export type CertificateUncheckedUpdateManyInput = {
   templateUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateStatusFieldUpdateOperationsInput | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CertificateNullableScalarRelationFilter = {
@@ -396,6 +411,7 @@ export type CertificateCountOrderByAggregateInput = {
   templateUsed?: Prisma.SortOrder
   pdfUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  contentSnapshot?: Prisma.SortOrder
 }
 
 export type CertificateMaxOrderByAggregateInput = {
@@ -470,6 +486,7 @@ export type CertificateCreateWithoutCertificateRequestInput = {
   templateUsed?: string | null
   pdfUrl: string
   status?: $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CertificateUncheckedCreateWithoutCertificateRequestInput = {
@@ -482,6 +499,7 @@ export type CertificateUncheckedCreateWithoutCertificateRequestInput = {
   templateUsed?: string | null
   pdfUrl: string
   status?: $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CertificateCreateOrConnectWithoutCertificateRequestInput = {
@@ -510,6 +528,7 @@ export type CertificateUpdateWithoutCertificateRequestInput = {
   templateUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateStatusFieldUpdateOperationsInput | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CertificateUncheckedUpdateWithoutCertificateRequestInput = {
@@ -522,6 +541,7 @@ export type CertificateUncheckedUpdateWithoutCertificateRequestInput = {
   templateUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCertificateStatusFieldUpdateOperationsInput | $Enums.CertificateStatus
+  contentSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -537,6 +557,7 @@ export type CertificateSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   templateUsed?: boolean
   pdfUrl?: boolean
   status?: boolean
+  contentSnapshot?: boolean
   certificateRequest?: boolean | Prisma.CertificateRequestDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["certificate"]>
 
@@ -551,6 +572,7 @@ export type CertificateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   templateUsed?: boolean
   pdfUrl?: boolean
   status?: boolean
+  contentSnapshot?: boolean
   certificateRequest?: boolean | Prisma.CertificateRequestDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["certificate"]>
 
@@ -565,6 +587,7 @@ export type CertificateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   templateUsed?: boolean
   pdfUrl?: boolean
   status?: boolean
+  contentSnapshot?: boolean
   certificateRequest?: boolean | Prisma.CertificateRequestDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["certificate"]>
 
@@ -579,9 +602,10 @@ export type CertificateSelectScalar = {
   templateUsed?: boolean
   pdfUrl?: boolean
   status?: boolean
+  contentSnapshot?: boolean
 }
 
-export type CertificateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "certificateRequestId" | "uniqueNumber" | "qrCode" | "contentHash" | "hashAlgorithm" | "generatedAt" | "templateUsed" | "pdfUrl" | "status", ExtArgs["result"]["certificate"]>
+export type CertificateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "certificateRequestId" | "uniqueNumber" | "qrCode" | "contentHash" | "hashAlgorithm" | "generatedAt" | "templateUsed" | "pdfUrl" | "status" | "contentSnapshot", ExtArgs["result"]["certificate"]>
 export type CertificateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   certificateRequest?: boolean | Prisma.CertificateRequestDefaultArgs<ExtArgs>
 }
@@ -608,6 +632,10 @@ export type $CertificatePayload<ExtArgs extends runtime.Types.Extensions.Interna
     templateUsed: string | null
     pdfUrl: string
     status: $Enums.CertificateStatus
+    /**
+     * Versioned rendering data so later profile edits cannot alter issued PDFs.
+     */
+    contentSnapshot: runtime.JsonValue | null
   }, ExtArgs["result"]["certificate"]>
   composites: {}
 }
@@ -1042,6 +1070,7 @@ export interface CertificateFieldRefs {
   readonly templateUsed: Prisma.FieldRef<"Certificate", 'String'>
   readonly pdfUrl: Prisma.FieldRef<"Certificate", 'String'>
   readonly status: Prisma.FieldRef<"Certificate", 'CertificateStatus'>
+  readonly contentSnapshot: Prisma.FieldRef<"Certificate", 'Json'>
 }
     
 

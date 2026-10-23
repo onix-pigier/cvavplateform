@@ -231,6 +231,7 @@ export type GradeWhereInput = {
   conditions?: Prisma.JsonNullableFilter<"Grade">
   isActive?: Prisma.BoolFilter<"Grade"> | boolean
   gradeHistories?: Prisma.GradeHistoryListRelationFilter
+  proposals?: Prisma.GradeProposalListRelationFilter
 }
 
 export type GradeOrderByWithRelationInput = {
@@ -242,6 +243,7 @@ export type GradeOrderByWithRelationInput = {
   conditions?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   gradeHistories?: Prisma.GradeHistoryOrderByRelationAggregateInput
+  proposals?: Prisma.GradeProposalOrderByRelationAggregateInput
 }
 
 export type GradeWhereUniqueInput = Prisma.AtLeast<{
@@ -256,6 +258,7 @@ export type GradeWhereUniqueInput = Prisma.AtLeast<{
   conditions?: Prisma.JsonNullableFilter<"Grade">
   isActive?: Prisma.BoolFilter<"Grade"> | boolean
   gradeHistories?: Prisma.GradeHistoryListRelationFilter
+  proposals?: Prisma.GradeProposalListRelationFilter
 }, "id" | "code">
 
 export type GradeOrderByWithAggregationInput = {
@@ -295,6 +298,7 @@ export type GradeCreateInput = {
   conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   gradeHistories?: Prisma.GradeHistoryCreateNestedManyWithoutGradeInput
+  proposals?: Prisma.GradeProposalCreateNestedManyWithoutGradeInput
 }
 
 export type GradeUncheckedCreateInput = {
@@ -306,6 +310,7 @@ export type GradeUncheckedCreateInput = {
   conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   gradeHistories?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutGradeInput
+  proposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutGradeInput
 }
 
 export type GradeUpdateInput = {
@@ -317,6 +322,7 @@ export type GradeUpdateInput = {
   conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gradeHistories?: Prisma.GradeHistoryUpdateManyWithoutGradeNestedInput
+  proposals?: Prisma.GradeProposalUpdateManyWithoutGradeNestedInput
 }
 
 export type GradeUncheckedUpdateInput = {
@@ -328,6 +334,7 @@ export type GradeUncheckedUpdateInput = {
   conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gradeHistories?: Prisma.GradeHistoryUncheckedUpdateManyWithoutGradeNestedInput
+  proposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutGradeNestedInput
 }
 
 export type GradeCreateManyInput = {
@@ -405,14 +412,6 @@ export type EnumGradeCategoryFieldUpdateOperationsInput = {
   set?: $Enums.GradeCategory
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type GradeCreateNestedOneWithoutGradeHistoriesInput = {
   create?: Prisma.XOR<Prisma.GradeCreateWithoutGradeHistoriesInput, Prisma.GradeUncheckedCreateWithoutGradeHistoriesInput>
   connectOrCreate?: Prisma.GradeCreateOrConnectWithoutGradeHistoriesInput
@@ -427,6 +426,20 @@ export type GradeUpdateOneRequiredWithoutGradeHistoriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.GradeUpdateToOneWithWhereWithoutGradeHistoriesInput, Prisma.GradeUpdateWithoutGradeHistoriesInput>, Prisma.GradeUncheckedUpdateWithoutGradeHistoriesInput>
 }
 
+export type GradeCreateNestedOneWithoutProposalsInput = {
+  create?: Prisma.XOR<Prisma.GradeCreateWithoutProposalsInput, Prisma.GradeUncheckedCreateWithoutProposalsInput>
+  connectOrCreate?: Prisma.GradeCreateOrConnectWithoutProposalsInput
+  connect?: Prisma.GradeWhereUniqueInput
+}
+
+export type GradeUpdateOneRequiredWithoutProposalsNestedInput = {
+  create?: Prisma.XOR<Prisma.GradeCreateWithoutProposalsInput, Prisma.GradeUncheckedCreateWithoutProposalsInput>
+  connectOrCreate?: Prisma.GradeCreateOrConnectWithoutProposalsInput
+  upsert?: Prisma.GradeUpsertWithoutProposalsInput
+  connect?: Prisma.GradeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GradeUpdateToOneWithWhereWithoutProposalsInput, Prisma.GradeUpdateWithoutProposalsInput>, Prisma.GradeUncheckedUpdateWithoutProposalsInput>
+}
+
 export type GradeCreateWithoutGradeHistoriesInput = {
   id?: string
   code: string
@@ -435,6 +448,7 @@ export type GradeCreateWithoutGradeHistoriesInput = {
   order: number
   conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
+  proposals?: Prisma.GradeProposalCreateNestedManyWithoutGradeInput
 }
 
 export type GradeUncheckedCreateWithoutGradeHistoriesInput = {
@@ -445,6 +459,7 @@ export type GradeUncheckedCreateWithoutGradeHistoriesInput = {
   order: number
   conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
+  proposals?: Prisma.GradeProposalUncheckedCreateNestedManyWithoutGradeInput
 }
 
 export type GradeCreateOrConnectWithoutGradeHistoriesInput = {
@@ -471,6 +486,7 @@ export type GradeUpdateWithoutGradeHistoriesInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  proposals?: Prisma.GradeProposalUpdateManyWithoutGradeNestedInput
 }
 
 export type GradeUncheckedUpdateWithoutGradeHistoriesInput = {
@@ -481,6 +497,67 @@ export type GradeUncheckedUpdateWithoutGradeHistoriesInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  proposals?: Prisma.GradeProposalUncheckedUpdateManyWithoutGradeNestedInput
+}
+
+export type GradeCreateWithoutProposalsInput = {
+  id?: string
+  code: string
+  name: string
+  category: $Enums.GradeCategory
+  order: number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isActive?: boolean
+  gradeHistories?: Prisma.GradeHistoryCreateNestedManyWithoutGradeInput
+}
+
+export type GradeUncheckedCreateWithoutProposalsInput = {
+  id?: string
+  code: string
+  name: string
+  category: $Enums.GradeCategory
+  order: number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isActive?: boolean
+  gradeHistories?: Prisma.GradeHistoryUncheckedCreateNestedManyWithoutGradeInput
+}
+
+export type GradeCreateOrConnectWithoutProposalsInput = {
+  where: Prisma.GradeWhereUniqueInput
+  create: Prisma.XOR<Prisma.GradeCreateWithoutProposalsInput, Prisma.GradeUncheckedCreateWithoutProposalsInput>
+}
+
+export type GradeUpsertWithoutProposalsInput = {
+  update: Prisma.XOR<Prisma.GradeUpdateWithoutProposalsInput, Prisma.GradeUncheckedUpdateWithoutProposalsInput>
+  create: Prisma.XOR<Prisma.GradeCreateWithoutProposalsInput, Prisma.GradeUncheckedCreateWithoutProposalsInput>
+  where?: Prisma.GradeWhereInput
+}
+
+export type GradeUpdateToOneWithWhereWithoutProposalsInput = {
+  where?: Prisma.GradeWhereInput
+  data: Prisma.XOR<Prisma.GradeUpdateWithoutProposalsInput, Prisma.GradeUncheckedUpdateWithoutProposalsInput>
+}
+
+export type GradeUpdateWithoutProposalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumGradeCategoryFieldUpdateOperationsInput | $Enums.GradeCategory
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gradeHistories?: Prisma.GradeHistoryUpdateManyWithoutGradeNestedInput
+}
+
+export type GradeUncheckedUpdateWithoutProposalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumGradeCategoryFieldUpdateOperationsInput | $Enums.GradeCategory
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gradeHistories?: Prisma.GradeHistoryUncheckedUpdateManyWithoutGradeNestedInput
 }
 
 
@@ -490,10 +567,12 @@ export type GradeUncheckedUpdateWithoutGradeHistoriesInput = {
 
 export type GradeCountOutputType = {
   gradeHistories: number
+  proposals: number
 }
 
 export type GradeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   gradeHistories?: boolean | GradeCountOutputTypeCountGradeHistoriesArgs
+  proposals?: boolean | GradeCountOutputTypeCountProposalsArgs
 }
 
 /**
@@ -513,6 +592,13 @@ export type GradeCountOutputTypeCountGradeHistoriesArgs<ExtArgs extends runtime.
   where?: Prisma.GradeHistoryWhereInput
 }
 
+/**
+ * GradeCountOutputType without action
+ */
+export type GradeCountOutputTypeCountProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GradeProposalWhereInput
+}
+
 
 export type GradeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -523,6 +609,7 @@ export type GradeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   conditions?: boolean
   isActive?: boolean
   gradeHistories?: boolean | Prisma.Grade$gradeHistoriesArgs<ExtArgs>
+  proposals?: boolean | Prisma.Grade$proposalsArgs<ExtArgs>
   _count?: boolean | Prisma.GradeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["grade"]>
 
@@ -559,6 +646,7 @@ export type GradeSelectScalar = {
 export type GradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "category" | "order" | "conditions" | "isActive", ExtArgs["result"]["grade"]>
 export type GradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   gradeHistories?: boolean | Prisma.Grade$gradeHistoriesArgs<ExtArgs>
+  proposals?: boolean | Prisma.Grade$proposalsArgs<ExtArgs>
   _count?: boolean | Prisma.GradeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GradeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -568,6 +656,7 @@ export type $GradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Grade"
   objects: {
     gradeHistories: Prisma.$GradeHistoryPayload<ExtArgs>[]
+    proposals: Prisma.$GradeProposalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -972,6 +1061,7 @@ readonly fields: GradeFieldRefs;
 export interface Prisma__GradeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   gradeHistories<T extends Prisma.Grade$gradeHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Grade$gradeHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  proposals<T extends Prisma.Grade$proposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Grade$proposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1422,6 +1512,30 @@ export type Grade$gradeHistoriesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.GradeHistoryScalarFieldEnum | Prisma.GradeHistoryScalarFieldEnum[]
+}
+
+/**
+ * Grade.proposals
+ */
+export type Grade$proposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GradeProposal
+   */
+  select?: Prisma.GradeProposalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GradeProposal
+   */
+  omit?: Prisma.GradeProposalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GradeProposalInclude<ExtArgs> | null
+  where?: Prisma.GradeProposalWhereInput
+  orderBy?: Prisma.GradeProposalOrderByWithRelationInput | Prisma.GradeProposalOrderByWithRelationInput[]
+  cursor?: Prisma.GradeProposalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GradeProposalScalarFieldEnum | Prisma.GradeProposalScalarFieldEnum[]
 }
 
 /**

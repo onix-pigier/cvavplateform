@@ -31,6 +31,11 @@ export type TeamLeadershipMinAggregateOutputType = {
   personId: string | null
   role: $Enums.TeamLeadershipRole | null
   pastoralYear: string | null
+  endedAt: Date | null
+  createdByAccountId: string | null
+  updatedByAccountId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type TeamLeadershipMaxAggregateOutputType = {
@@ -39,6 +44,11 @@ export type TeamLeadershipMaxAggregateOutputType = {
   personId: string | null
   role: $Enums.TeamLeadershipRole | null
   pastoralYear: string | null
+  endedAt: Date | null
+  createdByAccountId: string | null
+  updatedByAccountId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type TeamLeadershipCountAggregateOutputType = {
@@ -47,6 +57,11 @@ export type TeamLeadershipCountAggregateOutputType = {
   personId: number
   role: number
   pastoralYear: number
+  endedAt: number
+  createdByAccountId: number
+  updatedByAccountId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -57,6 +72,11 @@ export type TeamLeadershipMinAggregateInputType = {
   personId?: true
   role?: true
   pastoralYear?: true
+  endedAt?: true
+  createdByAccountId?: true
+  updatedByAccountId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type TeamLeadershipMaxAggregateInputType = {
@@ -65,6 +85,11 @@ export type TeamLeadershipMaxAggregateInputType = {
   personId?: true
   role?: true
   pastoralYear?: true
+  endedAt?: true
+  createdByAccountId?: true
+  updatedByAccountId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type TeamLeadershipCountAggregateInputType = {
@@ -73,6 +98,11 @@ export type TeamLeadershipCountAggregateInputType = {
   personId?: true
   role?: true
   pastoralYear?: true
+  endedAt?: true
+  createdByAccountId?: true
+  updatedByAccountId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -154,6 +184,11 @@ export type TeamLeadershipGroupByOutputType = {
   personId: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt: Date | null
+  createdByAccountId: string | null
+  updatedByAccountId: string | null
+  createdAt: Date
+  updatedAt: Date
   _count: TeamLeadershipCountAggregateOutputType | null
   _min: TeamLeadershipMinAggregateOutputType | null
   _max: TeamLeadershipMaxAggregateOutputType | null
@@ -183,8 +218,15 @@ export type TeamLeadershipWhereInput = {
   personId?: Prisma.StringFilter<"TeamLeadership"> | string
   role?: Prisma.EnumTeamLeadershipRoleFilter<"TeamLeadership"> | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFilter<"TeamLeadership"> | string
+  endedAt?: Prisma.DateTimeNullableFilter<"TeamLeadership"> | Date | string | null
+  createdByAccountId?: Prisma.StringNullableFilter<"TeamLeadership"> | string | null
+  updatedByAccountId?: Prisma.StringNullableFilter<"TeamLeadership"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"TeamLeadership"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TeamLeadership"> | Date | string
   team?: Prisma.XOR<Prisma.TeamScalarRelationFilter, Prisma.TeamWhereInput>
   person?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
+  createdByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
+  updatedByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
 }
 
 export type TeamLeadershipOrderByWithRelationInput = {
@@ -193,13 +235,19 @@ export type TeamLeadershipOrderByWithRelationInput = {
   personId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   pastoralYear?: Prisma.SortOrder
+  endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   team?: Prisma.TeamOrderByWithRelationInput
   person?: Prisma.PersonOrderByWithRelationInput
+  createdByAccount?: Prisma.AccountOrderByWithRelationInput
+  updatedByAccount?: Prisma.AccountOrderByWithRelationInput
 }
 
 export type TeamLeadershipWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  teamId_personId_pastoralYear?: Prisma.TeamLeadershipTeamIdPersonIdPastoralYearCompoundUniqueInput
   AND?: Prisma.TeamLeadershipWhereInput | Prisma.TeamLeadershipWhereInput[]
   OR?: Prisma.TeamLeadershipWhereInput[]
   NOT?: Prisma.TeamLeadershipWhereInput | Prisma.TeamLeadershipWhereInput[]
@@ -207,9 +255,16 @@ export type TeamLeadershipWhereUniqueInput = Prisma.AtLeast<{
   personId?: Prisma.StringFilter<"TeamLeadership"> | string
   role?: Prisma.EnumTeamLeadershipRoleFilter<"TeamLeadership"> | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFilter<"TeamLeadership"> | string
+  endedAt?: Prisma.DateTimeNullableFilter<"TeamLeadership"> | Date | string | null
+  createdByAccountId?: Prisma.StringNullableFilter<"TeamLeadership"> | string | null
+  updatedByAccountId?: Prisma.StringNullableFilter<"TeamLeadership"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"TeamLeadership"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TeamLeadership"> | Date | string
   team?: Prisma.XOR<Prisma.TeamScalarRelationFilter, Prisma.TeamWhereInput>
   person?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
-}, "id" | "teamId_personId_pastoralYear">
+  createdByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
+  updatedByAccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
+}, "id">
 
 export type TeamLeadershipOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -217,6 +272,11 @@ export type TeamLeadershipOrderByWithAggregationInput = {
   personId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   pastoralYear?: Prisma.SortOrder
+  endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.TeamLeadershipCountOrderByAggregateInput
   _max?: Prisma.TeamLeadershipMaxOrderByAggregateInput
   _min?: Prisma.TeamLeadershipMinOrderByAggregateInput
@@ -231,14 +291,24 @@ export type TeamLeadershipScalarWhereWithAggregatesInput = {
   personId?: Prisma.StringWithAggregatesFilter<"TeamLeadership"> | string
   role?: Prisma.EnumTeamLeadershipRoleWithAggregatesFilter<"TeamLeadership"> | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringWithAggregatesFilter<"TeamLeadership"> | string
+  endedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TeamLeadership"> | Date | string | null
+  createdByAccountId?: Prisma.StringNullableWithAggregatesFilter<"TeamLeadership"> | string | null
+  updatedByAccountId?: Prisma.StringNullableWithAggregatesFilter<"TeamLeadership"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"TeamLeadership"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TeamLeadership"> | Date | string
 }
 
 export type TeamLeadershipCreateInput = {
   id?: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   team: Prisma.TeamCreateNestedOneWithoutLeadershipsInput
   person: Prisma.PersonCreateNestedOneWithoutTeamLeadershipsInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutTeamLeadershipsCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutTeamLeadershipsUpdatedInput
 }
 
 export type TeamLeadershipUncheckedCreateInput = {
@@ -247,14 +317,24 @@ export type TeamLeadershipUncheckedCreateInput = {
   personId: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamLeadershipUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   team?: Prisma.TeamUpdateOneRequiredWithoutLeadershipsNestedInput
   person?: Prisma.PersonUpdateOneRequiredWithoutTeamLeadershipsNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutTeamLeadershipsCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutTeamLeadershipsUpdatedNestedInput
 }
 
 export type TeamLeadershipUncheckedUpdateInput = {
@@ -263,6 +343,11 @@ export type TeamLeadershipUncheckedUpdateInput = {
   personId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamLeadershipCreateManyInput = {
@@ -271,12 +356,20 @@ export type TeamLeadershipCreateManyInput = {
   personId: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamLeadershipUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamLeadershipUncheckedUpdateManyInput = {
@@ -285,6 +378,11 @@ export type TeamLeadershipUncheckedUpdateManyInput = {
   personId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamLeadershipListRelationFilter = {
@@ -297,18 +395,17 @@ export type TeamLeadershipOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type TeamLeadershipTeamIdPersonIdPastoralYearCompoundUniqueInput = {
-  teamId: string
-  personId: string
-  pastoralYear: string
-}
-
 export type TeamLeadershipCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   teamId?: Prisma.SortOrder
   personId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   pastoralYear?: Prisma.SortOrder
+  endedAt?: Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TeamLeadershipMaxOrderByAggregateInput = {
@@ -317,6 +414,11 @@ export type TeamLeadershipMaxOrderByAggregateInput = {
   personId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   pastoralYear?: Prisma.SortOrder
+  endedAt?: Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TeamLeadershipMinOrderByAggregateInput = {
@@ -325,6 +427,11 @@ export type TeamLeadershipMinOrderByAggregateInput = {
   personId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   pastoralYear?: Prisma.SortOrder
+  endedAt?: Prisma.SortOrder
+  createdByAccountId?: Prisma.SortOrder
+  updatedByAccountId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TeamLeadershipCreateNestedManyWithoutTeamInput = {
@@ -415,11 +522,100 @@ export type TeamLeadershipUncheckedUpdateManyWithoutPersonNestedInput = {
   deleteMany?: Prisma.TeamLeadershipScalarWhereInput | Prisma.TeamLeadershipScalarWhereInput[]
 }
 
+export type TeamLeadershipCreateNestedManyWithoutCreatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput> | Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput[] | Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput[]
+  connectOrCreate?: Prisma.TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput | Prisma.TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput[]
+  createMany?: Prisma.TeamLeadershipCreateManyCreatedByAccountInputEnvelope
+  connect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+}
+
+export type TeamLeadershipCreateNestedManyWithoutUpdatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput> | Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput[] | Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput[]
+  connectOrCreate?: Prisma.TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput | Prisma.TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput[]
+  createMany?: Prisma.TeamLeadershipCreateManyUpdatedByAccountInputEnvelope
+  connect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+}
+
+export type TeamLeadershipUncheckedCreateNestedManyWithoutCreatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput> | Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput[] | Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput[]
+  connectOrCreate?: Prisma.TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput | Prisma.TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput[]
+  createMany?: Prisma.TeamLeadershipCreateManyCreatedByAccountInputEnvelope
+  connect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+}
+
+export type TeamLeadershipUncheckedCreateNestedManyWithoutUpdatedByAccountInput = {
+  create?: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput> | Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput[] | Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput[]
+  connectOrCreate?: Prisma.TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput | Prisma.TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput[]
+  createMany?: Prisma.TeamLeadershipCreateManyUpdatedByAccountInputEnvelope
+  connect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+}
+
+export type TeamLeadershipUpdateManyWithoutCreatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput> | Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput[] | Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput[]
+  connectOrCreate?: Prisma.TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput | Prisma.TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput[]
+  upsert?: Prisma.TeamLeadershipUpsertWithWhereUniqueWithoutCreatedByAccountInput | Prisma.TeamLeadershipUpsertWithWhereUniqueWithoutCreatedByAccountInput[]
+  createMany?: Prisma.TeamLeadershipCreateManyCreatedByAccountInputEnvelope
+  set?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  disconnect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  delete?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  connect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  update?: Prisma.TeamLeadershipUpdateWithWhereUniqueWithoutCreatedByAccountInput | Prisma.TeamLeadershipUpdateWithWhereUniqueWithoutCreatedByAccountInput[]
+  updateMany?: Prisma.TeamLeadershipUpdateManyWithWhereWithoutCreatedByAccountInput | Prisma.TeamLeadershipUpdateManyWithWhereWithoutCreatedByAccountInput[]
+  deleteMany?: Prisma.TeamLeadershipScalarWhereInput | Prisma.TeamLeadershipScalarWhereInput[]
+}
+
+export type TeamLeadershipUpdateManyWithoutUpdatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput> | Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput[] | Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput[]
+  connectOrCreate?: Prisma.TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput | Prisma.TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput[]
+  upsert?: Prisma.TeamLeadershipUpsertWithWhereUniqueWithoutUpdatedByAccountInput | Prisma.TeamLeadershipUpsertWithWhereUniqueWithoutUpdatedByAccountInput[]
+  createMany?: Prisma.TeamLeadershipCreateManyUpdatedByAccountInputEnvelope
+  set?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  disconnect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  delete?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  connect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  update?: Prisma.TeamLeadershipUpdateWithWhereUniqueWithoutUpdatedByAccountInput | Prisma.TeamLeadershipUpdateWithWhereUniqueWithoutUpdatedByAccountInput[]
+  updateMany?: Prisma.TeamLeadershipUpdateManyWithWhereWithoutUpdatedByAccountInput | Prisma.TeamLeadershipUpdateManyWithWhereWithoutUpdatedByAccountInput[]
+  deleteMany?: Prisma.TeamLeadershipScalarWhereInput | Prisma.TeamLeadershipScalarWhereInput[]
+}
+
+export type TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput> | Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput[] | Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput[]
+  connectOrCreate?: Prisma.TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput | Prisma.TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput[]
+  upsert?: Prisma.TeamLeadershipUpsertWithWhereUniqueWithoutCreatedByAccountInput | Prisma.TeamLeadershipUpsertWithWhereUniqueWithoutCreatedByAccountInput[]
+  createMany?: Prisma.TeamLeadershipCreateManyCreatedByAccountInputEnvelope
+  set?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  disconnect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  delete?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  connect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  update?: Prisma.TeamLeadershipUpdateWithWhereUniqueWithoutCreatedByAccountInput | Prisma.TeamLeadershipUpdateWithWhereUniqueWithoutCreatedByAccountInput[]
+  updateMany?: Prisma.TeamLeadershipUpdateManyWithWhereWithoutCreatedByAccountInput | Prisma.TeamLeadershipUpdateManyWithWhereWithoutCreatedByAccountInput[]
+  deleteMany?: Prisma.TeamLeadershipScalarWhereInput | Prisma.TeamLeadershipScalarWhereInput[]
+}
+
+export type TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput> | Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput[] | Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput[]
+  connectOrCreate?: Prisma.TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput | Prisma.TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput[]
+  upsert?: Prisma.TeamLeadershipUpsertWithWhereUniqueWithoutUpdatedByAccountInput | Prisma.TeamLeadershipUpsertWithWhereUniqueWithoutUpdatedByAccountInput[]
+  createMany?: Prisma.TeamLeadershipCreateManyUpdatedByAccountInputEnvelope
+  set?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  disconnect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  delete?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  connect?: Prisma.TeamLeadershipWhereUniqueInput | Prisma.TeamLeadershipWhereUniqueInput[]
+  update?: Prisma.TeamLeadershipUpdateWithWhereUniqueWithoutUpdatedByAccountInput | Prisma.TeamLeadershipUpdateWithWhereUniqueWithoutUpdatedByAccountInput[]
+  updateMany?: Prisma.TeamLeadershipUpdateManyWithWhereWithoutUpdatedByAccountInput | Prisma.TeamLeadershipUpdateManyWithWhereWithoutUpdatedByAccountInput[]
+  deleteMany?: Prisma.TeamLeadershipScalarWhereInput | Prisma.TeamLeadershipScalarWhereInput[]
+}
+
 export type TeamLeadershipCreateWithoutTeamInput = {
   id?: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutTeamLeadershipsInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutTeamLeadershipsCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutTeamLeadershipsUpdatedInput
 }
 
 export type TeamLeadershipUncheckedCreateWithoutTeamInput = {
@@ -427,6 +623,11 @@ export type TeamLeadershipUncheckedCreateWithoutTeamInput = {
   personId: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamLeadershipCreateOrConnectWithoutTeamInput = {
@@ -464,13 +665,23 @@ export type TeamLeadershipScalarWhereInput = {
   personId?: Prisma.StringFilter<"TeamLeadership"> | string
   role?: Prisma.EnumTeamLeadershipRoleFilter<"TeamLeadership"> | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFilter<"TeamLeadership"> | string
+  endedAt?: Prisma.DateTimeNullableFilter<"TeamLeadership"> | Date | string | null
+  createdByAccountId?: Prisma.StringNullableFilter<"TeamLeadership"> | string | null
+  updatedByAccountId?: Prisma.StringNullableFilter<"TeamLeadership"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"TeamLeadership"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TeamLeadership"> | Date | string
 }
 
 export type TeamLeadershipCreateWithoutPersonInput = {
   id?: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   team: Prisma.TeamCreateNestedOneWithoutLeadershipsInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutTeamLeadershipsCreatedInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutTeamLeadershipsUpdatedInput
 }
 
 export type TeamLeadershipUncheckedCreateWithoutPersonInput = {
@@ -478,6 +689,11 @@ export type TeamLeadershipUncheckedCreateWithoutPersonInput = {
   teamId: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamLeadershipCreateOrConnectWithoutPersonInput = {
@@ -506,18 +722,128 @@ export type TeamLeadershipUpdateManyWithWhereWithoutPersonInput = {
   data: Prisma.XOR<Prisma.TeamLeadershipUpdateManyMutationInput, Prisma.TeamLeadershipUncheckedUpdateManyWithoutPersonInput>
 }
 
+export type TeamLeadershipCreateWithoutCreatedByAccountInput = {
+  id?: string
+  role: $Enums.TeamLeadershipRole
+  pastoralYear: string
+  endedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  team: Prisma.TeamCreateNestedOneWithoutLeadershipsInput
+  person: Prisma.PersonCreateNestedOneWithoutTeamLeadershipsInput
+  updatedByAccount?: Prisma.AccountCreateNestedOneWithoutTeamLeadershipsUpdatedInput
+}
+
+export type TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput = {
+  id?: string
+  teamId: string
+  personId: string
+  role: $Enums.TeamLeadershipRole
+  pastoralYear: string
+  endedAt?: Date | string | null
+  updatedByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type TeamLeadershipCreateOrConnectWithoutCreatedByAccountInput = {
+  where: Prisma.TeamLeadershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput>
+}
+
+export type TeamLeadershipCreateManyCreatedByAccountInputEnvelope = {
+  data: Prisma.TeamLeadershipCreateManyCreatedByAccountInput | Prisma.TeamLeadershipCreateManyCreatedByAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type TeamLeadershipCreateWithoutUpdatedByAccountInput = {
+  id?: string
+  role: $Enums.TeamLeadershipRole
+  pastoralYear: string
+  endedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  team: Prisma.TeamCreateNestedOneWithoutLeadershipsInput
+  person: Prisma.PersonCreateNestedOneWithoutTeamLeadershipsInput
+  createdByAccount?: Prisma.AccountCreateNestedOneWithoutTeamLeadershipsCreatedInput
+}
+
+export type TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput = {
+  id?: string
+  teamId: string
+  personId: string
+  role: $Enums.TeamLeadershipRole
+  pastoralYear: string
+  endedAt?: Date | string | null
+  createdByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type TeamLeadershipCreateOrConnectWithoutUpdatedByAccountInput = {
+  where: Prisma.TeamLeadershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput>
+}
+
+export type TeamLeadershipCreateManyUpdatedByAccountInputEnvelope = {
+  data: Prisma.TeamLeadershipCreateManyUpdatedByAccountInput | Prisma.TeamLeadershipCreateManyUpdatedByAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type TeamLeadershipUpsertWithWhereUniqueWithoutCreatedByAccountInput = {
+  where: Prisma.TeamLeadershipWhereUniqueInput
+  update: Prisma.XOR<Prisma.TeamLeadershipUpdateWithoutCreatedByAccountInput, Prisma.TeamLeadershipUncheckedUpdateWithoutCreatedByAccountInput>
+  create: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutCreatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutCreatedByAccountInput>
+}
+
+export type TeamLeadershipUpdateWithWhereUniqueWithoutCreatedByAccountInput = {
+  where: Prisma.TeamLeadershipWhereUniqueInput
+  data: Prisma.XOR<Prisma.TeamLeadershipUpdateWithoutCreatedByAccountInput, Prisma.TeamLeadershipUncheckedUpdateWithoutCreatedByAccountInput>
+}
+
+export type TeamLeadershipUpdateManyWithWhereWithoutCreatedByAccountInput = {
+  where: Prisma.TeamLeadershipScalarWhereInput
+  data: Prisma.XOR<Prisma.TeamLeadershipUpdateManyMutationInput, Prisma.TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountInput>
+}
+
+export type TeamLeadershipUpsertWithWhereUniqueWithoutUpdatedByAccountInput = {
+  where: Prisma.TeamLeadershipWhereUniqueInput
+  update: Prisma.XOR<Prisma.TeamLeadershipUpdateWithoutUpdatedByAccountInput, Prisma.TeamLeadershipUncheckedUpdateWithoutUpdatedByAccountInput>
+  create: Prisma.XOR<Prisma.TeamLeadershipCreateWithoutUpdatedByAccountInput, Prisma.TeamLeadershipUncheckedCreateWithoutUpdatedByAccountInput>
+}
+
+export type TeamLeadershipUpdateWithWhereUniqueWithoutUpdatedByAccountInput = {
+  where: Prisma.TeamLeadershipWhereUniqueInput
+  data: Prisma.XOR<Prisma.TeamLeadershipUpdateWithoutUpdatedByAccountInput, Prisma.TeamLeadershipUncheckedUpdateWithoutUpdatedByAccountInput>
+}
+
+export type TeamLeadershipUpdateManyWithWhereWithoutUpdatedByAccountInput = {
+  where: Prisma.TeamLeadershipScalarWhereInput
+  data: Prisma.XOR<Prisma.TeamLeadershipUpdateManyMutationInput, Prisma.TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountInput>
+}
+
 export type TeamLeadershipCreateManyTeamInput = {
   id?: string
   personId: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamLeadershipUpdateWithoutTeamInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutTeamLeadershipsNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutTeamLeadershipsCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutTeamLeadershipsUpdatedNestedInput
 }
 
 export type TeamLeadershipUncheckedUpdateWithoutTeamInput = {
@@ -525,6 +851,11 @@ export type TeamLeadershipUncheckedUpdateWithoutTeamInput = {
   personId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamLeadershipUncheckedUpdateManyWithoutTeamInput = {
@@ -532,6 +863,11 @@ export type TeamLeadershipUncheckedUpdateManyWithoutTeamInput = {
   personId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamLeadershipCreateManyPersonInput = {
@@ -539,13 +875,23 @@ export type TeamLeadershipCreateManyPersonInput = {
   teamId: string
   role: $Enums.TeamLeadershipRole
   pastoralYear: string
+  endedAt?: Date | string | null
+  createdByAccountId?: string | null
+  updatedByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamLeadershipUpdateWithoutPersonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   team?: Prisma.TeamUpdateOneRequiredWithoutLeadershipsNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutTeamLeadershipsCreatedNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutTeamLeadershipsUpdatedNestedInput
 }
 
 export type TeamLeadershipUncheckedUpdateWithoutPersonInput = {
@@ -553,6 +899,11 @@ export type TeamLeadershipUncheckedUpdateWithoutPersonInput = {
   teamId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamLeadershipUncheckedUpdateManyWithoutPersonInput = {
@@ -560,6 +911,107 @@ export type TeamLeadershipUncheckedUpdateManyWithoutPersonInput = {
   teamId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
   pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TeamLeadershipCreateManyCreatedByAccountInput = {
+  id?: string
+  teamId: string
+  personId: string
+  role: $Enums.TeamLeadershipRole
+  pastoralYear: string
+  endedAt?: Date | string | null
+  updatedByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type TeamLeadershipCreateManyUpdatedByAccountInput = {
+  id?: string
+  teamId: string
+  personId: string
+  role: $Enums.TeamLeadershipRole
+  pastoralYear: string
+  endedAt?: Date | string | null
+  createdByAccountId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type TeamLeadershipUpdateWithoutCreatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
+  pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  team?: Prisma.TeamUpdateOneRequiredWithoutLeadershipsNestedInput
+  person?: Prisma.PersonUpdateOneRequiredWithoutTeamLeadershipsNestedInput
+  updatedByAccount?: Prisma.AccountUpdateOneWithoutTeamLeadershipsUpdatedNestedInput
+}
+
+export type TeamLeadershipUncheckedUpdateWithoutCreatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
+  pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TeamLeadershipUncheckedUpdateManyWithoutCreatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
+  pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TeamLeadershipUpdateWithoutUpdatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
+  pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  team?: Prisma.TeamUpdateOneRequiredWithoutLeadershipsNestedInput
+  person?: Prisma.PersonUpdateOneRequiredWithoutTeamLeadershipsNestedInput
+  createdByAccount?: Prisma.AccountUpdateOneWithoutTeamLeadershipsCreatedNestedInput
+}
+
+export type TeamLeadershipUncheckedUpdateWithoutUpdatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
+  pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TeamLeadershipUncheckedUpdateManyWithoutUpdatedByAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.StringFieldUpdateOperationsInput | string
+  personId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumTeamLeadershipRoleFieldUpdateOperationsInput | $Enums.TeamLeadershipRole
+  pastoralYear?: Prisma.StringFieldUpdateOperationsInput | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdByAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -570,8 +1022,15 @@ export type TeamLeadershipSelect<ExtArgs extends runtime.Types.Extensions.Intern
   personId?: boolean
   role?: boolean
   pastoralYear?: boolean
+  endedAt?: boolean
+  createdByAccountId?: boolean
+  updatedByAccountId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.TeamLeadership$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.TeamLeadership$updatedByAccountArgs<ExtArgs>
 }, ExtArgs["result"]["teamLeadership"]>
 
 export type TeamLeadershipSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -580,8 +1039,15 @@ export type TeamLeadershipSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   personId?: boolean
   role?: boolean
   pastoralYear?: boolean
+  endedAt?: boolean
+  createdByAccountId?: boolean
+  updatedByAccountId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.TeamLeadership$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.TeamLeadership$updatedByAccountArgs<ExtArgs>
 }, ExtArgs["result"]["teamLeadership"]>
 
 export type TeamLeadershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -590,8 +1056,15 @@ export type TeamLeadershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   personId?: boolean
   role?: boolean
   pastoralYear?: boolean
+  endedAt?: boolean
+  createdByAccountId?: boolean
+  updatedByAccountId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.TeamLeadership$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.TeamLeadership$updatedByAccountArgs<ExtArgs>
 }, ExtArgs["result"]["teamLeadership"]>
 
 export type TeamLeadershipSelectScalar = {
@@ -600,20 +1073,31 @@ export type TeamLeadershipSelectScalar = {
   personId?: boolean
   role?: boolean
   pastoralYear?: boolean
+  endedAt?: boolean
+  createdByAccountId?: boolean
+  updatedByAccountId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type TeamLeadershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "teamId" | "personId" | "role" | "pastoralYear", ExtArgs["result"]["teamLeadership"]>
+export type TeamLeadershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "teamId" | "personId" | "role" | "pastoralYear" | "endedAt" | "createdByAccountId" | "updatedByAccountId" | "createdAt" | "updatedAt", ExtArgs["result"]["teamLeadership"]>
 export type TeamLeadershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.TeamLeadership$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.TeamLeadership$updatedByAccountArgs<ExtArgs>
 }
 export type TeamLeadershipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.TeamLeadership$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.TeamLeadership$updatedByAccountArgs<ExtArgs>
 }
 export type TeamLeadershipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
+  createdByAccount?: boolean | Prisma.TeamLeadership$createdByAccountArgs<ExtArgs>
+  updatedByAccount?: boolean | Prisma.TeamLeadership$updatedByAccountArgs<ExtArgs>
 }
 
 export type $TeamLeadershipPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -621,6 +1105,8 @@ export type $TeamLeadershipPayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     team: Prisma.$TeamPayload<ExtArgs>
     person: Prisma.$PersonPayload<ExtArgs>
+    createdByAccount: Prisma.$AccountPayload<ExtArgs> | null
+    updatedByAccount: Prisma.$AccountPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -628,6 +1114,11 @@ export type $TeamLeadershipPayload<ExtArgs extends runtime.Types.Extensions.Inte
     personId: string
     role: $Enums.TeamLeadershipRole
     pastoralYear: string
+    endedAt: Date | null
+    createdByAccountId: string | null
+    updatedByAccountId: string | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["teamLeadership"]>
   composites: {}
 }
@@ -1024,6 +1515,8 @@ export interface Prisma__TeamLeadershipClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   team<T extends Prisma.TeamDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeamDefaultArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   person<T extends Prisma.PersonDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PersonDefaultArgs<ExtArgs>>): Prisma.Prisma__PersonClient<runtime.Types.Result.GetResult<Prisma.$PersonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  createdByAccount<T extends Prisma.TeamLeadership$createdByAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeamLeadership$createdByAccountArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  updatedByAccount<T extends Prisma.TeamLeadership$updatedByAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeamLeadership$updatedByAccountArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1058,6 +1551,11 @@ export interface TeamLeadershipFieldRefs {
   readonly personId: Prisma.FieldRef<"TeamLeadership", 'String'>
   readonly role: Prisma.FieldRef<"TeamLeadership", 'TeamLeadershipRole'>
   readonly pastoralYear: Prisma.FieldRef<"TeamLeadership", 'String'>
+  readonly endedAt: Prisma.FieldRef<"TeamLeadership", 'DateTime'>
+  readonly createdByAccountId: Prisma.FieldRef<"TeamLeadership", 'String'>
+  readonly updatedByAccountId: Prisma.FieldRef<"TeamLeadership", 'String'>
+  readonly createdAt: Prisma.FieldRef<"TeamLeadership", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"TeamLeadership", 'DateTime'>
 }
     
 
@@ -1456,6 +1954,44 @@ export type TeamLeadershipDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many TeamLeaderships to delete.
    */
   limit?: number
+}
+
+/**
+ * TeamLeadership.createdByAccount
+ */
+export type TeamLeadership$createdByAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Account
+   */
+  select?: Prisma.AccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Account
+   */
+  omit?: Prisma.AccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AccountInclude<ExtArgs> | null
+  where?: Prisma.AccountWhereInput
+}
+
+/**
+ * TeamLeadership.updatedByAccount
+ */
+export type TeamLeadership$updatedByAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Account
+   */
+  select?: Prisma.AccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Account
+   */
+  omit?: Prisma.AccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AccountInclude<ExtArgs> | null
+  where?: Prisma.AccountWhereInput
 }
 
 /**

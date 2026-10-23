@@ -72,6 +72,12 @@ export type Person = Prisma.PersonModel
  */
 export type Account = Prisma.AccountModel
 /**
+ * Model PersonRegistryEntry
+ * Ancrage territorial d'une fiche Personne, indépendant d'une appartenance,
+ * d'un mandat et de tout compte applicatif. Permet une fiche sans adhésion.
+ */
+export type PersonRegistryEntry = Prisma.PersonRegistryEntryModel
+/**
  * Model Role
  * Référentiel des niveaux d'accès : SUPER_ADMIN, ADMIN_DOYENNE,
  * ADMIN_PAROISSE, CHEF, MILITANT, AUMONIER_DIOCESE/DOYENNE/PAROISSE,
@@ -113,10 +119,17 @@ export type Grade = Prisma.GradeModel
 /**
  * Model GradeHistory
  * Parcours militant : Benjamin → Cadet → Aîné → Meneur. Le grade courant est
- * la ligne sans endedAt. Figé (lastMilitantGrade) au passage Chef, jamais
+ * la ligne sans endedAt (un seul grade courant par personne, index partiel
+ * PostgreSQL en migration). Figé (lastMilitantGrade) au passage Chef, jamais
  * écrasé (D-054).
  */
 export type GradeHistory = Prisma.GradeHistoryModel
+/**
+ * Model GradeProposal
+ * A chef may recommend a militant grade, but the parish administrator
+ * records the official grade history only after approval.
+ */
+export type GradeProposal = Prisma.GradeProposalModel
 /**
  * Model ChefQualification
  * Parcours chef, totalement distinct de GradeHistory (D-054), séquence
@@ -126,10 +139,15 @@ export type ChefQualification = Prisma.ChefQualificationModel
 /**
  * Model Membership
  * Rattachement organisationnel actif. Un seul actif par Personne à un
- * instant T (D-005) et un seul par Équipe/année pastorale (D-052) — voir
- * note d'en-tête sur les contraintes partielles.
+ * instant T (D-005), garanti par un index partiel PostgreSQL en migration.
  */
 export type Membership = Prisma.MembershipModel
+/**
+ * Model PreRegistration
+ * Demande publique conservée en attente : aucune identité militante, adhésion
+ * ni session n'est créée avant la décision d'un responsable autorisé.
+ */
+export type PreRegistration = Prisma.PreRegistrationModel
 /**
  * Model Tutor
  * Représentant légal d'une Personne mineure (D-070) — simple fiche de
@@ -209,11 +227,16 @@ export type FinancialTransaction = Prisma.FinancialTransactionModel
 export type RequestType = Prisma.RequestTypeModel
 /**
  * Model CertificateRequest
- * Circuit à 2 niveaux (D-056). `escalated` = true quand le niveau N1 a été
- * court-circuité parce que le demandeur en était lui-même le validateur
- * théorique (D-062, anti-auto-validation).
+ * Le niveau requis est figé à la soumission : modifier le référentiel ne
+ * change pas rétroactivement le parcours d'une demande déjà ouverte.
  */
 export type CertificateRequest = Prisma.CertificateRequestModel
+/**
+ * Model CertificateValidationStep
+ * Historique explicite des validations. Les anciennes demandes sont
+ * conservées même si leur horodatage exact n'était pas stocké auparavant.
+ */
+export type CertificateValidationStep = Prisma.CertificateValidationStepModel
 /**
  * Model Certificate
  * Jamais créée manuellement — résulte uniquement de la validation d'une
@@ -242,6 +265,12 @@ export type MediaAsset = Prisma.MediaAssetModel
  * 
  */
 export type Notification = Prisma.NotificationModel
+/**
+ * Model AccountAccessRequest
+ * Demande de réinitialisation traitée manuellement par un administrateur.
+ * Aucun jeton ni mot de passe n'est généré automatiquement.
+ */
+export type AccountAccessRequest = Prisma.AccountAccessRequestModel
 /**
  * Model Broadcast
  * D-059 : diffusion unidirectionnelle uniquement, jamais de conversation
